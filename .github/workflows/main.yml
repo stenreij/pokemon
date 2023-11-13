@@ -22,11 +22,15 @@ jobs:
         with:
           node-version: '18.x'
 
+      - name: Install Nx CLI
+        run: npm install -g nx
+
       - name: npm install, build, and test
         run: |
           npm install
-          npm run build --if-present
-          npm run test --if-present
+          nx build frontend
+          nx build data-api
+          nx build rcmnd-api
 
       - name: Zip artifacts for deployment
         run: |
