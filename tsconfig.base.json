@@ -1,0 +1,27 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "rootDir": ".",
+    "sourceMap": true,
+    "declaration": false,
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "target": "es2015",
+    "module": "esnext",
+    "lib": ["es2020", "dom"],
+    "skipLibCheck": true,
+    "skipDefaultLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "@pokemon/backend/dto": ["libs/backend/dto/src/index.ts"],
+      "@pokemon/backend/features": ["libs/backend/features/src/index.ts"],
+      "@pokemon/frontend/common": ["libs/frontend/common/src/index.ts"],
+      "@pokemon/frontend/features": ["libs/frontend/features/src/index.ts"],
+      "@pokemon/frontend/ui": ["libs/frontend/ui/src/index.ts"],
+      "@pokemon/shared/api": ["libs/shared/api/src/index.ts"]
+    }
+  },
+  "exclude": ["node_modules", "tmp"]
+}
