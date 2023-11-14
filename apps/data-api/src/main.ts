@@ -18,6 +18,8 @@ async function bootstrap() {
 
   app.enableCors({
     origin: 'https://ambitious-plant-037a5d010.4.azurestaticapps.net',
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    credentials: true,
   });
 
   app.useGlobalInterceptors(new ApiResponseInterceptor());
