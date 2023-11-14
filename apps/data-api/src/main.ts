@@ -17,7 +17,7 @@ async function bootstrap() {
   app.setGlobalPrefix(globalPrefix);
 
   app.enableCors({
-    origin: '*',
+    origin: 'https://ambitious-plant-037a5d010.4.azurestaticapps.net',
   });
 
   app.useGlobalInterceptors(new ApiResponseInterceptor());
