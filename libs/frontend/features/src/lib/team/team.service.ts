@@ -12,7 +12,8 @@ export const httpOptions = {
 
 @Injectable()
 export class TeamService {
-    endpoint = 'http://localhost:3000/api/team';
+    //endpoint = 'http://localhost:3000/api/team';
+    endpoint = 'http://pokemon-cswf.azurewebsites.net/api/team';
 
     constructor(private readonly http: HttpClient) {}
 

@@ -15,7 +15,10 @@ async function bootstrap() {
   const globalPrefix = 'api';
   app.setGlobalPrefix(globalPrefix);
 
-  const corsOptions: CorsOptions = {};
+  const corsOptions: CorsOptions = {
+    origin: 'https://ambitious-plant-037a5d010.4.azurestaticapps.net',
+    methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
+  };
   app.enableCors(corsOptions);
 
   app.useGlobalInterceptors(new ApiResponseInterceptor());
