@@ -7,6 +7,7 @@ import { Logger } from '@nestjs/common';
 import { CorsOptions } from '@nestjs/common/interfaces/external/cors-options.interface';
 import { NestFactory } from '@nestjs/core';
 import { ApiResponseInterceptor } from '@pokemon/backend/dto';
+import { IEnvironment } from 'libs/shared/util-env/src/lib/environment.interface';
 
 import { AppModule } from './app/app.module';
 
@@ -15,11 +16,9 @@ async function bootstrap() {
   const globalPrefix = 'api';
   app.setGlobalPrefix(globalPrefix);
 
-  const corsOptions: CorsOptions = {
-    origin: 'https://ambitious-plant-037a5d010.4.azurestaticapps.net',
-    methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
-  };
-  app.enableCors(corsOptions);
+  app.enableCors({
+    origin: '*',
+  });
 
   app.useGlobalInterceptors(new ApiResponseInterceptor());
 
