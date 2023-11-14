@@ -3,6 +3,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { map, catchError, tap } from 'rxjs/operators';
 import { ApiResponse, ITeam } from '@pokemon/shared/api';
 import { Injectable } from '@angular/core';
+import { environment } from 'libs/shared/util-env/src';
 
 
 export const httpOptions = {
@@ -12,8 +13,7 @@ export const httpOptions = {
 
 @Injectable()
 export class TeamService {
-    //endpoint = 'http://localhost:3000/api/team';
-    endpoint = 'http://pokemon-cswf.azurewebsites.net/api/team';
+    endpoint = environment.onlineApiUrl + '/teams';
 
     constructor(private readonly http: HttpClient) {}
 
