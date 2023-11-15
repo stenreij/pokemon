@@ -1,4 +1,4 @@
-import { Controller } from '@nestjs/common';
+import { Controller, Delete, Put } from '@nestjs/common';
 import { TeamService } from './team.service';
 import { Get, Param, Post, Body } from '@nestjs/common';
 import { ITeam } from '@pokemon/shared/api';
@@ -22,4 +22,14 @@ export class TeamController {
     create(@Body() data: CreateTeamDto): ITeam {
         return this.teamService.create(data);
     }
+
+    @Put(':id')
+    update(@Param('id') id: number, @Body() data: CreateTeamDto): ITeam {
+        return this.teamService.update(id, data);
+    }
+    @Delete(':id')
+    delete(@Param('id') id: number): ITeam {
+        return this.teamService.delete(id);
+    }
+
 }

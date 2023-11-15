@@ -6,7 +6,7 @@
 import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { ApiResponseInterceptor } from '@pokemon/backend/dto';
-import { IEnvironment } from 'libs/shared/util-env/src/lib/environment.interface';
+import { CorsOptions } from '@nestjs/common/interfaces/external/cors-options.interface';
 
 import { AppModule } from './app/app.module';
 
@@ -15,15 +15,16 @@ async function bootstrap() {
   const globalPrefix = 'api';
   app.setGlobalPrefix(globalPrefix);
 
-  app.enableCors({
-    origin: '*', 
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  const corsOptions: CorsOptions = {
+    origin: '*',
+    methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
     credentials: true,
-  });
+  };
 
+  app.enableCors(corsOptions)
   app.useGlobalInterceptors(new ApiResponseInterceptor());
 
-  const port = process.env.PORT || 3000;
+  const port = process.env.PORT || 8080;
   await app.listen(port);
   Logger.log(
     `🚀 Application data-api is running on: http://localhost:${port}/${globalPrefix}`

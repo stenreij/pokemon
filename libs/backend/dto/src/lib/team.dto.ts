@@ -45,17 +45,14 @@ export class UpsertTeamDto implements IUpsertTeam {
 }
 
 export class UpdateTeamDto implements IUpdateTeam {
-    @IsOptional()
     @IsString()
     @IsNotEmpty()
     teamName?: string;
 
-    @IsOptional()
     @IsNumber()
     @IsNotEmpty()
     rating?: number;
 
-    @IsOptional()
     @IsString()
     @IsNotEmpty()
     trainer?: string;

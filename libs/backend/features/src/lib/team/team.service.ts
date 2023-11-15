@@ -1,6 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { ITeam } from '@pokemon/shared/api';
 import { BehaviorSubject } from 'rxjs';
+import { CreateTeamDto } from '@pokemon/backend/dto';
 import { Logger } from '@nestjs/common';
 
 @Injectable()
@@ -18,7 +19,7 @@ export class TeamService {
 
     getAll(): ITeam[] {
         Logger.log('getAll', this.TAG);
-        return this.teams$.value;
+        return this.teams$.value.sort((a, b) => a.teamId - b.teamId);
     }
 
     getOne(id: number): ITeam {
@@ -43,4 +44,30 @@ export class TeamService {
         this.teams$.next([...current, newTeam]);
         return newTeam;
     }
+
+    update(id: number, team: Pick<ITeam, 'teamName' | "trainer" | 'rating'>): ITeam {
+        Logger.log('update', this.TAG);
+        const current = this.teams$.value;
+        const teamToUpdate = this.getOne(id);
+        const updatedTeam: ITeam = {
+            ...teamToUpdate,
+            ...team,
+        };
+        this.teams$.next([
+            ...current.filter((team) => team.teamId !== teamToUpdate.teamId),
+            updatedTeam,
+        ]);
+        return updatedTeam;
+    }
+
+    delete(id: number): ITeam {
+        Logger.log('delete', this.TAG);
+        const current = this.teams$.value;
+        const teamToDelete = this.getOne(id);
+        this.teams$.next([
+            ...current.filter((team) => team.teamId !== teamToDelete.teamId),
+        ]);
+        return teamToDelete;
+    }
+
 }

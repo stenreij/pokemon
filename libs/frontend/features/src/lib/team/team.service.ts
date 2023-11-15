@@ -47,7 +47,7 @@ export class TeamService {
     }
 
     public handleError(error: HttpErrorResponse): Observable<any> {
-        console.log('handleError in MealService', error);
+        console.log('handleError in TeamService', error);
 
         return throwError(() => new Error(error.message));
     }
