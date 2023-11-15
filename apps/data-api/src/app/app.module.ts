@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { MongooseModule } from '@nestjs/mongoose';
 import { BackendFeaturesMealModule } from '@pokemon/backend/features';
 
 import { AppController } from './app.controller';
