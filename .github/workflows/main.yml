@@ -22,14 +22,11 @@ jobs:
         with:
           node-version: '18.x'
 
-      - name: Install Nx CLI
-        run: npm install -g nx
-
       - name: npm install, build, and test
         run: |
           npm install
-          nx build frontend
-          nx build data-api
+          npm run build --if present
+          npm run test --if present
 
       - name: Zip artifacts for deployment
         run: |
@@ -76,13 +73,13 @@ jobs:
           api_location: "" # Api source code path - optional
           output_location: "" # Built app content directory - optional
 
-
+          
   deploy-data-api:
     runs-on: ubuntu-latest
     needs: build
     environment:
       name: 'Production'
-      url: ${{ needs.build.outputs.artifacts-url }}
+      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
 
     steps:
       - name: Download artifact from build job
