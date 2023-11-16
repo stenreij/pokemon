@@ -28,8 +28,8 @@ jobs:
       - name: npm install, build, and test
         run: |
           npm install
-          nx build --if present
-          nx test --if present
+          nx build
+          nx test
 
       - name: Zip artifacts for deployment
         run: |
