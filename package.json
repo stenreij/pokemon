@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
+    "start": "ts-node ./apps/data-api/src/main.ts",
     "start:prod": "ts-node ./apps/data-api/src/main.ts",
     "start:dev": "nest start --watch"
   },
