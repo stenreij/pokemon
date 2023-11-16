@@ -24,7 +24,7 @@ jobs:
 
       - name: npm install, build, and test
         run: |
-          nx install
+          npm install
           nx run build --if present
           nx run test --if present
 
