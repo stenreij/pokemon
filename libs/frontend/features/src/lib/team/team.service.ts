@@ -33,9 +33,9 @@ export class TeamService {
     }
 
     public read(id: string | null, options?: any): Observable<ITeam> {
-        console.log(`read ${this.endpoint}`);
+        console.log(`read ${this.endpoint}/${id}`);
         return this.http
-            .get<ApiResponse<ITeam>>(this.endpoint, {
+            .get<ApiResponse<ITeam>>(`${this.endpoint}/${id}`, {
                 ...options,
                 ...httpOptions,
             })

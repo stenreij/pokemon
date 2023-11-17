@@ -8,3 +8,7 @@
 body{
     background-color: #95938f;
 }
+
+a.link {
+    color: rgb(121, 112, 95) !important;
+}
