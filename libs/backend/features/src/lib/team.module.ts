@@ -8,4 +8,4 @@ import { TeamService } from './team/team.service';
   exports: [TeamService],
 })
 
-export class BackendFeaturesMealModule {}
+export class TeamModule {}
