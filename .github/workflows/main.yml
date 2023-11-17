@@ -95,6 +95,6 @@ jobs:
         uses: azure/webapps-deploy@v2
         with:
           app-name: 'pokemon-cswf'
-          slot-name: 'Production'
+          slot-name: ''
           publish-profile: ${{ secrets.NEXTJS_PUBLISHPROFILE }}
           package: .
