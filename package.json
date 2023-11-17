@@ -5,7 +5,10 @@
   "scripts": {
     "start": "ts-node ./apps/data-api/src/main.ts",
     "start:prod": "ts-node ./apps/data-api/src/main.ts",
-    "start:dev": "nest start --watch"
+    "start:dev": "nest start --watch",
+    "deploy": "nx run share-a-meal-web:build",
+    "build": "nx run-many -t build",
+    "test": "nx run-many -t test"
   },
   "private": true,
   "dependencies": {
