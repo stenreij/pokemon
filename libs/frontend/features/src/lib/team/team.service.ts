@@ -3,7 +3,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { map, catchError, tap } from 'rxjs/operators';
 import { ApiResponse, ITeam } from '@pokemon/shared/api';
 import { Injectable } from '@angular/core';
-import { environment } from '@pokemon/shared/util-env';
+import { environment } from 'libs/shared/util-env/src';
 
 
 export const httpOptions = {
