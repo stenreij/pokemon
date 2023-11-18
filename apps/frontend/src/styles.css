@@ -1,1 +1,14 @@
 /* You can add global styles to this file, and also import other style files */
+@import '~bootstrap/dist/css/bootstrap.min.css';
+
+.navbar{
+    background-color: #dfdaaf !important;
+}
+
+body{
+    background-color: #95938f;
+}
+
+a.link {
+    color: rgb(121, 112, 95) !important;
+}

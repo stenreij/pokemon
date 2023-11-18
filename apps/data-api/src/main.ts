@@ -24,7 +24,7 @@ async function bootstrap() {
   app.enableCors(corsOptions)
   app.useGlobalInterceptors(new ApiResponseInterceptor());
 
-  const port = process.env.PORT || 8080;
+  const port = process.env.PORT || 3000;
   await app.listen(port);
   Logger.log(
     `🚀 Application data-api is running on: http://localhost:${port}/${globalPrefix}`
