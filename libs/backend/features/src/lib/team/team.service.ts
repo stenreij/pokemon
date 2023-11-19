@@ -11,9 +11,38 @@ export class TeamService {
     private teams$ = new BehaviorSubject<ITeam[]>([
         {
             teamId: 1,
-            teamName: 'Team 1',
-            rating: 1,
+            teamName: 'Mystic Sparks',
             trainer: 'Ash',
+            rating: 99999,
+            teamInfo: 'This is the best team ever!',
+        },
+        {
+            teamId: 2,
+            teamName: 'Misty Mariners',
+            trainer: 'Misty',
+            rating: 1200,
+            teamInfo: 'Water is the best!',
+        },
+        {
+            teamId: 3,
+            teamName: 'De Stenengooiers',
+            trainer: 'Brock',
+            rating: 1000,
+            teamInfo: 'Stenen zijn cool!',
+        },
+        {
+            teamId: 4,
+            teamName: 'Crimson Vipers',
+            trainer: 'Jessie',
+            rating: 890,
+            teamInfo: 'Crimson Vipers are the best!',
+        },
+        {
+            teamId: 5,
+            teamName: 'Gentleman Ghosts',
+            trainer: 'James',
+            rating: 1300,
+            teamInfo: 'Ghosts are the best!',
         },
     ]);
 
@@ -33,19 +62,20 @@ export class TeamService {
         return team;
     }
 
-    create(team: Pick<ITeam, 'teamName' | "trainer" | 'rating'>): ITeam {
+    create(team: Pick<ITeam, 'teamName' | "trainer" | "teamInfo" >): ITeam {
         Logger.log('create', this.TAG);
         const current = this.teams$.value;
 
-        const newTeam: ITeam = {       
-            teamId: this.teams$.value.length + 1,
+        const newTeam: ITeam = {
+            teamId: Math.floor(Math.random() * 1000),
             ...team,
+            rating: 0
         };
         this.teams$.next([...current, newTeam]);
         return newTeam;
     }
 
-    update(id: number, team: Pick<ITeam, 'teamName' | "trainer" | 'rating'>): ITeam {
+    update(id: number, team: Pick<ITeam, 'teamName' | "trainer" | "teamInfo">): ITeam {
         Logger.log('update', this.TAG);
         const current = this.teams$.value;
         const teamToUpdate = this.getOne(id);

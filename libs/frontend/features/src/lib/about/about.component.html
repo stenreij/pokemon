@@ -1,0 +1,135 @@
+<div class="container">
+    <div class="row">
+        <div class="col-sm-6 col-md-8 col-lg-9">
+            <div class="col-sm-6 col-md-4 col-lg-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title">Sten Reijerse</h3>
+                        <p class="card-text">Studentnummer: 2175709</p>
+                    </div>
+                </div>
+            </div>
+            <h1 id="aboutTitle">Over deze applicatie</h1>
+            <p>
+                Deze applicatie is gemaakt in het kader van het vak 'Client-side web
+                programming individueel' van Avans Hogeschool Breda.
+            </p>
+            <h1>Pokémon</h1>
+            <p>
+                Met deze app kun je als trainer verschillende teams maken en samenstellen. 
+                Op deze manier kun je gemakkelijk verschillende teams bekijken en vergelijken.
+                Je kunt zelf een team aanmaken en een naam geven. 
+                Je tot maximaal 6 pokémon toevoegen aan een team. Het is mogelijk om een bestaand team aan te 
+                passen of te verwijderen. Je kunt ook de details van een team bekijken.
+            </p>
+        </div>
+    </div>
+
+    <h3>Entiteiten</h3>
+
+    <img src="assets/pokemonERD.png" class="px-5 py-5" alt="casus-afbeelding" />
+
+    <div class="row">
+        <div class="col-sm-12 col-md-4">
+            <p>Gebruiker / Pokémon Trainer</p>
+            <ul>
+                <li>trainerId: number</li>
+                <li>trainerNaam: string</li>
+                <li>email: string</li>
+                <li>geboorteDatum: Date</li>
+            </ul>
+        </div>
+        <div class="col-sm-12 col-md-4">
+            <p>Team</p>
+            <ul>
+                <li>teamNaam: string</li>
+                <li>teamId: number</li>
+                <li>trainer: string</li>
+                <li>rating: number</li>
+                <li>pokémon: Pokémon</li>               
+            </ul>
+        </div>
+        <div class="col-sm-12 col-md-4">
+            <p>Pokémon</p>
+            <ul>
+                <li>pokémonId: number</li>
+                <li>naam: string</li>
+                <li>Type1: Type</li>
+                <li>Type2: Type</li>
+                <li>Rating: int</li>
+                <li>legendary: boolean</li>
+            </ul>
+        </div>
+        <div class="col-sm-12 col-md-4">
+            <p>Item Voorraad</p>
+            <ul>
+                <li>itemVoorraadId: number</li>
+                <li>aantal: number</li>
+            </ul>
+        </div>
+        <div class="col-sm-12 col-md-4">
+            <p>Item</p>
+            <ul>
+                <li>itemId: number</li>
+                <li>naam: string</li>
+                <li>beschrijving: string</li>
+                <li>Type: string</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <h2>Userstories</h2>
+            <table class="table table-bordered">
+                <thead>
+                    <th class="th-css">Nr</th>
+                    <th class="col-6">Userstory</th>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="td-css">1.</td>
+                        <td class="td-underlined">
+                            Als gebruiker wil ik een team kunnen aanmaken zodat ik een team kan samenstellen.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="td-css">2.</td>
+                        <td class="td-underlined">
+                            Als gebruiker wil ik een team kunnen verwijderen zodat ik een team kan verwijderen.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="td-css">3.</td>
+                        <td class="td-underlined">
+                            Als gebruiker wil ik een team kunnen aanpassen zodat ik de 
+                            info van een team kan aanpassen of de pokémon in een team kan aanpassen.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="td-css">4.</td>
+                        <td class="td-underlined">
+                            Als gebruiker wil ik de details van een team kunnen bekijken zodat ik de info 
+                            van een team kan bekijken en de pokémon in een team kan bekijken.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="td-css">5.</td>
+                        <td class="td-underlined">
+                            Als gebruiker wil ik een lijst van al mijn teams kunnen bekijken zodat ik alle 
+                            teams kan bekijken en kan kiezen welk team ik wil aanpassen of verwijderen 
+                            of de details van wil bekijken.
+                        </td>
+                    </tr>                  
+                    <tr>
+                        <td class="td-css">6.</td>
+                        <td class="td-underlined">
+                            Als gebruiker wil ik een lijst van alle pokémon kunnen bekijken zodat ik alle bestaande 
+                            pokémon kan bekijken en kan kiezen welke pokémon ik wil toevoegen aan een team.
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

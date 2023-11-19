@@ -1,0 +1,28 @@
+
+<div class="container">
+    <div class="title">
+      <h2>Voeg Team Toe</h2>
+      <hr>
+    </div>
+      <div class="from">
+        <form [formGroup]="teamForm">
+          <div class="form-group">
+            <label for="teamName">Geef je team een naam:</label>
+            <input type="text" class="form-control" id="teamName" formControlName="teamName" placeholder="TeamNaam">
+          </div>
+          <div class="form-group">
+            <label for="trainer">Trainer:</label>
+            <input type="text" class="form-control" id="trainer" formControlName="trainer" placeholder="Trainer">
+          </div>
+          <div class="form-group">
+            <label for="teamInfo">Team info:</label>
+            <input type="text" class="form-control" id="teamInfo" formControlName="teamInfo" placeholder="Team info">
+          </div>
+          <div>
+            <button class="addButton" type="submit" (click)="addTeam()" [routerLink]="['/']">
+                Voeg Team Toe
+            </button>
+          </div>        
+        </form>
+    </div>
+  </div>

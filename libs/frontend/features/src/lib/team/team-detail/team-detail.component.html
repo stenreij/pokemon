@@ -1,10 +1,14 @@
 
 <div class="container" *ngIf="team">
+  <div class="title">
     <h2>Team Details</h2>
+    <hr>
+  </div>
     <div class="info">
       <ul><strong>Id:</strong> {{ team.teamId }}</ul>
       <ul><strong>TeamNaam:</strong> {{ team.teamName }}</ul>
       <ul><strong>Trainer:</strong> {{ team.trainer }}</ul>
+      <ul><strong>TeamInfo:</strong> {{ team.teamInfo }}</ul>
       <ul><strong>Rating:</strong> {{ team.rating }}</ul>
   </div>
 </div>

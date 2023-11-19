@@ -1,0 +1,27 @@
+<div class="container">
+    <div class="title">
+      <h2>Wijzig Team</h2>
+      <hr>
+    </div>
+    <div class="from" *ngIf="team">
+      <form [formGroup]="teamForm">
+        <div class="form-group">
+          <label for="teamName">Wijzig je team naam:</label>
+          <input type="text" class="form-control" id="teamName" formControlName="teamName">
+        </div>
+        <div class="form-group">
+          <label for="trainer">Wijzig je trainers naam:</label>
+          <input type="text" class="form-control" id="trainer" formControlName="trainer">
+        </div>
+        <div class="form-group">
+          <label for="teamInfo">Wijzig je team info:</label>
+          <input type="text" class="form-control" id="teamInfo" formControlName="teamInfo">
+        </div>
+        <div>
+          <button class="addButton" type="submit" (click)="editTeam()">
+            Bewerk Team
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>

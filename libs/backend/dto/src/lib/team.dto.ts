@@ -17,13 +17,13 @@ export class CreateTeamDto implements ICreateTeam {
     @IsNotEmpty()
     teamName!: string;
 
-    @IsNumber()
-    @IsNotEmpty()
-    rating!: number;
-
     @IsString()
     @IsNotEmpty()
     trainer!: string;
+
+    @IsString()
+    @IsNotEmpty()
+    teamInfo!: string;
 }
 
 export class UpsertTeamDto implements IUpsertTeam {
@@ -42,6 +42,10 @@ export class UpsertTeamDto implements IUpsertTeam {
     @IsString()
     @IsNotEmpty()
     trainer!: string;
+
+    @IsString()
+    @IsNotEmpty()
+    teamInfo!: string;
 }
 
 export class UpdateTeamDto implements IUpdateTeam {

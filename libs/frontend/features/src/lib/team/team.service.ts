@@ -1,5 +1,5 @@
 import { Observable, throwError } from 'rxjs';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { map, catchError, tap } from 'rxjs/operators';
 import { ApiResponse, ITeam } from '@pokemon/shared/api';
 import { Injectable } from '@angular/core';
@@ -7,15 +7,16 @@ import { environment } from 'libs/shared/util-env/src';
 
 
 export const httpOptions = {
-    observe: 'body',
-    responseType: 'json',
-};
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+    }),
+  };
 
 @Injectable()
 export class TeamService {
     endpoint = environment.lclApiUrl + '/team';
 
-    constructor(private readonly http: HttpClient) {}
+    constructor(private readonly http: HttpClient) { }
 
     public list(options?: any): Observable<ITeam[] | null> {
         console.log(`list ${this.endpoint}`);
@@ -39,6 +40,38 @@ export class TeamService {
                 ...options,
                 ...httpOptions,
             })
+            .pipe(
+                tap(console.log),
+                map((response: any) => response.results as ITeam),
+                catchError(this.handleError)
+            );
+    }
+
+    public delete(teamId: number): Observable<any> {
+        const url = `${this.endpoint}/${teamId}`;
+
+        return this.http
+            .delete<ApiResponse<any>>(url)
+            .pipe(catchError(this.handleError));
+    }
+
+    public addTeam(team: ITeam): Observable<ITeam> {
+        console.log(`addTeam ${this.endpoint}`, team);
+        const url = `${this.endpoint}`;
+        return this.http
+            .post<ApiResponse<ITeam>>(url, team, httpOptions)
+            .pipe(
+                tap(console.log),
+                map((response: any) => response.results as ITeam),
+                catchError(this.handleError)
+            );
+    }
+
+    public editTeam(team: ITeam): Observable<ITeam> {
+        console.log(`editTeam ${this.endpoint}`, team);
+        const url = `${this.endpoint}/${team.teamId}`;
+        return this.http
+            .put<ApiResponse<ITeam>>(url, team, httpOptions)
             .pipe(
                 tap(console.log),
                 map((response: any) => response.results as ITeam),
