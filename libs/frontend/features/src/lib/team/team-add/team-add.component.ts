@@ -1,10 +1,8 @@
 import { Component} from '@angular/core';
-import { Observable } from 'rxjs';
-import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TeamService } from '../team.service';
 import { Router } from '@angular/router'
 import { ITeam } from '@pokemon/shared/api';
-import { ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'pokemon-team-add',
@@ -13,7 +11,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 })
 export class TeamAddComponent {
   teamForm: FormGroup;
-
 
   constructor(private fb: FormBuilder, private teamService: TeamService, private router: Router) {
     this.teamForm = this.fb.group({
@@ -29,6 +26,7 @@ export class TeamAddComponent {
       this.teamService.addTeam(newTeam).subscribe(
         (addedTeam: ITeam) => {
           console.log('Toegevoegd team:', addedTeam);
+          this.router.navigateByUrl('/');
         },
         (error: any) => {
           console.error('Fout bij het toevoegen van het team:', error);

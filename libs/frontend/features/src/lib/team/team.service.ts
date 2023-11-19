@@ -67,6 +67,18 @@ export class TeamService {
             );
     }
 
+    public editTeam(team: ITeam): Observable<ITeam> {
+        console.log(`editTeam ${this.endpoint}`, team);
+        const url = `${this.endpoint}/${team.teamId}`;
+        return this.http
+            .put<ApiResponse<ITeam>>(url, team, httpOptions)
+            .pipe(
+                tap(console.log),
+                map((response: any) => response.results as ITeam),
+                catchError(this.handleError)
+            );
+    }
+
     public handleError(error: HttpErrorResponse): Observable<any> {
         console.log('handleError in TeamService', error);
 

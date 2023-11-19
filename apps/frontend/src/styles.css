@@ -3,6 +3,11 @@
 
 .navbar{
     background-color: #acc1c8 !important;
+    font-size: 30px;
+}
+
+.navbar-brand{
+    font-size: 30px;
 }
 
 body{
