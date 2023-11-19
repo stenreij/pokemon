@@ -12,8 +12,9 @@ export class TeamService {
         {
             teamId: 1,
             teamName: 'Team 1',
-            rating: 1,
             trainer: 'Ash',
+            rating: 99999,
+            teamInfo: 'This is the best team ever!',
         },
     ]);
 
@@ -33,19 +34,20 @@ export class TeamService {
         return team;
     }
 
-    create(team: Pick<ITeam, 'teamName' | "trainer" | 'rating'>): ITeam {
+    create(team: Pick<ITeam, 'teamName' | "trainer" | "teamInfo" >): ITeam {
         Logger.log('create', this.TAG);
         const current = this.teams$.value;
 
-        const newTeam: ITeam = {       
+        const newTeam: ITeam = {
             teamId: this.teams$.value.length + 1,
             ...team,
+            rating: 0
         };
         this.teams$.next([...current, newTeam]);
         return newTeam;
     }
 
-    update(id: number, team: Pick<ITeam, 'teamName' | "trainer" | 'rating'>): ITeam {
+    update(id: number, team: Pick<ITeam, 'teamName' | "trainer" | "teamInfo">): ITeam {
         Logger.log('update', this.TAG);
         const current = this.teams$.value;
         const teamToUpdate = this.getOne(id);

@@ -20,13 +20,3 @@
     color: black;
     text-decoration: none;
 }
-
-table tr:nth-child(odd) {
-    background-color: #9a2e2e !important;
-}
-
-tr:nth-child(even) {
-    background-color: #141313 !important;
-}
-
-

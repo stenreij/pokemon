@@ -32,7 +32,10 @@ export class TeamListComponent implements OnInit, OnDestroy {
         this.teamService.delete(teamId).subscribe(() => {
             this.teamService.list().subscribe((results) => {
                 this.teams = results;
-            });
+            },
+                (error) => {
+                    console.log('Er is een fout opgetreden:', error);
+                });
         });
     }
 }
