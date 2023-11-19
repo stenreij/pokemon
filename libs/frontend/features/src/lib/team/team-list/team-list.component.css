@@ -1,0 +1,32 @@
+.addButton {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding: 10px;
+    background-color: rgb(169, 179, 193);
+    border: 1px solid black;
+    border-radius: 5px;
+    ;
+}
+
+.deleteButton {
+    padding: 5px;
+    background-color: rgb(208, 157, 157);
+    border: 1px solid black;
+    border-radius: 5px;
+    ;
+}
+
+.linkButton {
+    color: black;
+    text-decoration: none;
+}
+
+table tr:nth-child(odd) {
+    background-color: #9a2e2e !important;
+}
+
+tr:nth-child(even) {
+    background-color: #141313 !important;
+}
+
+

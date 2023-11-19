@@ -2,13 +2,13 @@
 @import '~bootstrap/dist/css/bootstrap.min.css';
 
 .navbar{
-    background-color: #dfdaaf !important;
+    background-color: #acc1c8 !important;
 }
 
 body{
-    background-color: #95938f;
+    background-color: #b0aba0c6;
 }
 
 a.link {
-    color: rgb(121, 112, 95) !important;
+    color: rgb(96, 90, 80) !important;
 }

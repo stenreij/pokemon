@@ -46,6 +46,15 @@ export class TeamService {
             );
     }
 
+    public delete(teamId: number): Observable<any> {
+        const url = `${this.endpoint}/${teamId}`;
+    
+        return this.http
+          .delete<ApiResponse<any>>(url)
+          .pipe(catchError(this.handleError));
+      }
+
+
     public handleError(error: HttpErrorResponse): Observable<any> {
         console.log('handleError in TeamService', error);
 

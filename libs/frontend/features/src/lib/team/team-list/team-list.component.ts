@@ -2,7 +2,8 @@ import { Component, OnInit, OnDestroy, NgModule } from '@angular/core';
 import { TeamService } from '../team.service';
 import { ITeam } from '@pokemon/shared/api';
 import { Subscription } from 'rxjs';
-import { RouterModule, Router } from '@angular/router'
+import { Router } from '@angular/router'
+
 
 @Component({
     selector: 'pokemon-team-list',
@@ -26,5 +27,12 @@ export class TeamListComponent implements OnInit, OnDestroy {
     ngOnDestroy(): void {
         if (this.subscription) this.subscription.unsubscribe();
     }
-}
 
+    verwijderTeam(teamId: number): void {
+        this.teamService.delete(teamId).subscribe(() => {
+            this.teamService.list().subscribe((results) => {
+                this.teams = results;
+            });
+        });
+    }
+}
