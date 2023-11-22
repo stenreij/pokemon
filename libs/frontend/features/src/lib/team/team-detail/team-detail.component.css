@@ -1,5 +1,6 @@
 .container{
-    background-color: #c0d3d0;
+    background-color: rgba(0, 106, 255, 0.17);
+    border-radius: 10px;
 }
 
 .title{

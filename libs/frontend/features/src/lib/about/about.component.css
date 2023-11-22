@@ -1,5 +1,5 @@
 .card {
-    background-color: rgb(169, 179, 193);
+    background-color: #6133944b;
     width: fit-content;
     height: fit-content;
     padding: 15px 30px 15px 30px;
@@ -38,14 +38,13 @@ td {
     border-bottom: 1px solid black;
     border-right: 1px solid black;
     text-align: center;
-    background-color: rgb(169, 179, 193) !important;
+    background-color: #6133944b !important;
 }
-
 
 .col-6 {
     border-bottom: 1px solid black;
     padding-left: 10px;
-    background-color: rgb(169, 179, 193) !important;
+    background-color: #6133944b !important;
 }
 
 h2 {
@@ -56,5 +55,6 @@ h2 {
     height: 100%;
     margin: 40px;
     padding-left: 30px;
-    background-color: rgb(191, 198, 201);
+    background-color: rgba(0, 106, 255, 0.17);
+    border-radius: 10px;
 }
