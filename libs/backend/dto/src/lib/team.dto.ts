@@ -4,7 +4,10 @@ import {
     IsNumber,
     IsOptional,
     IsBoolean,
-    IsDate
+    IsDate,
+    IsArray,
+    ArrayMinSize,
+    ArrayMaxSize
 } from 'class-validator';
 import {
     ICreateTeam,
@@ -24,6 +27,11 @@ export class CreateTeamDto implements ICreateTeam {
     @IsString()
     @IsNotEmpty()
     teamInfo!: string;
+    
+    @IsArray()
+    @ArrayMinSize(0)
+    @ArrayMaxSize(6)
+    pokemon!: Array<number>;
 }
 
 export class UpsertTeamDto implements IUpsertTeam {
@@ -46,6 +54,11 @@ export class UpsertTeamDto implements IUpsertTeam {
     @IsString()
     @IsNotEmpty()
     teamInfo!: string;
+
+    @IsArray()
+    @ArrayMinSize(0)
+    @ArrayMaxSize(6)
+    pokemon!: Array<number>;
 }
 
 export class UpdateTeamDto implements IUpdateTeam {
