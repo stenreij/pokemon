@@ -1,9 +1,10 @@
-<div class="container">
+<div class="container" *ngIf="team">
     <div class="title">
       <h2>Wijzig Team</h2>
+      <h3> {{ team.teamName }}</h3>
       <hr>
     </div>
-    <div class="from" *ngIf="team">
+    <div class="from">
       <form [formGroup]="teamForm">
         <div class="form-group">
           <label for="teamName">Wijzig je team naam:</label>

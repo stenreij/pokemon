@@ -2,7 +2,7 @@
     margin-top: 20px;
     margin-bottom: 20px;
     padding: 10px;
-    background-color: rgb(169, 179, 193);
+    background-color: #7a48b34b;
     border: 1px solid black;
     border-radius: 5px;
     ;
@@ -22,7 +22,7 @@
 
 .actionButton {
     padding: 5px;
-    background-color: rgb(169, 179, 193);
+    background-color: #7a48b34b;
     border: 1px solid black;
     border-radius: 5px;
 }

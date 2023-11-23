@@ -1,19 +1,45 @@
 /* You can add global styles to this file, and also import other style files */
 @import '~bootstrap/dist/css/bootstrap.min.css';
 
-.navbar{
+.navbar {
     background-color: #acc1c8 !important;
     font-size: 30px;
 }
 
-.navbar-brand{
+.navbar-brand {
     font-size: 30px;
-}
-
-body{
-    background-color: #b0aba0c6;
 }
 
 a.link {
     color: rgb(96, 90, 80) !important;
+}
+
+.bg-body-tertiary {
+    margin-top: 35px;
+    border-top: solid 1px black;
+    background-color: #acc1c8 !important;
+    font-size: 30px;
+}
+
+.text-center {
+    font-size: 15px;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: #a1b0c379;
+}
+
+.container {
+    flex: 1;
+}
+
+.footer {
+    margin-top: 0px;
+    background-color: #acc1c8;
+    font-size: 30px;
+    text-align: center;
+    border-top: solid 1px black;
 }
