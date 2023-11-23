@@ -35,7 +35,7 @@ export class CreatePokemonDto implements ICreatePokemon {
 
     @IsString()
     @IsNotEmpty()
-    img!: string;
+    afbeelding!: string;
 }
 
 export class UpsertPokemonDto implements IUpsertPokemon {
@@ -65,7 +65,7 @@ export class UpsertPokemonDto implements IUpsertPokemon {
 
     @IsString()
     @IsNotEmpty()
-    img!: string;
+    afbeelding!: string;
 }
 
 export class UpdatePokemonDto implements IUpdatePokemon {
@@ -91,5 +91,5 @@ export class UpdatePokemonDto implements IUpdatePokemon {
 
     @IsString()
     @IsNotEmpty()
-    img?: string;
+    afbeelding?: string;
 }

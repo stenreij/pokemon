@@ -16,7 +16,7 @@ export class PokemonService {
             type2: 'Poison',
             rating: 100,
             legendary: false,
-            img: 'https://assets.pokemon.com/assets/cms2/img/pokedex/full/001.png',
+            afbeelding: 'https://assets.pokemon.com/assets/cms2/img/pokedex/full/001.png',
         },
         {
             pokemonId: 2,
@@ -25,7 +25,7 @@ export class PokemonService {
             type2: 'Poison',
             rating: 200,
             legendary: false,
-            img: 'https://assets.pokemon.com/assets/cms2/img/pokedex/full/002.png',
+            afbeelding: 'https://assets.pokemon.com/assets/cms2/img/pokedex/full/002.png',
         },
         {
             pokemonId: 3,
@@ -34,7 +34,7 @@ export class PokemonService {
             type2: 'Poison',
             rating: 300,
             legendary: false,
-            img: 'https://assets.pokemon.com/assets/cms2/img/pokedex/full/003.png',
+            afbeelding: 'https://assets.pokemon.com/assets/cms2/img/pokedex/full/003.png',
         },
         {
             pokemonId: 4,
@@ -43,7 +43,7 @@ export class PokemonService {
             type2: 'Normal',
             rating: 200,
             legendary: false,
-            img: 'https://assets.pokemon.com/assets/cms2/img/pokedex/full/004.png',
+            afbeelding: 'https://assets.pokemon.com/assets/cms2/img/pokedex/full/004.png',
         },
         {
             pokemonId: 5,
@@ -52,7 +52,7 @@ export class PokemonService {
             type2: 'Normal',
             rating: 300,
             legendary: false,
-            img: 'https://assets.pokemon.com/assets/cms2/img/pokedex/full/005.png',
+            afbeelding: 'https://assets.pokemon.com/assets/cms2/img/pokedex/full/005.png',
         },
         {
             pokemonId: 6,
@@ -61,7 +61,7 @@ export class PokemonService {
             type2: 'Flying',
             rating: 400,
             legendary: false,
-            img: 'https://assets.pokemon.com/assets/cms2/img/pokedex/full/006.png',
+            afbeelding: 'https://assets.pokemon.com/assets/cms2/img/pokedex/full/006.png',
         },
         {
             pokemonId: 7,
@@ -70,7 +70,7 @@ export class PokemonService {
             type2: 'Normal',
             rating: 175,
             legendary: false,
-            img: 'https://assets.pokemon.com/assets/cms2/img/pokedex/full/007.png',
+            afbeelding: 'https://assets.pokemon.com/assets/cms2/img/pokedex/full/007.png',
         },
         {
             pokemonId: 8,
@@ -79,7 +79,7 @@ export class PokemonService {
             type2: 'Normal',
             rating: 275,
             legendary: false,
-            img: 'https://assets.pokemon.com/assets/cms2/img/pokedex/full/008.png',
+            afbeelding: 'https://assets.pokemon.com/assets/cms2/img/pokedex/full/008.png',
         },
         {
             pokemonId: 9,
@@ -88,7 +88,7 @@ export class PokemonService {
             type2: 'Normal',
             rating: 420,
             legendary: false,
-            img: 'https://assets.pokemon.com/assets/cms2/img/pokedex/full/009.png',
+            afbeelding: 'https://assets.pokemon.com/assets/cms2/img/pokedex/full/009.png',
         },
         {
             pokemonId: 700,
@@ -97,7 +97,7 @@ export class PokemonService {
             type2: 'Normal',
             rating: 2200,
             legendary: true,
-            img: 'https://assets.pokemon.com/assets/cms2/img/pokedex/full/150.png',
+            afbeelding: 'https://assets.pokemon.com/assets/cms2/img/pokedex/full/150.png',
         },
     ]);
 
@@ -117,7 +117,7 @@ export class PokemonService {
         return pokemon;
     }
 
-    create(pokemon: Pick<IPokemon, 'name' | "type1" | "type2" | 'rating' | 'legendary' | 'img' >): IPokemon {
+    create(pokemon: Pick<IPokemon, 'name' | "type1" | "type2" | 'rating' | 'legendary' | 'afbeelding' >): IPokemon {
         Logger.log('create', this.TAG);
         const current = this.pokemon$.value;
 
