@@ -1,8 +1,8 @@
 <div *ngIf="team" class="container">
   <div class="title">
-    <h2>Team Details</h2> 
+    <h2>Team Details</h2>
     <h3>{{ team.teamName }}</h3>
-   <hr>
+    <hr>
   </div>
   <div class="detail-body">
     <div class="info">
@@ -12,9 +12,21 @@
       <ul><strong>TeamInfo:</strong> {{ team.teamInfo }}</ul>
       <ul><strong>Rating:</strong> {{ team.rating }}</ul>
     </div>
-    <div class="team-pokemon">
-      <p>fjf</p>
-      <p>fkf</p>
+
+    <div class="card-container">
+      <div class="card" *ngFor="let pokemon of pokemon">
+        <div class="card-header">
+          <h4>{{ pokemon.name }}</h4>
+        </div>
+        <div class="card-body">
+          <div class="card-image">
+            <img class="image" [src]="pokemon.afbeelding" alt="{{ pokemon.name }}">
+          </div>
+        </div>
+        <button class="card-footer">
+          <a class="link" [routerLink]="['/pokemon/' + pokemon.pokemonId]">Details</a>
+        </button>
+      </div>
     </div>
   </div>
 </div>

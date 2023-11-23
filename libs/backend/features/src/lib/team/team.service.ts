@@ -1,5 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { ITeam } from '@pokemon/shared/api';
+import { ITeam, IPokemon } from '@pokemon/shared/api';
 import { BehaviorSubject } from 'rxjs';
 import { CreateTeamDto } from '@pokemon/backend/dto';
 import { Logger } from '@nestjs/common';
@@ -15,6 +15,7 @@ export class TeamService {
             trainer: 'Ash',
             rating: 99999,
             teamInfo: 'This is the best team ever!',
+            pokemon: [700, 6, 3, 9],
         },
         {
             teamId: 2,
@@ -22,6 +23,7 @@ export class TeamService {
             trainer: 'Misty',
             rating: 1200,
             teamInfo: 'Water is the best!',
+            pokemon: [1]
         },
         {
             teamId: 3,
@@ -29,23 +31,27 @@ export class TeamService {
             trainer: 'Brock',
             rating: 1000,
             teamInfo: 'Stenen zijn cool!',
+            pokemon: [],
         },
         {
             teamId: 4,
             teamName: 'Crimson Vipers',
             trainer: 'Jessie',
-            rating: 890,
+            rating: 0,
             teamInfo: 'Crimson Vipers are the best!',
+            pokemon: [4, 5],
         },
         {
             teamId: 5,
             teamName: 'Gentleman Ghosts',
             trainer: 'James',
-            rating: 1300,
+            rating: 0,
             teamInfo: 'Ghosts are the best!',
+            pokemon: [3, 2, 1],
         },
     ]);
 
+  
     getAll(): ITeam[] {
         Logger.log('getAll', this.TAG);
         return this.teams$.value.sort((a, b) => a.teamId - b.teamId);
@@ -62,15 +68,17 @@ export class TeamService {
         return team;
     }
 
-    create(team: Pick<ITeam, 'teamName' | "trainer" | "teamInfo" >): ITeam {
+    create(team: Pick<ITeam, 'teamName' | 'trainer' | 'teamInfo'>): ITeam {
         Logger.log('create', this.TAG);
         const current = this.teams$.value;
-
+    
         const newTeam: ITeam = {
             teamId: Math.floor(Math.random() * 1000),
             ...team,
-            rating: 0
+            rating: 0,
+            pokemon: []
         };
+    
         this.teams$.next([...current, newTeam]);
         return newTeam;
     }
