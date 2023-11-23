@@ -1,27 +1,19 @@
-<div>
-  <table class="table table-striped">
-      <thead>
-        <tr>
-          <th>Id</th>
-          <th>Naam</th>
-          <th>Type 1</th>
-          <th>Type 2</th>
-          <th>Rating</th>
-          <th>IsLegendary</th>
-          <th>Details</th> 
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let pokemon of pokemon">
-            <td>{{ pokemon.pokemonId }}</td>
-            <td>{{ pokemon.name }}</td>
-            <td>{{ pokemon.type1 }}</td>
-            <td>{{ pokemon.type2 }}</td>
-            <td>{{ pokemon.rating }}</td>
-            <td>{{ pokemon.legendary }}</td>
-
-          <td><button class="actionButton"><a class="link"> Details </a></button></td>
-        </tr>
-      </tbody>
-    </table>
+<div class="card-container">
+  <div class="card" *ngFor="let pokemon of pokemon">
+    <div class="card-header">
+      <h4>{{ pokemon.name }}</h4>
+    </div>
+    <div class="card-body">
+      <div class="card-image">
+        <img class="image" [src]="pokemon.img" alt="{{ pokemon.name }}">
+      </div>
+      <div class="card-info">
+        <p><strong>Type 1:</strong> {{ pokemon.type1 }}</p>
+        <p><strong>Type 2:</strong> {{ pokemon.type2 }}</p>
+      </div>
+    </div>
+    <button class="card-footer">
+      <a class="link" [routerLink]="['/pokemon/' + pokemon.pokemonId]" >Details</a>
+    </button>
   </div>
+</div>

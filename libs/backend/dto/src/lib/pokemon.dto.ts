@@ -32,6 +32,10 @@ export class CreatePokemonDto implements ICreatePokemon {
     @IsBoolean()
     @IsNotEmpty()
     legendary!: boolean;
+
+    @IsString()
+    @IsNotEmpty()
+    img!: string;
 }
 
 export class UpsertPokemonDto implements IUpsertPokemon {
@@ -58,6 +62,10 @@ export class UpsertPokemonDto implements IUpsertPokemon {
     @IsBoolean()
     @IsNotEmpty()
     legendary!: boolean;
+
+    @IsString()
+    @IsNotEmpty()
+    img!: string;
 }
 
 export class UpdatePokemonDto implements IUpdatePokemon {
@@ -80,4 +88,8 @@ export class UpdatePokemonDto implements IUpdatePokemon {
     @IsBoolean()
     @IsNotEmpty()
     legendary?: boolean;
+
+    @IsString()
+    @IsNotEmpty()
+    img?: string;
 }

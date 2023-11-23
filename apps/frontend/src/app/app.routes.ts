@@ -6,6 +6,7 @@ import { TeamAddComponent } from 'libs/frontend/features/src/lib/team/team-add/t
 import { TeamEditComponent } from 'libs/frontend/features/src/lib/team/team-edit/team-edit.component';
 import { AboutComponent } from 'libs/frontend/features/src/lib/about/about.component' 
 import { PokemonListComponent } from 'libs/frontend/features/src/lib/pokemon/pokemon-list/pokemon-list.component';
+import { PokemonDetailComponent } from 'libs/frontend/features/src/lib/pokemon/pokemon-detail/pokemon-detail.component'; 
 
 export const appRoutes: Routes= [
     { path:"", component: TeamListComponent },
@@ -13,7 +14,8 @@ export const appRoutes: Routes= [
     { path: "team-add", component: TeamAddComponent},
     { path: "team-edit/:id", component: TeamEditComponent},
     { path: "about", component: AboutComponent},
-    { path: "pokemon", component: PokemonListComponent}
+    { path: "pokemon", component: PokemonListComponent},
+    { path: "pokemon/:id", component: PokemonDetailComponent}
 ];
 
 @NgModule({

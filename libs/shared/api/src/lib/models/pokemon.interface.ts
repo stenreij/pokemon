@@ -7,11 +7,12 @@ export interface IPokemon {
     type2: string;
     rating: number;
     legendary: boolean;
+    img: string;
 }
 
 export type ICreatePokemon = Pick<
     IPokemon,
-    'name' | 'type1' | 'type2' | 'rating' | 'legendary'
+    'name' | 'type1' | 'type2' | 'rating' | 'legendary' | 'img'
 >;
 export type IUpdatePokemon = Partial<Omit<IPokemon, 'pokemonId'>>;
 export type IUpsertPokemon = IPokemon;

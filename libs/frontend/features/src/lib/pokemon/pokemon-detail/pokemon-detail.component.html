@@ -1,0 +1,17 @@
+<div class="card-container">
+  <div class="card" *ngIf="pokemon">
+    <div class="card-body">
+      <div class="card-image">
+        <h2>{{ pokemon.name }}</h2>
+        <img class="image" [src]="pokemon.img" alt="{{ pokemon.name }}">
+      </div>
+      <div class="card-info">
+        <h3><strong>Id:</strong> {{ pokemon.pokemonId }}</h3>
+        <h4><strong>Type 1:</strong> {{ pokemon.type1 }}</h4>
+        <h4><strong>Type 2:</strong> {{ pokemon.type2 }}</h4>
+        <h4><strong>Rating:</strong> {{ pokemon.rating }}</h4>
+        <h4><strong>Is legendary:</strong> {{ pokemon.legendary }}</h4>
+      </div>
+    </div>
+  </div>
+</div>
