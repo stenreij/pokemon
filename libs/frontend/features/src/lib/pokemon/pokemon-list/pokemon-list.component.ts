@@ -15,6 +15,7 @@ export class PokemonListComponent implements OnInit, OnDestroy {
   subscription: Subscription | undefined = undefined;
   teams: ITeam[] | null = null;
   selectedTeam: ITeam | null = null;
+  selectedPokemon: IPokemon | null = null; 
 
   constructor(
     private pokemonService: PokemonService,
@@ -40,9 +41,11 @@ export class PokemonListComponent implements OnInit, OnDestroy {
     if (this.subscription) this.subscription.unsubscribe();
   }
 
-  openPopup() {
+  openPopup(pokemon: IPokemon) {
+    this.selectedPokemon = pokemon;
     this.teamService.list().subscribe((teams)=>{
         this.teams = teams;
+        this.selectedTeam = null;
         this.teamService.openPopup();
     });
   }

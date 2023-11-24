@@ -11,21 +11,21 @@
         <p><strong>Type 1:</strong> {{ pokemon.type1 }}</p>
         <p><strong>Type 2:</strong> {{ pokemon.type2 }}</p>
       </div>
-
     </div>
-    <button class="card-toevoegen" (click)="openPopup()">
+    <button class="card-toevoegen" (click)="openPopup(pokemon)">
       <a class="link">Toevoegen</a>
     </button>
-
-    
     <button class="card-footer" [routerLink]="['/pokemon/' + pokemon.pokemonId]">
       <a class="link">Details</a>
     </button>
   </div>
-</div> 
-   
-    <div>
-      <div *ngIf="teamService.showPopup">
-        <pokemon-team-selection-popup (closePopup)="teamService.closePopup()"></pokemon-team-selection-popup>
-      </div>
-    </div>
+</div>
+
+<div>
+  <div *ngIf="teamService.showPopup">
+    <pokemon-team-selection-popup 
+      [selectedPokemon]="selectedPokemon" 
+      (closePopup)="teamService.closePopup()">
+    </pokemon-team-selection-popup>
+  </div>
+</div>
