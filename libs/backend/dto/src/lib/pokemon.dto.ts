@@ -2,6 +2,7 @@ import {
     IsNotEmpty,
     IsString,
     IsNumber,
+    IsEnum,
     IsOptional,
     IsBoolean,
     IsDate
@@ -11,6 +12,7 @@ import {
     IUpdatePokemon,
     IUpsertPokemon,
 } from '@pokemon/shared/api';
+import { Type } from 'libs/shared/api/src/lib/models/type.enum';
 
 export class CreatePokemonDto implements ICreatePokemon {
     @IsString()
@@ -19,11 +21,11 @@ export class CreatePokemonDto implements ICreatePokemon {
 
     @IsString()
     @IsNotEmpty()
-    type1!: string;
+    type1!: Type;
 
     @IsString()
     @IsNotEmpty()
-    type2!: string;
+    type2!: Type;
 
     @IsNumber()
     @IsNotEmpty()
@@ -49,11 +51,11 @@ export class UpsertPokemonDto implements IUpsertPokemon {
 
     @IsString()
     @IsNotEmpty()
-    type1!: string;
+    type1!: Type;
 
     @IsString()
     @IsNotEmpty()
-    type2!: string;
+    type2!: Type;
 
     @IsNumber()
     @IsNotEmpty()
@@ -75,11 +77,11 @@ export class UpdatePokemonDto implements IUpdatePokemon {
 
     @IsString()
     @IsNotEmpty()
-    type1?: string;
+    type1?: Type;
 
     @IsString()
     @IsNotEmpty()
-    type2?: string;
+    type2?: Type;
 
     @IsNumber()
     @IsNotEmpty()

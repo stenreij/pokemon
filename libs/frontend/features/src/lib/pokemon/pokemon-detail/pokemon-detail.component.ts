@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { IPokemon } from '@pokemon/shared/api';
+import { IPokemon, ITeam } from '@pokemon/shared/api';
 import { PokemonService } from '../pokemon.service';
+import { TeamService } from '../../team/team.service';
 
 @Component({
   selector: 'pokemon-detail',
@@ -10,8 +11,11 @@ import { PokemonService } from '../pokemon.service';
 })
 export class PokemonDetailComponent implements OnInit {
   pokemon: IPokemon | undefined;
+  teams: ITeam[] | null = null;
+  selectedTeam: ITeam | null = null;
+  selectedPokemon: IPokemon | null = null;
 
-  constructor(private route: ActivatedRoute, private pokemonService: PokemonService) { }
+  constructor(private route: ActivatedRoute, private pokemonService: PokemonService, public teamService: TeamService) { }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
@@ -23,4 +27,15 @@ export class PokemonDetailComponent implements OnInit {
       }
     });
   }
+
+  openPopup() {
+    if (this.pokemon) {
+      this.selectedPokemon = this.pokemon;
+      this.teamService.list().subscribe((teams) => {
+        this.teams = teams;
+        this.selectedTeam = null;
+        this.teamService.openPopup();
+      });
+    }
+  }  
 }

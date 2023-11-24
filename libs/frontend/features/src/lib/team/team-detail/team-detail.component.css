@@ -1,32 +1,22 @@
 .container {
-    background-color: rgb(219, 231, 235);
+    height: 100%;
+    margin: 40px;
+    padding-left: 30px;
+    background-color: rgb(219, 231, 235);;
     border-radius: 10px;
     border: solid 1px black;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
 }
 
 .title {
-    padding-top: 20px;
+    padding-top: 1px;
     text-align: center;
     width: 100%;
-}
-
-hr {
-    width: 100%;
-    color: solid 5px orange !important;
-    margin-top: 10px;
 }
 
 h2,
 h3 {
     font-size: 24px;
-    padding-top: 25px;
+    padding-top: 20px;
 }
 
 h3 {
@@ -72,7 +62,7 @@ h3 {
 
 .card-header {
     background-color: #6133944b;
-    padding: 2px;
+    padding: 1px;
     text-align: center;
     border-bottom: solid 1px black;
 }
@@ -100,6 +90,14 @@ h3 {
     border-top: solid 1px black;
     border-bottom-right-radius: 5px;
     border-bottom-left-radius: 5px;
+    padding: 1px;
+}
+
+.card-delete{
+    background-color: rgb(208, 157, 157);
+    border: none;
+    border-bottom: solid 1px black;
+    padding: 1px;
 }
 
 .link {
@@ -108,6 +106,6 @@ h3 {
 }
 
 .image{
-    max-width: 80%;
+    max-width: 75%;
     height: auto;
 }

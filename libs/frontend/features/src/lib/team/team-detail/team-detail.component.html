@@ -18,10 +18,14 @@
         <div class="card-header">
           <h4>{{ pokemon.name }}</h4>
         </div>
+        <button class="card-delete">
+          <a class="link" (click)="removePokemon(pokemon.pokemonId)">Verwijder</a>
+        </button>
         <div class="card-body">
           <div class="card-image">
             <img class="image" [src]="pokemon.afbeelding" alt="{{ pokemon.name }}">
           </div>
+          
         </div>
         <button class="card-footer">
           <a class="link" [routerLink]="['/pokemon/' + pokemon.pokemonId]">Details</a>

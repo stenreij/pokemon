@@ -49,6 +49,13 @@
     border-bottom-left-radius: 5px;
 }
 
+.card-toevoegen{
+    padding: 10px;
+    background-color: #80bd3e4b;
+    border: none;
+    border-top: solid 1px black;
+}
+
 .link {
     color: black !important;
     text-decoration: none;

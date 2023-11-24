@@ -33,7 +33,17 @@ export class TeamDetailComponent implements OnInit {
   loadPokemonList(): void {
     if (this.team) {
       this.pokemonService.list().subscribe((pokemon) => {
-        this.pokemon = pokemon?.filter((p) => this.team?.pokemon.includes(p.pokemonId));       
+        this.pokemon = pokemon?.filter((p) => this.team?.pokemon.includes(p.pokemonId));
+      });
+    }
+  }
+
+  removePokemon(pokemonId: number): void {
+    if (this.team) {
+      this.team.pokemon = this.team.pokemon.filter((p) => p !== pokemonId);
+      this.teamService.editTeam(this.team).subscribe((team) => {
+        this.team = team;
+        this.loadPokemonList();
       });
     }
   }

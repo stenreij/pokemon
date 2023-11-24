@@ -15,6 +15,7 @@ export const httpOptions = {
 @Injectable()
 export class TeamService {
     endpoint = environment.lclApiUrl + '/team';
+  teams: ITeam[] | null = null;
 
     constructor(private readonly http: HttpClient) { }
 
@@ -83,5 +84,15 @@ export class TeamService {
         console.log('handleError in TeamService', error);
 
         return throwError(() => new Error(error.message));
+    }
+
+    public showPopup = false;
+
+    openPopup(){
+        this.showPopup = true;
+    }
+
+    closePopup(){
+        this.showPopup = false;
     }
 }

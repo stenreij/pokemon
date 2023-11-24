@@ -11,7 +11,19 @@
         <h4><strong>Type 2:</strong> {{ pokemon.type2 }}</h4>
         <h4><strong>Rating:</strong> {{ pokemon.rating }}</h4>
         <h4><strong>Is legendary:</strong> {{ pokemon.legendary }}</h4>
+        <button class="card-toevoegen" (click)="openPopup()">
+          <a class="link">Toevoegen</a>
+        </button>
       </div>
     </div>
+  </div>
+</div>
+
+<div>
+  <div *ngIf="teamService.showPopup">
+    <pokemon-team-selection-popup 
+      [selectedPokemon]="selectedPokemon" 
+      (closePopup)="teamService.closePopup()">
+    </pokemon-team-selection-popup>
   </div>
 </div>

@@ -1,10 +1,11 @@
+import { Type } from './type.enum';
 import { Id } from './id.type';
 
 export interface IPokemon {
     pokemonId: Id;
     name: string;
-    type1: string;
-    type2: string;
+    type1: Type;
+    type2: Type;
     rating: number;
     legendary: boolean;
     afbeelding: string;

@@ -15,7 +15,7 @@ export const appRoutes: Routes= [
     { path: "team-edit/:id", component: TeamEditComponent},
     { path: "about", component: AboutComponent},
     { path: "pokemon", component: PokemonListComponent},
-    { path: "pokemon/:id", component: PokemonDetailComponent}
+    { path: "pokemon/:id", component: PokemonDetailComponent},
 ];
 
 @NgModule({
