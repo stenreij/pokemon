@@ -97,9 +97,15 @@ h3 {
 .card-footer {
     background-color: #7a48b34b;
     border: none;
-    border-top: solid 1px black;
+    border-top: solid 2px black;
     border-bottom-right-radius: 5px;
     border-bottom-left-radius: 5px;
+}
+
+.card-delete{
+    background-color: rgb(208, 157, 157);
+    border: none;
+    border-bottom: solid 1px black;
 }
 
 .link {

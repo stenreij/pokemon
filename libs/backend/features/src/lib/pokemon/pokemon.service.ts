@@ -3,6 +3,7 @@ import { IPokemon } from '@pokemon/shared/api';
 import { BehaviorSubject } from 'rxjs';
 import { CreatePokemonDto } from '@pokemon/backend/dto';
 import { Logger } from '@nestjs/common';
+import { Type } from 'libs/shared/api/src/lib/models/type.enum';
 
 @Injectable()
 export class PokemonService {
@@ -12,8 +13,8 @@ export class PokemonService {
         {
             pokemonId: 1,
             name: 'Bulbasaur',
-            type1: 'Grass',
-            type2: 'Poison',
+            type1: Type.Grass,
+            type2: Type.Poison,
             rating: 100,
             legendary: false,
             afbeelding: 'https://assets.pokemon.com/assets/cms2/img/pokedex/full/001.png',
@@ -21,8 +22,8 @@ export class PokemonService {
         {
             pokemonId: 2,
             name: 'Ivysaur',
-            type1: 'Grass',
-            type2: 'Poison',
+            type1: Type.Grass,
+            type2: Type.Poison,
             rating: 200,
             legendary: false,
             afbeelding: 'https://assets.pokemon.com/assets/cms2/img/pokedex/full/002.png',
@@ -30,8 +31,8 @@ export class PokemonService {
         {
             pokemonId: 3,
             name: 'Venusaur',
-            type1: 'Grass',
-            type2: 'Poison',
+            type1: Type.Grass,
+            type2: Type.Poison,
             rating: 300,
             legendary: false,
             afbeelding: 'https://assets.pokemon.com/assets/cms2/img/pokedex/full/003.png',
@@ -39,8 +40,8 @@ export class PokemonService {
         {
             pokemonId: 4,
             name: 'Charmander',
-            type1: 'Fire',
-            type2: 'Normal',
+            type1: Type.Fire,
+            type2: Type.Normal,
             rating: 200,
             legendary: false,
             afbeelding: 'https://assets.pokemon.com/assets/cms2/img/pokedex/full/004.png',
@@ -48,8 +49,8 @@ export class PokemonService {
         {
             pokemonId: 5,
             name: 'Charmeleon',
-            type1: 'Fire',
-            type2: 'Normal',
+            type1: Type.Fire,
+            type2: Type.Normal,
             rating: 300,
             legendary: false,
             afbeelding: 'https://assets.pokemon.com/assets/cms2/img/pokedex/full/005.png',
@@ -57,8 +58,8 @@ export class PokemonService {
         {
             pokemonId: 6,
             name: 'Charizard',
-            type1: 'Fire',
-            type2: 'Flying',
+            type1: Type.Fire,
+            type2: Type.Flying,
             rating: 400,
             legendary: false,
             afbeelding: 'https://assets.pokemon.com/assets/cms2/img/pokedex/full/006.png',
@@ -66,8 +67,8 @@ export class PokemonService {
         {
             pokemonId: 7,
             name: 'Squirtle',
-            type1: 'Water',
-            type2: 'Normal',
+            type1: Type.Water,
+            type2: Type.Normal,
             rating: 175,
             legendary: false,
             afbeelding: 'https://assets.pokemon.com/assets/cms2/img/pokedex/full/007.png',
@@ -75,8 +76,8 @@ export class PokemonService {
         {
             pokemonId: 8,
             name: 'Wartortle',
-            type1: 'Water',
-            type2: 'Normal',
+            type1: Type.Water,
+            type2: Type.Normal,
             rating: 275,
             legendary: false,
             afbeelding: 'https://assets.pokemon.com/assets/cms2/img/pokedex/full/008.png',
@@ -84,8 +85,8 @@ export class PokemonService {
         {
             pokemonId: 9,
             name: 'Blastoise',
-            type1: 'Water',
-            type2: 'Normal',
+            type1: Type.Water,
+            type2: Type.Normal,
             rating: 420,
             legendary: false,
             afbeelding: 'https://assets.pokemon.com/assets/cms2/img/pokedex/full/009.png',
@@ -93,8 +94,8 @@ export class PokemonService {
         {
             pokemonId: 700,
             name: 'Mewtwo',
-            type1: 'Psychic',
-            type2: 'Normal',
+            type1: Type.Psychic,
+            type2: Type.Normal,
             rating: 2200,
             legendary: true,
             afbeelding: 'https://assets.pokemon.com/assets/cms2/img/pokedex/full/150.png',
