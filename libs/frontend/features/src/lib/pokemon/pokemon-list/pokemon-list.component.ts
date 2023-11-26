@@ -37,6 +37,17 @@ export class PokemonListComponent implements OnInit, OnDestroy {
     });
   }
 
+  verwijderPokemon(pokemonId: number): void {
+    this.pokemonService.delete(pokemonId).subscribe(() => {
+        this.pokemonService.list().subscribe((results) => {
+            this.pokemon = results;
+        },
+            (error) => {
+                console.log('Er is een fout opgetreden:', error);
+            });
+    });
+}
+
   ngOnDestroy(): void {
     if (this.subscription) this.subscription.unsubscribe();
   }
