@@ -59,6 +59,18 @@ export class PokemonService {
             );
     }
 
+    public editPokemon(pokemon: IPokemon): Observable<IPokemon> {
+        console.log(`editPokemon ${this.endpoint}`, pokemon);
+        const url = `${this.endpoint}/${pokemon.pokemonId}`;
+        return this.http
+            .put<ApiResponse<IPokemon>>(url, pokemon, httpOptions)
+            .pipe(
+                tap(console.log),
+                map((response: any) => response.results as IPokemon),
+                catchError(this.handleError)
+            );
+    }
+
     public delete(pokemonId: number): Observable<any> {
         const url = `${this.endpoint}/${pokemonId}`;
 
@@ -68,7 +80,7 @@ export class PokemonService {
     }
 
     public handleError(error: HttpErrorResponse): Observable<any> {
-        console.log('handleError in TeamService', error);
+        console.log('handleError in PokemonService', error);
 
         return throwError(() => new Error(error.message));
     }

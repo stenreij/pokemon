@@ -1,0 +1,50 @@
+<div class="container" *ngIf="pokemon">
+    <div class="title">
+      <h2>Wijzig Pokémon</h2>
+      <h3>{{ pokemon.name }}</h3>
+      <hr>
+    </div>
+    <div class="from">
+      <form [formGroup]="pokemonForm">
+        <div class="form-group">
+          <label for="name">Wijzig Pokémon naam:</label>
+          <input type="text" class="form-control" id="name" formControlName="name">
+        </div>
+        <div class="form-group">
+          <label for="rating">Wijzig rating:</label>
+          <input type="text" class="form-control" id="rating" formControlName="rating">
+        </div>
+  
+        <div class="form-group">
+            <label for="type1">Wijzig Type 1:</label>
+            <select class="form-control" id="type1" formControlName="type1">
+                <option *ngFor="let type of getTypeOptions()" [value]="type">{{ type }}</option>
+            </select>
+          </div>        
+          <div class="form-group">
+            <label for="type2">Wijzig Type 2:</label>
+            <select class="form-control" id="type2" formControlName="type2">
+                <option *ngFor="let type of getTypeOptions()" [value]="type">{{ type }}</option>
+            </select>
+          </div>
+        <div class="form-group">
+          <label for="legendary">Wijzig Legendary:</label>
+          <select class="form-control" id="legendary" formControlName="legendary">
+            <option value="true">Ja</option>
+            <option value="false">Nee</option>
+        </select>
+        </div>
+        <div class="form-group">
+          <label for="afbeelding">Wijzig URL Afbeelding:</label>
+          <input type="text" class="form-control" id="afbeelding" formControlName="afbeelding">
+        </div>
+  
+        <div>
+          <button class="addButton" type="submit" (click)="editPokemon()">
+            Bewerk Pokémon
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+  

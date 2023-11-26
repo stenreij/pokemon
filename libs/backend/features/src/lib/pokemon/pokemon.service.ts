@@ -130,6 +130,21 @@ export class PokemonService {
         return newPokemon;
     }
 
+    update(id: number, pokemon: Pick<IPokemon, 'name' | "type1" | "type2" | "type2" | "rating" | "legendary" | "afbeelding">): IPokemon {
+        Logger.log('update', this.TAG);
+        const current = this.pokemon$.value;
+        const pokemonToUpdate = this.getOne(id);
+        const updatedPokemon: IPokemon = {
+            ...pokemonToUpdate,
+            ...pokemon,
+        };
+        this.pokemon$.next([
+            ...current.filter((pokemon) => pokemon.pokemonId !== pokemonToUpdate.pokemonId),
+            updatedPokemon,
+        ]);
+        return updatedPokemon;
+    }
+
     delete(id: number): IPokemon {
         Logger.log('delete', this.TAG);
         const current = this.pokemon$.value;

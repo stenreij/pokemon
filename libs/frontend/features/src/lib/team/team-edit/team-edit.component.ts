@@ -49,7 +49,7 @@ export class TeamEditComponent implements OnInit {
       this.teamService.editTeam(newTeam).subscribe(
         (editedTeam: ITeam) => {
           console.log('Bewerkt team:', editedTeam);
-          this.router.navigateByUrl('/');
+          this.router.navigateByUrl('/team/' + editedTeam.teamId);
         },
         (error: any) => {
           console.error('Fout bij het bewerken van het team:', error);
