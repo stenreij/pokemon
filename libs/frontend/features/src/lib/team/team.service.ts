@@ -4,21 +4,20 @@ import { map, catchError, tap } from 'rxjs/operators';
 import { ApiResponse, ITeam } from '@pokemon/shared/api';
 import { Injectable } from '@angular/core';
 import { environment } from 'libs/shared/util-env/src';
-import { PokemonService } from 'libs/backend/features/src/lib/pokemon/pokemon.service';
 
 
 export const httpOptions = {
     headers: new HttpHeaders({
-        'Content-Type': 'application/json',
+      'Content-Type': 'application/json',
     }),
-};
+  };
 
 @Injectable()
 export class TeamService {
     endpoint = environment.lclApiUrl + '/team';
-    teams: ITeam[] | null = null;
+  teams: ITeam[] | null = null;
 
-    constructor(private readonly http: HttpClient, public pokemonService: PokemonService) { }
+    constructor(private readonly http: HttpClient) { }
 
     public list(options?: any): Observable<ITeam[] | null> {
         console.log(`list ${this.endpoint}`);
@@ -69,25 +68,6 @@ export class TeamService {
             );
     }
 
-    calculateTeamRating(team: ITeam): number {
-        let totalRating = 0;
-      
-        for (const pokemonId of team.pokemon) {
-          const pokemon = this.pokemonService.read(pokemonId.toString()).subscribe(
-            (p) => {
-              if (p && 'rating' in p) {
-                totalRating += p.rating;
-              }
-            },
-            (error) => {
-              console.error('Error fetching Pokemon:', error);
-            }
-          );
-        }
-      
-        return totalRating;
-      }
-
     public editTeam(team: ITeam): Observable<ITeam> {
         console.log(`editTeam ${this.endpoint}`, team);
         const url = `${this.endpoint}/${team.teamId}`;
@@ -108,11 +88,11 @@ export class TeamService {
 
     public showPopup = false;
 
-    openPopup() {
+    openPopup(){
         this.showPopup = true;
     }
 
-    closePopup() {
+    closePopup(){
         this.showPopup = false;
     }
 }

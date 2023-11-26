@@ -1,18 +1,11 @@
 <div [ngClass]="{'popup-container': true, 'active': teamService.showPopup}">
-  <div class="title">
-    <h2>Voeg <span class="pokemon-name">{{ selectedPokemon?.name }}</span> Toe aan Team</h2>
-  </div>
+  <h2>Voeg {{ selectedPokemon?.name }} Toe aan Team</h2>
   <hr>
   <div class="dropdown">
-    <div for="selectedTeam"><h3>Selecteer een team:</h3></div>
+    <label for="selectedTeam"><h3>Selecteer een team:</h3></label>
     <select [(ngModel)]="selectedTeam" class="team-options">
       <option *ngFor="let team of teams" [ngValue]="team">{{ team.teamName }}</option>
     </select>
-
-    <div *ngIf="errorMessage" class="error-message">
-      {{ errorMessage }}
-    </div>
-
     <div class="button-container">
       <button class="addButton" (click)="addPokemonToTeam()">Voeg {{ selectedPokemon?.name }} Toe</button>
       <button class="closeButton" (click)="teamService.closePopup()">Sluiten</button>

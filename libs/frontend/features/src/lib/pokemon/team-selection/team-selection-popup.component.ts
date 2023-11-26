@@ -15,8 +15,6 @@ export class PopupComponent implements OnInit {
   @Output() selectedTeam: ITeam | null = null;
   teams: ITeam[] | null = null;
   team: ITeam | null = null;
-  errorMessage: string | null = null;
-
 
   constructor(public teamService: TeamService, private router: Router) {
   }
@@ -28,30 +26,25 @@ export class PopupComponent implements OnInit {
     });
   }
 
-  addPokemonToTeam() {
+  addPokemonToTeam(): void {
     if (this.selectedTeam && this.selectedPokemon) {
       const selectedPokemonId = this.selectedPokemon.pokemonId;
   
-      if (this.selectedTeam.pokemon.length < 6) {
-        if (!this.selectedTeam.pokemon.includes(selectedPokemonId)) {
-          this.selectedTeam.pokemon.push(selectedPokemonId);
+      if (!this.selectedTeam.pokemon.includes(selectedPokemonId)) {
+        this.selectedTeam.pokemon.push(selectedPokemonId);
   
-          this.teamService.editTeam(this.selectedTeam).subscribe((team) => {
-            this.selectedTeam = team;
+        this.teamService.editTeam(this.selectedTeam).subscribe((team) => {
+          this.selectedTeam = team;
   
-            console.log('Geselecteerde team:', this.selectedTeam.teamName);
-            console.log('Geselecteerde Pokémon:', this.selectedPokemon?.name);
-  
-            this.teamService.closePopup();
-            this.router.navigate(['/team', this.selectedTeam.teamId]);
-          });
-        } else {
-          this.errorMessage = 'Deze Pokémon zit al in dit team!';
-          console.error('Deze Pokémon zit al in het team!');
-        }
-      } else {
-        this.errorMessage = 'Het maximale aantal Pokémon voor dit team is bereikt!';
-        console.error('Het maximale aantal Pokémon voor dit team is bereikt!');
+          console.log('Geselecteerde team:', this.selectedTeam.teamName);
+          console.log('Geselecteerde Pokémon:', this.selectedPokemon?.name);
+
+          this.teamService.closePopup();
+          this.router.navigate(['/team', this.selectedTeam.teamId]);
+        });
+      }
+      else{
+        
       }
     }
   }
