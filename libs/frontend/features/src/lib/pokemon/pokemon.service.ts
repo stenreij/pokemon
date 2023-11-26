@@ -59,6 +59,14 @@ export class PokemonService {
             );
     }
 
+    public delete(pokemonId: number): Observable<any> {
+        const url = `${this.endpoint}/${pokemonId}`;
+
+        return this.http
+            .delete<ApiResponse<any>>(url)
+            .pipe(catchError(this.handleError));
+    }
+
     public handleError(error: HttpErrorResponse): Observable<any> {
         console.log('handleError in TeamService', error);
 

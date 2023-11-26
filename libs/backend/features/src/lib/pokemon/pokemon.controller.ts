@@ -22,4 +22,9 @@ export class PokemonController {
     create(@Body() data: CreatePokemonDto): IPokemon {
         return this.pokemonService.create(data);
     }
+
+    @Delete(':id')
+    delete(@Param('id') id: number): IPokemon {
+        return this.pokemonService.delete(id);
+    }
 }

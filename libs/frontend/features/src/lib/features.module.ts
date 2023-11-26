@@ -12,6 +12,7 @@ import { AboutComponent } from './about/about.component';
 import { PokemonService } from './pokemon/pokemon.service';
 import { PokemonListComponent } from './pokemon/pokemon-list/pokemon-list.component';
 import { PokemonDetailComponent } from './pokemon/pokemon-detail/pokemon-detail.component';
+import { PokemonAddComponent } from './pokemon/pokemon-add/pokemon-add.component';
 import { FormsModule } from '@angular/forms';
 import { PopupComponent } from './pokemon/team-selection/team-selection-popup.component';
 
@@ -25,6 +26,7 @@ import { PopupComponent } from './pokemon/team-selection/team-selection-popup.co
     AboutComponent,
     PokemonListComponent,
     PokemonDetailComponent,
+    PokemonAddComponent,
     PopupComponent,
   ],
   providers: [TeamService, PokemonService],
@@ -36,6 +38,7 @@ import { PopupComponent } from './pokemon/team-selection/team-selection-popup.co
     AboutComponent,
     PokemonListComponent,
     PokemonDetailComponent,
+    PokemonAddComponent,
     PopupComponent,
   ],
 })

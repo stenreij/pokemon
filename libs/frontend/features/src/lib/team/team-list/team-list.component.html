@@ -6,7 +6,7 @@
 
 <div>
 
-<table class="table table-striped">
+  <table class="table table-striped">
     <thead>
       <tr>
         <th>Id</th>
@@ -23,9 +23,11 @@
         <td>{{ team.teamId }}</td>
         <td>{{ team.teamName }}</td>
         <td>{{ team.trainer }}</td>
-        <td>{{ team.rating }}</td> 
-        <td><button class="actionButton"><a class="link" [routerLink]="['/team/' + team.teamId]"> Details </a></button></td>
-        <td><button class="actionButton"><a class="link" [routerLink]="['/team-edit',team.teamId]"> Edit </a></button></td>
+        <td>{{ team.rating }}</td>
+        <td><button class="actionButton"><a class="link" [routerLink]="['/team/' + team.teamId]"> Details </a></button>
+        </td>
+        <td><button class="actionButton"><a class="link" [routerLink]="['/team-edit',team.teamId]"> Edit </a></button>
+        </td>
         <td><button class="deleteButton" (click)="verwijderTeam(team.teamId)"> Verwijder </button></td>
       </tr>
     </tbody>

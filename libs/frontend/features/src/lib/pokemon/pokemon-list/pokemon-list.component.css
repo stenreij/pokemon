@@ -1,7 +1,10 @@
 .card-container {
     display: flex;
     flex-wrap: wrap;
-    gap: 20px;
+    gap: 10px;
+    height: 100%;
+    margin-top: 40px;
+    margin-bottom: 40px;
 }
 
 .card {
@@ -21,14 +24,14 @@
 
 .card-body {
     padding: 10px;
-    justify-content: center; 
+    justify-content: center;
     align-items: center;
     background-color: rgb(219, 231, 235);
 }
 
-.card-image{
+.card-image {
     padding: 10px;
-    justify-content: center; 
+    justify-content: center;
     align-items: center;
     flex-grow: 1;
     display: flex;
@@ -36,8 +39,9 @@
     justify-content: center;
 }
 
-.card-info{
-    margin-left: 50px;
+.card-info {
+    margin-left: 20px;
+    margin-right: 20px;
 }
 
 .card-footer {
@@ -49,7 +53,7 @@
     border-bottom-left-radius: 5px;
 }
 
-.card-toevoegen{
+.card-toevoegen {
     padding: 10px;
     background-color: #80bd3e4b;
     border: none;
@@ -61,7 +65,44 @@
     text-decoration: none;
 }
 
-.image{
+.image {
     max-width: 80%;
     height: auto;
+}
+
+.addButton {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding: 10px;
+    background-color: #7a48b34b;
+    border: 1px solid black;
+    border-radius: 5px;
+}
+
+.linkButton {
+    color: black !important;
+    text-decoration: none;
+}
+
+.actionButton {
+    padding: 5px;
+    background-color: #7a48b34b;
+    border: 1px solid black;
+    border-radius: 5px;
+}
+
+.deleteButton {
+    padding: 5px;
+    background-color: rgb(208, 157, 157);
+    border: 1px solid black;
+    border-radius: 5px;
+}
+
+.buttons {
+    display: flex;
+    align-items: center;
+}
+
+.button-space {
+    margin-left: 10px;
 }

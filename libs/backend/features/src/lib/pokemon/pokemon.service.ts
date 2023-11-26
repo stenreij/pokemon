@@ -129,4 +129,14 @@ export class PokemonService {
         this.pokemon$.next([...current, newPokemon]);
         return newPokemon;
     }
+
+    delete(id: number): IPokemon {
+        Logger.log('delete', this.TAG);
+        const current = this.pokemon$.value;
+        const pokemonToDelete = this.getOne(id);
+        this.pokemon$.next([
+            ...current.filter((pokemon) => pokemon.pokemonId !== pokemonToDelete.pokemonId),
+        ]);
+        return pokemonToDelete;
+    }
 }

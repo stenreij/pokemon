@@ -27,6 +27,7 @@ export class TeamController {
     update(@Param('id') id: number, @Body() data: CreateTeamDto): ITeam {
         return this.teamService.update(id, data);
     }
+    
     @Delete(':id')
     delete(@Param('id') id: number): ITeam {
         return this.teamService.delete(id);
