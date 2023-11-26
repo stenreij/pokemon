@@ -24,7 +24,7 @@
         <td>{{ team.teamName }}</td>
         <td>{{ team.trainer }}</td>
         <td>{{ team.rating }}</td>
-        <td><button class="actionButton"><a class="link" [routerLink]="['/team/' + team.teamId]"> Details </a></button>
+        <td><button class="actionButton"><a class="link" id="team-details" [routerLink]="['/team/' + team.teamId]"> Details </a></button>
         </td>
         <td><button class="actionButton"><a class="link" [routerLink]="['/team-edit',team.teamId]"> Edit </a></button>
         </td>
