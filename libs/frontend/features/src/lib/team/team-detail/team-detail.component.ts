@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { IPokemon, ITeam } from '@pokemon/shared/api';
 import { Subscription } from 'rxjs';
 import { PokemonService } from '../../pokemon/pokemon.service';
@@ -11,11 +11,11 @@ import { TeamService } from '../team.service';
   styleUrls: ['./team-detail.component.css'],
 })
 export class TeamDetailComponent implements OnInit {
-  team: ITeam | undefined;
+  team: ITeam | null = null;
   pokemon: IPokemon[] | undefined;
   subscription: Subscription | undefined = undefined;
 
-  constructor(private route: ActivatedRoute, private teamService: TeamService, private pokemonService: PokemonService) { }
+  constructor(private route: ActivatedRoute, private teamService: TeamService, private pokemonService: PokemonService, private router: Router) { }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
@@ -29,6 +29,18 @@ export class TeamDetailComponent implements OnInit {
       }
     });
   }
+
+  verwijderTeam(teamId: number): void {
+    this.teamService.delete(teamId).subscribe(
+      () => {
+        this.team = null;
+        this.router.navigateByUrl('/');
+      },
+      (error) => {
+        console.log('Er is een fout opgetreden:', error);
+      }
+    )
+}
 
   loadPokemonList(): void {
     if (this.team) {

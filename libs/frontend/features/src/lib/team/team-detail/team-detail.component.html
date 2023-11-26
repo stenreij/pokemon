@@ -11,6 +11,8 @@
       <ul><strong>Trainer:</strong> {{ team.trainer }}</ul>
       <ul><strong>TeamInfo:</strong> {{ team.teamInfo }}</ul>
       <ul><strong>Rating:</strong> {{ team.rating }}</ul>
+      <ul><button class="actionButton"><a class="link" [routerLink]="['/team-edit',team.teamId]"> Edit </a></button></ul>
+      <ul><button class="deleteButton" (click)="verwijderTeam(team.teamId)"> Verwijder </button></ul>    
     </div>
 
     <div class="card-container">
@@ -25,7 +27,7 @@
           <div class="card-image">
             <img class="image" [src]="pokemon.afbeelding" alt="{{ pokemon.name }}">
           </div>
-          
+
         </div>
         <button class="card-footer">
           <a class="link" [routerLink]="['/pokemon/' + pokemon.pokemonId]">Details</a>

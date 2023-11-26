@@ -51,6 +51,22 @@
   margin-top: 50px;
 }
 
+.deleteButton {
+  padding: 5px;
+  background-color: rgb(208, 157, 157);
+  border: 1px solid black;
+  border-radius: 5px;
+  width: 70%;
+}
+
+.actionButton {
+  width: 70%;
+  padding: 5px;
+  background-color: #7a48b34b;
+  border: 1px solid black;
+  border-radius: 5px;
+}
+
 .link {
   color: black !important;
   text-decoration: none;
