@@ -107,5 +107,4 @@ export class TeamService {
         ]);
         return teamToDelete;
     }
-
 }
