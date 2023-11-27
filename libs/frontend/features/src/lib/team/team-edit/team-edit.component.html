@@ -9,14 +9,23 @@
         <div class="form-group">
           <label for="teamName">Wijzig je team naam:</label>
           <input type="text" class="form-control" id="teamName" formControlName="teamName">
+          <div *ngIf="teamForm.get('teamName')?.invalid && teamForm.get('teamName')?.touched" class="error-message">
+            Teamnaam is verplicht!
+          </div>
         </div>
         <div class="form-group">
           <label for="trainer">Wijzig je trainers naam:</label>
           <input type="text" class="form-control" id="trainer" formControlName="trainer">
+          <div *ngIf="teamForm.get('trainer')?.invalid && teamForm.get('trainer')?.touched" class="error-message">
+            Trainer is verplicht!
+          </div>
         </div>
         <div class="form-group">
           <label for="teamInfo">Wijzig je team info:</label>
           <input type="text" class="form-control" id="teamInfo" formControlName="teamInfo">
+          <div *ngIf="teamForm.get('teamInfo')?.invalid && teamForm.get('teamInfo')?.touched" class="error-message">
+            Teaminfo is verplicht!
+          </div>
         </div>
         <div>
           <button class="addButton" type="submit" (click)="editTeam()">

@@ -54,3 +54,8 @@ label{
     padding-left: 10px;
     margin-bottom: 5px;
 }
+
+.error-message {
+    color: rgba(247, 76, 76, 0.858);
+    font-size: 20px;
+}

@@ -7,24 +7,42 @@
         <form [formGroup]="pokemonForm">
             <div class="form-group">
                 <label for="name">Naam van pokémon:</label>
-                <input type="text" class="form-control" id="name" formControlName="name" placeholder="Naam">
+                <input type="text" class="form-control" id="name" formControlName="name" placeholder="Naam"
+                    [ngClass]="{'is-invalid': pokemonForm.get('name')?.invalid && pokemonForm.get('name')?.touched}">
+                <div class="error-message"
+                    *ngIf="pokemonForm.get('name')?.hasError('required') && pokemonForm.get('name')?.touched">Naam is
+                    verplicht</div>
             </div>
             <div class="form-group">
                 <label for="type1">Type 1:</label>
-                <select class="form-control" id="type1" formControlName="type1">
+                <select class="form-control" id="type1" formControlName="type1"
+                    [ngClass]="{'is-invalid': pokemonForm.get('type1')?.invalid && pokemonForm.get('type1')?.touched}">
+                    <option value="" disabled selected>Selecteer een type:</option>
                     <option *ngFor="let type of getTypeOptions()" [value]="type">{{ type }}</option>
                 </select>
+                <div class="error-message"
+                    *ngIf="pokemonForm.get('type1')?.hasError('required') && pokemonForm.get('type1')?.touched">Type 1
+                    is verplicht</div>
             </div>
             <div class="form-group">
                 <label for="type2">Type 2:</label>
-                <select class="form-control" id="type2" formControlName="type2">
+                <select class="form-control" id="type2" formControlName="type2"
+                    [ngClass]="{'is-invalid': pokemonForm.get('type2')?.invalid && pokemonForm.get('type2')?.touched}">
+                    <option value="" disabled selected>Selecteer een type:</option>
                     <option *ngFor="let type of getTypeOptions()" [value]="type">{{ type }}</option>
                 </select>
+                <div class="error-message"
+                    *ngIf="pokemonForm.get('type2')?.hasError('required') && pokemonForm.get('type2')?.touched">Type 2
+                    is verplicht</div>
             </div>
-            
             <div class="form-group">
                 <label for="rating">Rating:</label>
-                <input type="text" class="form-control" id="rating" formControlName="rating" placeholder="Rating">
+                <input type="number" class="form-control" id="rating" formControlName="rating" placeholder="Rating"
+                    [ngClass]="{'is-invalid': pokemonForm.get('rating')?.invalid && pokemonForm.get('rating')?.touched}">
+                <div class="error-message"
+                    *ngIf="pokemonForm.get('rating')?.hasError('required') && pokemonForm.get('rating')?.touched">Rating
+                    is
+                    verplicht</div>
             </div>
             <div class="form-group">
                 <label for="legendary">Legendary:</label>
@@ -35,10 +53,16 @@
             </div>
             <div class="form-group">
                 <label for="afbeelding">URL Afbeelding:</label>
-                <input type="text" class="form-control" id="afbeelding" formControlName="afbeelding" placeholder="URL image">
+                <input type="text" class="form-control" id="afbeelding" formControlName="afbeelding"
+                    placeholder="URL image"
+                    [ngClass]="{'is-invalid': pokemonForm.get('afbeelding')?.invalid && pokemonForm.get('afbeelding')?.touched}">
+                <div class="error-message"
+                    *ngIf="pokemonForm.get('afbeelding')?.hasError('required') && pokemonForm.get('afbeelding')?.touched">
+                    Afbeelding url is
+                    verplicht</div>
             </div>
             <div class="button">
-                <button class="addButton" type="submit" (click)="addPokemon()" [routerLink]="['/pokemon']">
+                <button class="addButton" type="submit" (click)="addPokemon()" [disabled]="!pokemonForm.valid">
                     Voeg Pokémon Toe
                 </button>
             </div>
