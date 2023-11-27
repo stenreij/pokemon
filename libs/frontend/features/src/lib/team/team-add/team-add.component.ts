@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TeamService } from '../team.service';
 import { Router } from '@angular/router'
 import { ITeam } from '@pokemon/shared/api';
+import { isEmpty, isNotEmpty } from 'class-validator';
 
 @Component({
   selector: 'pokemon-team-add',
@@ -11,12 +12,13 @@ import { ITeam } from '@pokemon/shared/api';
 })
 export class TeamAddComponent {
   teamForm: FormGroup;
+  errorMessage: string | null = null;
 
   constructor(private fb: FormBuilder, private teamService: TeamService, private router: Router) {
     this.teamForm = this.fb.group({
-      teamName: ['', Validators.required],
-      trainer: ['', Validators.required],
-      teamInfo: ['', Validators.required],
+      teamName: [null, [Validators.required, Validators.maxLength(30)]],
+      trainer: ['', [Validators.required, Validators.maxLength(30)]],
+      teamInfo: ['', [Validators.required, Validators.maxLength(150)]],
     });
   }
 
@@ -32,6 +34,6 @@ export class TeamAddComponent {
           console.error('Fout bij het toevoegen van het team:', error);
         }
       );
-    }
+    }   
   }
 }

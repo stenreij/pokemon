@@ -9,12 +9,17 @@
         <div class="form-group">
           <label for="name">Wijzig Pokémon naam:</label>
           <input type="text" class="form-control" id="name" formControlName="name">
+          <div *ngIf="pokemonForm.get('name')?.invalid && pokemonForm.get('name')?.touched" class="error-message">
+            Naam is verplicht!
+          </div>
         </div>
         <div class="form-group">
           <label for="rating">Wijzig rating:</label>
           <input type="text" class="form-control" id="rating" formControlName="rating">
+          <div *ngIf="pokemonForm.get('rating')?.invalid && pokemonForm.get('rating')?.touched" class="error-message">
+            Rating is verplicht!
+          </div>
         </div>
-  
         <div class="form-group">
             <label for="type1">Wijzig Type 1:</label>
             <select class="form-control" id="type1" formControlName="type1">
@@ -37,6 +42,9 @@
         <div class="form-group">
           <label for="afbeelding">Wijzig URL Afbeelding:</label>
           <input type="text" class="form-control" id="afbeelding" formControlName="afbeelding">
+          <div *ngIf="pokemonForm.get('afbeelding')?.invalid && pokemonForm.get('afbeelding')?.touched" class="error-message">
+            Geef een url op!
+          </div>
         </div>
   
         <div>

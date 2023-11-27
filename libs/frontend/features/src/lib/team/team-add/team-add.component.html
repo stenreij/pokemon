@@ -1,27 +1,39 @@
 <div class="container">
-    <div class="title">
-      <h2>Voeg Team Toe</h2>
-      <hr>
-    </div>
-      <div class="from">
-        <form [formGroup]="teamForm">
-          <div class="form-group">
-            <label for="teamName">Geef je team een naam:</label>
-            <input type="text" class="form-control" id="teamName" formControlName="teamName" placeholder="TeamNaam">
-          </div>
-          <div class="form-group">
-            <label for="trainer">Trainer:</label>
-            <input type="text" class="form-control" id="trainer" formControlName="trainer" placeholder="Trainer">
-          </div>
-          <div class="form-group">
-            <label for="teamInfo">Team info:</label>
-            <input type="text" class="form-control" id="teamInfo" formControlName="teamInfo" placeholder="Team info">
-          </div>
-          <div>
-            <button class="addButton" type="submit" (click)="addTeam()" [routerLink]="['/']">
-                Voeg Team Toe
-            </button>
-          </div>        
-        </form>
-    </div>
+  <div class="title">
+    <h2>Voeg Team Toe</h2>
+    <hr>
   </div>
+  <div class="from">
+    <form [formGroup]="teamForm">
+      <div class="form-group">
+        <label for="teamName">Geef je team een naam:</label>
+        <input type="text" class="form-control" id="teamName" formControlName="teamName" placeholder="TeamNaam"
+          [ngClass]="{'is-invalid': teamForm.get('teamName')?.invalid && teamForm.get('teamName')?.touched}">
+        <div class="error-message"
+          *ngIf="teamForm.get('teamName')?.hasError('required') && teamForm.get('teamName')?.touched">Teamnaam is
+          verplicht</div>
+      </div>
+      <div class="form-group">
+        <label for="trainer">Trainer:</label>
+        <input type="text" class="form-control" id="trainer" formControlName="trainer" placeholder="Trainer"
+          [ngClass]="{'is-invalid': teamForm.get('trainer')?.invalid && teamForm.get('trainer')?.touched}">
+        <div class="error-message"
+          *ngIf="teamForm.get('trainer')?.hasError('required') && teamForm.get('trainer')?.touched">Trainer is verplicht
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="teamInfo">Team info:</label>
+        <input type="text" class="form-control" id="teamInfo" formControlName="teamInfo" placeholder="Team info"
+          [ngClass]="{'is-invalid': teamForm.get('teamInfo')?.invalid && teamForm.get('teamInfo')?.touched}">
+        <div class="error-message"
+          *ngIf="teamForm.get('teamInfo')?.hasError('required') && teamForm.get('teamInfo')?.touched">Teaminfo is
+          verplicht</div>
+      </div>
+      <div class="button">
+        <button class="addButton" type="submit" (click)="addTeam()" [disabled]="!teamForm.valid">
+          Voeg Team Toe
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
