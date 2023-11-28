@@ -40,21 +40,22 @@ export class TeamDetailComponent implements OnInit {
         console.log('Er is een fout opgetreden:', error);
       }
     )
-}
+  }
 
   loadPokemonList(): void {
     if (this.team) {
-      this.pokemonService.list().subscribe((pokemon) => {
-        this.pokemon = pokemon?.filter((p) => this.team?.pokemon.includes(p.pokemonId));
+      this.pokemonService.list().subscribe((allPokemon) => {
+        this.pokemon = allPokemon?.filter((p) => this.team?.pokemon.map(tp => tp.pokemonId).includes(p.pokemonId));
       });
     }
   }
 
-  removePokemon(pokemonId: number): void {
+  removePokemon(pokemonId: IPokemon): void {
     if (this.team) {
       this.team.pokemon = this.team.pokemon.filter((p) => p !== pokemonId);
       this.teamService.editTeam(this.team).subscribe((team) => {
         this.team = team;
+        team.rating -= pokemonId.rating;
         this.loadPokemonList();
       });
     }

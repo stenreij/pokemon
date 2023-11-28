@@ -11,6 +11,7 @@ import {
 } from 'class-validator';
 import {
     ICreateTeam,
+    IPokemon,
     IUpdateTeam,
     IUpsertTeam,
 } from '@pokemon/shared/api';
@@ -31,7 +32,7 @@ export class CreateTeamDto implements ICreateTeam {
     @IsArray()
     @ArrayMinSize(0)
     @ArrayMaxSize(6)
-    pokemon!: Array<number>;
+    pokemon!: Array<IPokemon>;
 }
 
 export class UpsertTeamDto implements IUpsertTeam {
@@ -58,7 +59,7 @@ export class UpsertTeamDto implements IUpsertTeam {
     @IsArray()
     @ArrayMinSize(0)
     @ArrayMaxSize(6)
-    pokemon!: Array<number>;
+    pokemon!: Array<IPokemon>;
 }
 
 export class UpdateTeamDto implements IUpdateTeam {

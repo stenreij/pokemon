@@ -29,7 +29,7 @@ export class PopupComponent implements OnInit {
 
   addPokemonToTeam() {
     if (this.selectedTeam && this.selectedPokemon) {
-      const selectedPokemonId = this.selectedPokemon.pokemonId;
+      const selectedPokemonId = this.selectedPokemon;
   
       if (this.selectedTeam.pokemon.length < 6) {
         if (!this.selectedTeam.pokemon.includes(selectedPokemonId)) {

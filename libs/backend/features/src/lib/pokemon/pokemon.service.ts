@@ -1,3 +1,4 @@
+/* eslint-disable @nx/enforce-module-boundaries */
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { IPokemon } from '@pokemon/shared/api';
 import { BehaviorSubject } from 'rxjs';
