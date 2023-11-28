@@ -16,12 +16,12 @@
     </div>
 
     <div class="card-container">
-      <div class="card" *ngFor="let pokemon of pokemon">
+      <div class="card" *ngFor="let pokemon of team.pokemon">
         <div class="card-header">
           <h4>{{ pokemon.name }}</h4>
         </div>
         <button class="card-delete">
-          <a class="link" (click)="removePokemon(pokemon.pokemonId)">Verwijder</a>
+          <a class="link" (click)="removePokemon(pokemon)">Verwijder</a>
         </button>
         <div class="card-body">
           <div class="card-image">

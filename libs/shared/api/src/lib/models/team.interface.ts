@@ -1,4 +1,5 @@
 import { Id } from './id.type';
+import { IPokemon } from './pokemon.interface';
 
 type User = string;
 
@@ -8,7 +9,7 @@ export interface ITeam {
     rating: number;
     trainer: User;
     teamInfo: string;
-    pokemon: Array<number>;
+    pokemon: Array<IPokemon>;
 }
 
 export type ICreateTeam = Pick<
