@@ -19,8 +19,12 @@ export class TeamService {
             rating: 0,
             teamInfo: 'This is the best team ever!',
             pokemon: [
-                { pokemonId: 150, name: 'Mewtwo', type1: Type.Flying, type2: Type.Normal , rating: 2200, legendary: true, afbeelding: 'https://assets.pokemon.com/assets/cms2/img/pokedex/full/150.png'},
-                { pokemonId: 1, name: 'Bulbasaur', type1: Type.Grass, type2: Type.Poison , rating: 100, legendary: false, afbeelding: 'https://assets.pokemon.com/assets/cms2/img/pokedex/full/001.png'},
+                { pokemonId: 150, name: 'Mewtwo', type1: Type.Flying, type2: Type.Normal, rating: 2200, legendary: true, afbeelding: 'https://assets.pokemon.com/assets/cms2/img/pokedex/full/150.png' },
+                { pokemonId: 6, name: 'Charizard', type1: Type.Fire, type2: Type.Flying, rating: 400, legendary: false, afbeelding: 'https://assets.pokemon.com/assets/cms2/img/pokedex/full/006.png' },
+                { pokemonId: 1, name: 'Bulbasaur', type1: Type.Grass, type2: Type.Poison, rating: 100, legendary: false, afbeelding: 'https://assets.pokemon.com/assets/cms2/img/pokedex/full/001.png' },
+                { pokemonId: 7, name: 'Squirtle', type1: Type.Water, type2: Type.Normal, rating: 175, legendary: false, afbeelding: 'https://assets.pokemon.com/assets/cms2/img/pokedex/full/007.png' },
+                { pokemonId: 9, name: 'Blastoise', type1: Type.Water, type2: Type.Normal, rating: 420, legendary: false, afbeelding: 'https://assets.pokemon.com/assets/cms2/img/pokedex/full/009.png' },
+                { pokemonId: 2, name: 'Ivysaur', type1: Type.Grass, type2: Type.Poison, rating: 200, legendary: false, afbeelding: 'https://assets.pokemon.com/assets/cms2/img/pokedex/full/002.png' },
             ]
         },
         {
@@ -30,7 +34,10 @@ export class TeamService {
             rating: 0,
             teamInfo: 'Water is the best!',
             pokemon: [
-                { pokemonId: 1, name: 'Bulbasaur', type1: Type.Grass, type2: Type.Poison , rating: 100, legendary: false, afbeelding: 'https://assets.pokemon.com/assets/cms2/img/pokedex/full/001.png'},
+                { pokemonId: 150, name: 'Mewtwo', type1: Type.Flying, type2: Type.Normal, rating: 2200, legendary: true, afbeelding: 'https://assets.pokemon.com/assets/cms2/img/pokedex/full/150.png' },
+                { pokemonId: 6, name: 'Charizard', type1: Type.Fire, type2: Type.Flying, rating: 400, legendary: false, afbeelding: 'https://assets.pokemon.com/assets/cms2/img/pokedex/full/006.png' },
+                { pokemonId: 1, name: 'Bulbasaur', type1: Type.Grass, type2: Type.Poison, rating: 100, legendary: false, afbeelding: 'https://assets.pokemon.com/assets/cms2/img/pokedex/full/001.png' },
+                { pokemonId: 7, name: 'Squirtle', type1: Type.Water, type2: Type.Normal, rating: 175, legendary: false, afbeelding: 'https://assets.pokemon.com/assets/cms2/img/pokedex/full/007.png' },
             ]
         },
         {
@@ -56,7 +63,7 @@ export class TeamService {
             rating: 0,
             teamInfo: 'Ghosts are the best!',
             pokemon: [
-                { pokemonId: 3, name: 'Venusaur', type1: Type.Grass, type2: Type.Poison , rating: 300, legendary: false, afbeelding: 'https://assets.pokemon.com/assets/cms2/img/pokedex/full/003.png'},
+                { pokemonId: 3, name: 'Venusaur', type1: Type.Grass, type2: Type.Poison, rating: 300, legendary: false, afbeelding: 'https://assets.pokemon.com/assets/cms2/img/pokedex/full/003.png' },
             ],
         },
     ]);
@@ -64,28 +71,25 @@ export class TeamService {
     getAll(): ITeam[] {
         Logger.log('getAll', this.TAG);
         this.teams$.value.forEach((team) => {
-            team.rating = 0;
-            team.pokemon.forEach((pokemonId) => {             
-                team.rating += pokemonId.rating;
-            });
+            team.rating = this.calculateTeamrating(team);
+            Logger.log(team.teamName + "; Aantal pokémon:" + team.pokemon.length);
         });
+
         return this.teams$.value.sort((a, b) => a.teamId - b.teamId);
     }
 
     getOne(id: number): ITeam {
         Logger.log(`getOne(${id})`, this.TAG);
         const team = this.teams$.value.find((team) => team.teamId === +id);
-        Logger.log(`Team => ${JSON.stringify(team)}`, this.TAG);
-        this.teams$.value.forEach((team) => {
-            team.rating = 0;
-            team.pokemon.forEach((pokemonId) => {             
-                team.rating += pokemonId.rating;
-            });
-        });
-        if (!team) {
+
+        if (team) {
+            Logger.log(`Team => ${JSON.stringify(team)}`, this.TAG);
+            team.rating = this.calculateTeamrating(team);
+            Logger.log(`Team Rating => ${team.rating}`, this.TAG);
+            return team;
+        } else {
             throw new NotFoundException(`Team could not be found!`);
         }
-        return team;
     }
 
     create(team: Pick<ITeam, 'teamName' | 'trainer' | 'teamInfo'>): ITeam {
@@ -126,5 +130,15 @@ export class TeamService {
             ...current.filter((team) => team.teamId !== teamToDelete.teamId),
         ]);
         return teamToDelete;
+    }
+
+    calculateTeamrating(team: ITeam): number {
+        let teamRating = 0;
+
+            team.pokemon.forEach((pokemon) => {
+                teamRating += pokemon.rating;
+            });
+        
+        return teamRating;
     }
 }
