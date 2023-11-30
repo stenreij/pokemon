@@ -1,36 +1,35 @@
-import { Controller, Delete, Put } from '@nestjs/common';
+import { Controller, Delete, Put, UseGuards } from '@nestjs/common';
 import { UserService } from './user.service';
 import { Get, Param, Post, Body } from '@nestjs/common';
-import { IUser } from '@pokemon/shared/api';
-import { CreateUserDto } from '@pokemon/backend/dto';
+import { IUserInfo, IUser } from '@pokemon/shared/api';
+import { CreateUserDto, UpdateUserDto } from '@pokemon/backend/dto';
+import { UserExistGuard } from './user-exists.guard';
 
 @Controller('user')
 export class UserController {
     constructor(private userService: UserService) {}
 
     @Get('')
-    getAll(): IUser[] {
-        return this.userService.getAll();
+    async findAll(): Promise<IUserInfo[]> {
+        return this.userService.findAll();
     }
 
     @Get(':id')
-    getOne(@Param('id') id: number): IUser {
-        return this.userService.getOne(id);
+    async findOne(@Param('id') id: number): Promise<IUser | null> {
+        return this.userService.findOne(id);
     }
 
     @Post('')
-    create(@Body() data: CreateUserDto): IUser {
-        return this.userService.create(data);
+    @UseGuards(UserExistGuard)
+    async create(@Body() user: CreateUserDto): Promise<IUserInfo> {
+        return this.userService.create(user);
     }
 
     @Put(':id')
-    update(@Param('id') id: number, @Body() data: CreateUserDto): IUser {
+    update(
+        @Param('id') id: number,
+        @Body() data: UpdateUserDto
+    ): Promise<IUserInfo | null> {
         return this.userService.update(id, data);
     }
-    
-    @Delete(':id')
-    delete(@Param('id') id: number): IUser {
-        return this.userService.delete(id);
-    }
-
 }

@@ -2,13 +2,13 @@ import { RouterModule, Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { TeamListComponent } from 'libs/frontend/features/src/lib/team/team-list/team-list.component';
 import { TeamDetailComponent } from 'libs/frontend/features/src/lib/team/team-detail/team-detail.component';
+import { AboutComponent } from 'libs/frontend/features/src/lib/about/about.component';
+import { PokemonAddComponent } from 'libs/frontend/features/src/lib/pokemon/pokemon-add/pokemon-add.component';
+import { PokemonDetailComponent } from 'libs/frontend/features/src/lib/pokemon/pokemon-detail/pokemon-detail.component';
+import { PokemonEditComponent } from 'libs/frontend/features/src/lib/pokemon/pokemon-edit/pokemon-edit.component';
+import { PokemonListComponent } from 'libs/frontend/features/src/lib/pokemon/pokemon-list/pokemon-list.component';
 import { TeamAddComponent } from 'libs/frontend/features/src/lib/team/team-add/team-add.component';
 import { TeamEditComponent } from 'libs/frontend/features/src/lib/team/team-edit/team-edit.component';
-import { AboutComponent } from 'libs/frontend/features/src/lib/about/about.component' 
-import { PokemonListComponent } from 'libs/frontend/features/src/lib/pokemon/pokemon-list/pokemon-list.component';
-import { PokemonDetailComponent } from 'libs/frontend/features/src/lib/pokemon/pokemon-detail/pokemon-detail.component'; 
-import { PokemonAddComponent } from 'libs/frontend/features/src/lib/pokemon/pokemon-add/pokemon-add.component';
-import { PokemonEditComponent } from 'libs/frontend/features/src/lib/pokemon/pokemon-edit/pokemon-edit.component';
 
 export const appRoutes: Routes= [
     { path:"", component: TeamListComponent },
