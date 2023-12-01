@@ -1,6 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Schema as MongooseSchema } from 'mongoose';
 import { ITeam, IUser, Role } from '@pokemon/shared/api';
+import { DATE_PIPE_DEFAULT_TIMEZONE, getLocaleDateTimeFormat } from '@angular/common';
 
 export type UserDocument = User & Document;
 

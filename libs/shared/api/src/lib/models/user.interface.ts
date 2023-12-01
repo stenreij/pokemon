@@ -3,6 +3,7 @@ import { Id } from './id.type';
 import { ITeam } from './team.interface';
 import { IEntity } from '@pokemon/frontend/common';
 import { IUserRegistration } from './auth.interface';
+import { DeclarationListEmitMode } from '@angular/compiler';
 
 export interface IUser {
     userId: Id;
