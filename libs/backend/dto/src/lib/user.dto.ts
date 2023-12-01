@@ -1,19 +1,19 @@
-/* eslint-disable @nx/enforce-module-boundaries */
 import{
     IsNotEmpty,
     IsString,
     IsNumber,
     IsOptional,
-    IsBoolean,
     IsDate,
     IsArray,
 }from 'class-validator';
 import{
     ICreateUser,
+    ITeam,
     IUpdateUser,
     IUpsertUser,
+    Role,
+    Id,
 }from '@pokemon/shared/api';
-import { Role } from 'libs/shared/api/src/lib/models/role.enum';
 export class CreateUserDto implements ICreateUser{
     @IsString()
     @IsNotEmpty()
@@ -59,7 +59,7 @@ export class UpdateUserDto implements IUpdateUser{
 export class UpsertUserDto implements IUpsertUser{
     @IsNumber()
     @IsNotEmpty()
-    userId!:number;
+    userId!: Id;
 
     @IsString()
     @IsNotEmpty()
@@ -79,4 +79,9 @@ export class UpsertUserDto implements IUpsertUser{
     @IsDate()
     @IsNotEmpty()
     birthDate!:Date;
+
+    @IsArray()
+    @IsNotEmpty()
+    teams!:ITeam[];
+
 }

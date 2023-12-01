@@ -10,12 +10,14 @@ import { TeamEditComponent } from './team/team-edit/team-edit.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AboutComponent } from './about/about.component';
 import { PokemonService } from './pokemon/pokemon.service';
+import { UserService } from './user/user.service';
 import { PokemonListComponent } from './pokemon/pokemon-list/pokemon-list.component';
 import { PokemonDetailComponent } from './pokemon/pokemon-detail/pokemon-detail.component';
 import { PokemonAddComponent } from './pokemon/pokemon-add/pokemon-add.component';
 import { PokemonEditComponent } from './pokemon/pokemon-edit/pokemon-edit.component';
 import { FormsModule } from '@angular/forms';
 import { PopupComponent } from './pokemon/team-selection/team-selection-popup.component';
+import { UserListComponent } from './user/user-list/user-list.component';
 
 @NgModule({
   imports: [CommonModule, HttpClientModule, RouterModule, ReactiveFormsModule, FormsModule],
@@ -30,8 +32,9 @@ import { PopupComponent } from './pokemon/team-selection/team-selection-popup.co
     PokemonAddComponent,
     PokemonEditComponent,
     PopupComponent,
+    UserListComponent,
   ],
-  providers: [TeamService, PokemonService],
+  providers: [TeamService, PokemonService, UserService],
   exports: [
     TeamListComponent,
     TeamDetailComponent,
@@ -43,6 +46,7 @@ import { PopupComponent } from './pokemon/team-selection/team-selection-popup.co
     PokemonAddComponent,
     PokemonEditComponent,
     PopupComponent,
+    UserListComponent,
   ],
 })
 export class FeaturesModule {}

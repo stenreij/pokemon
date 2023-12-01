@@ -1,10 +1,9 @@
-/* eslint-disable @nx/enforce-module-boundaries */
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { IPokemon } from '@pokemon/shared/api';
 import { BehaviorSubject } from 'rxjs';
 import { CreatePokemonDto } from '@pokemon/backend/dto';
 import { Logger } from '@nestjs/common';
-import { Type } from 'libs/shared/api/src/lib/models/type.enum';
+import { Type } from '@pokemon/shared/api';
 
 @Injectable()
 export class PokemonService {

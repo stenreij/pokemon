@@ -1,4 +1,3 @@
-/* eslint-disable @nx/enforce-module-boundaries */
 import {
     IsNotEmpty,
     IsString,
@@ -13,7 +12,7 @@ import {
     IUpdatePokemon,
     IUpsertPokemon,
 } from '@pokemon/shared/api';
-import { Type } from 'libs/shared/api/src/lib/models/type.enum';
+import { Type } from '@pokemon/shared/api';
 
 export class CreatePokemonDto implements ICreatePokemon {
     @IsString()

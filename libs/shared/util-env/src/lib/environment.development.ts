@@ -4,4 +4,6 @@ export const environment: IEnvironment = {
     production: true,
     lclApiUrl: 'http://localhost:3000/api',
     onlineApiUrl: 'https://pokemon-cswf.azurewebsites.net/api',
+
+    MONGO_DB_CONNECTION_STRING: 'mongodb+srv://sten:Anstjo94!@pokemon.disyksv.mongodb.net/',
 }

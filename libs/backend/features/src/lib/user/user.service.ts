@@ -1,109 +1,56 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { IUser } from '@pokemon/shared/api';
-import { BehaviorSubject } from 'rxjs';
-import { CreateUserDto } from '@pokemon/backend/dto';
+import { IUser, IUserInfo } from '@pokemon/shared/api';
+import { User as UserModel, UserDocument } from './user.schema'; 
+import { CreateUserDto, UpdatePokemonDto, UpdateUserDto } from '@pokemon/backend/dto';
 import { Logger } from '@nestjs/common';
-import { Role } from 'libs/shared/api/src/lib/models/role.enum';
+import { Role } from '@pokemon/shared/api';
+import { Model } from 'mongoose';
+import { InjectModel } from '@nestjs/mongoose';
 
 @Injectable()
 export class UserService {
     TAG = 'UserService';
+    private readonly logger: Logger = new Logger(UserService.name);
 
-    private user$ = new BehaviorSubject<IUser[]>([
-        {
-            userId: 1,
-            userName: 'Admin',
-            password: 'Admin',
-            email: 'admin@admin.com',
-            role: Role.Admin,
-            birthDate: new Date('1990-01-01'),
-        },
-        {
-            userId: 2,
-            userName: 'Ash',
-            password: 'Ash',
-            email: 'ash@ash.com',
-            role: Role.Trainer,
-            birthDate: new Date('1990-01-01'),
-        },
-        {
-            userId: 3,
-            userName: 'Jessie',
-            password: 'Jessie',
-            email: 'jessie@jessie.com',
-            role: Role.Trainer,
-            birthDate: new Date('1990-01-01'),
-        },
-        {
-            userId: 4,
-            userName: 'prof. Oak',
-            password: 'Admin',
-            email: 'oak@oak.com',
-            role: Role.Admin,
-            birthDate: new Date('1960-01-01'),
-        },
-        {
-            userId: 5,
-            userName: 'Misty',
-            password: 'Misty',
-            email: 'misty@misty.com',
-            role: Role.Trainer,
-            birthDate: new Date('1990-01-01'),
-        },
-    ]);
+    constructor(
+        @InjectModel(UserModel.name) private userModel: Model<UserDocument>
+        ) {}
 
-  
-    getAll(): IUser[] {
-        Logger.log('getAll', this.TAG);
-        return this.user$.value.sort((a, b) => a.userId - b.userId);
+    async findAll(): Promise<IUserInfo[]> {
+        this.logger.log(`findAll()`);
+        const items = await this.userModel.find().exec();
+        return items;
     }
 
-    getOne(id: number): IUser {
-        Logger.log(`getOne(${id})`, this.TAG);
-        const user = this.user$.value.find((user) => user.userId === +id);
-        Logger.log(`User => ${JSON.stringify(user)}`, this.TAG);
-
-        if (!user) {
-            throw new NotFoundException(`User could not be found!`);
+    async findOne(id: number): Promise<IUser | null> {
+        this.logger.log(`findOne(${id})`);
+        const item = await this.userModel.findOne({id}).exec();
+        if (!item) {
+            this.logger.log(`findOne(${id}) not found`);
         }
-        return user;
+        return item;
     }
 
-    create(user: Pick<IUser, 'userName' | 'email' | 'birthDate' | 'password' | 'role'>): IUser {
-        Logger.log('create', this.TAG);
-        const current = this.user$.value;
-    
-        const newUser: IUser = {
-            userId: Math.floor(Math.random() * 1000),
-            ...user,
-        };
-    
-        this.user$.next([...current, newUser]);
-        return newUser;
+    async findOneByEmail(email: string): Promise<IUser | null> {
+        this.logger.log(`findOneByEmail(${email})`);
+        const item = this.userModel
+        .findOne({email})
+        .select('-password')
+        .exec();
+        if (!item) {
+            this.logger.log(`findOneByEmail(${email}) not found`);
+        }
+        return item;
     }
 
-    update(id: number, user: Pick<IUser, 'userName' | 'email' | 'birthDate' | 'password' | 'role'>): IUser {
-        Logger.log('update', this.TAG);
-        const current = this.user$.value;
-        const userToUpdate = this.getOne(id);
-        const updatedUser: IUser = {
-            ...userToUpdate,
-            ...user,
-        };
-        this.user$.next([
-            ...current.filter((user) => user.userId !== userToUpdate.userId),
-            updatedUser,
-        ]);
-        return updatedUser;
+    async create(user: CreateUserDto): Promise<IUserInfo> {
+        this.logger.log(`create(${user})`);
+        const createdItem = this.userModel.create(user);
+        return createdItem;
     }
 
-    delete(id: number): IUser {
-        Logger.log('delete', this.TAG);
-        const current = this.user$.value;
-        const userToDelete = this.getOne(id);
-        this.user$.next([
-            ...current.filter((user) => user.userId !== userToDelete.userId),
-        ]);
-        return userToDelete;
+    async update(id: number, user: UpdateUserDto): Promise<IUserInfo | null> {
+        this.logger.log(`Update user ${user.userName}`);
+        return this.userModel.findByIdAndUpdate({id}, user);
     }
 }
