@@ -49,8 +49,8 @@ export class UserService {
         return createdItem;
     }
 
-    async update(id: number, user: UpdateUserDto): Promise<IUserInfo | null> {
+    async update(userId: number, user: UpdateUserDto): Promise<IUserInfo | null> {
         this.logger.log(`Update user ${user.userName}`);
-        return this.userModel.findByIdAndUpdate({id}, user);
+        return this.userModel.findByIdAndUpdate({userId}, user);
     }
 }
