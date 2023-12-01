@@ -22,11 +22,11 @@ export class UserService {
         return items;
     }
 
-    async findOne(id: number): Promise<IUser | null> {
-        this.logger.log(`findOne(${id})`);
-        const item = await this.userModel.findOne({id}).exec();
+    async findOne(userId: number): Promise<IUser | null> {
+        this.logger.log(`findOne(${userId})`);
+        const item = await this.userModel.findOne({userId}).exec();
         if (!item) {
-            this.logger.log(`findOne(${id}) not found`);
+            this.logger.log(`findOne(${userId}) not found`);
         }
         return item;
     }
