@@ -13,7 +13,7 @@ export const httpOptions = {
 
 @Injectable()
 export class UserService {
-    endpoint = environment.lclApiUrl + '/user';
+    endpoint = environment.onlineApiUrl + '/user';
     user: IUser[] | null = null;
 
     constructor(private readonly http: HttpClient) { }
