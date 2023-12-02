@@ -19,8 +19,8 @@ export class PokemonController {
     }
 
     @Post('')
-    async create(@Body() user: CreatePokemonDto): Promise<IPokemon> {
-        return this.pokemonService.create(user);
+    async create(@Body() pokemon: CreatePokemonDto): Promise<IPokemon> {
+        return this.pokemonService.create(pokemon);
     }
 
     @Put(':id')

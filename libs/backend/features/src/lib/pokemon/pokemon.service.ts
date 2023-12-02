@@ -34,7 +34,9 @@ export class PokemonService {
 
     async create(pokemon: CreatePokemonDto): Promise<IPokemon> {
         this.logger.log(`create(${pokemon})`);
-        const createdItem = this.pokemonModel.create(pokemon);
+        const uniqueId = Math.floor(Math.random() * 1000000);  
+        const pokemonWithId = { ...pokemon, pokemonId: uniqueId };
+        const createdItem = this.pokemonModel.create(pokemonWithId);
         return createdItem;
     }
 
