@@ -2,34 +2,36 @@ import { Controller, Delete, Put } from '@nestjs/common';
 import { PokemonService } from './pokemon.service';
 import { Get, Param, Post, Body } from '@nestjs/common';
 import { IPokemon } from '@pokemon/shared/api';
-import { CreatePokemonDto } from '@pokemon/backend/dto';
+import { CreatePokemonDto, UpdatePokemonDto } from '@pokemon/backend/dto';
 
 @Controller('pokemon')
 export class PokemonController {
     constructor(private pokemonService: PokemonService) {}
 
     @Get('')
-    getAll(): IPokemon[] {
-        return this.pokemonService.getAll();
+    async findAll(): Promise<IPokemon[]> {
+        return this.pokemonService.findAll();
     }
 
     @Get(':id')
-    getOne(@Param('id') id: number): IPokemon {
-        return this.pokemonService.getOne(id);
+    async findOne(@Param('id') id: number): Promise<IPokemon | null> {
+        return this.pokemonService.findOne(id);
     }
 
     @Post('')
-    create(@Body() data: CreatePokemonDto): IPokemon {
-        return this.pokemonService.create(data);
+    async create(@Body() user: CreatePokemonDto): Promise<IPokemon> {
+        return this.pokemonService.create(user);
     }
 
     @Put(':id')
-    update(@Param('id') id: number, @Body() data: CreatePokemonDto): IPokemon {
-        return this.pokemonService.update(id, data);
+    async update(@Param('id') pokemonId: number,
+        @Body() data: UpdatePokemonDto
+    ): Promise<IPokemon | null> {
+        return this.pokemonService.update(pokemonId, data);
     }
 
     @Delete(':id')
-    delete(@Param('id') id: number): IPokemon {
-        return this.pokemonService.delete(id);
+    delete(@Param('id') pokemonId: number): Promise<IPokemon | null> {
+        return this.pokemonService.delete(pokemonId);
     }
 }
