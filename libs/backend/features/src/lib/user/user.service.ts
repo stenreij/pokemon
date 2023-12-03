@@ -3,7 +3,6 @@ import { IUser, IUserInfo } from '@pokemon/shared/api';
 import { User as UserModel, UserDocument } from './user.schema'; 
 import { CreateUserDto, UpdatePokemonDto, UpdateUserDto } from '@pokemon/backend/dto';
 import { Logger } from '@nestjs/common';
-import { Role } from '@pokemon/shared/api';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 

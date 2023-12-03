@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { PokemonService } from '../pokemon.service';
 import { Router } from '@angular/router'
 import { IPokemon } from '@pokemon/shared/api';
-import { Type } from 'libs/shared/api/src/lib/models/type.enum';
+import { Type } from '@pokemon/shared/api';
 
 @Component({
   selector: 'pokemon-pokemon-add',

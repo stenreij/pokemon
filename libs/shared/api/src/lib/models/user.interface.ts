@@ -1,9 +1,10 @@
+/* eslint-disable @nx/enforce-module-boundaries */
 import { Role } from './role.enum';
 import { Id } from './id.type';
 import { ITeam } from './team.interface';
-import { IEntity } from '@pokemon/frontend/common';
 import { IUserRegistration } from './auth.interface';
 import { DeclarationListEmitMode } from '@angular/compiler';
+import { IEntity } from '@pokemon/frontend/common';
 
 export interface IUser {
     userId: Id;

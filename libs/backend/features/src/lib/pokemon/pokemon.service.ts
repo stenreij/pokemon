@@ -1,9 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { IPokemon } from '@pokemon/shared/api';
-import { BehaviorSubject } from 'rxjs';
 import { CreatePokemonDto, UpdatePokemonDto } from '@pokemon/backend/dto';
 import { Logger } from '@nestjs/common';
-import { Type } from '@pokemon/shared/api';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Pokemon as PokemonModel, PokemonDocument } from './pokemon.schema';
@@ -54,11 +52,9 @@ export class PokemonService {
     private async getLowestAvailablePokemonId(): Promise<number> {
         const usedIds = (await this.pokemonModel.distinct('pokemonId').exec()) as number[];
         let lowestId = 1;
-
         while (usedIds.includes(lowestId)) {
             lowestId++;
         }
-
         return lowestId;
     }
 }

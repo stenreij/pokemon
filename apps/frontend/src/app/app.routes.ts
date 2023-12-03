@@ -1,3 +1,4 @@
+/* eslint-disable @nx/enforce-module-boundaries */
 import { RouterModule, Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { TeamListComponent } from 'libs/frontend/features/src/lib/team/team-list/team-list.component';
