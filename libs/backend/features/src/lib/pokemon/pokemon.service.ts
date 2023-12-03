@@ -34,8 +34,8 @@ export class PokemonService {
 
     async create(pokemon: CreatePokemonDto): Promise<IPokemon> {
         this.logger.log(`create(${pokemon})`);
-        const uniqueId = Math.floor(Math.random() * 1000000);  
-        const pokemonWithId = { ...pokemon, pokemonId: uniqueId };
+        const lowestAvailableId = await this.getLowestAvailablePokemonId();
+        const pokemonWithId = { ...pokemon, pokemonId: lowestAvailableId };
         const createdItem = this.pokemonModel.create(pokemonWithId);
         return createdItem;
     }
@@ -49,5 +49,16 @@ export class PokemonService {
         this.logger.log(`Delete pokemon ${pokemonId}`);
         const deletedItem = await this.pokemonModel.findOneAndDelete({ pokemonId }, {}).exec();
         return deletedItem;
+    }
+
+    private async getLowestAvailablePokemonId(): Promise<number> {
+        const usedIds = (await this.pokemonModel.distinct('pokemonId').exec()) as number[];
+        let lowestId = 1;
+
+        while (usedIds.includes(lowestId)) {
+            lowestId++;
+        }
+
+        return lowestId;
     }
 }
