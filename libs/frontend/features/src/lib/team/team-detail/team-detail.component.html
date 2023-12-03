@@ -11,8 +11,9 @@
       <ul><strong>Trainer:</strong> {{ team.trainer }}</ul>
       <ul><strong>TeamInfo:</strong> {{ team.teamInfo }}</ul>
       <ul><strong>Rating:</strong> {{ team.rating }}</ul>
-      <ul><button class="actionButton"><a class="link" [routerLink]="['/team-edit',team.teamId]"> Edit </a></button></ul>
-      <ul><button class="deleteButton" (click)="verwijderTeam(team.teamId)"> Verwijder </button></ul>    
+      <ul><button class="actionButton" [routerLink]="['/team-edit',team.teamId]"><a class="link"> Edit </a></button>
+      </ul>
+      <ul><button class="deleteButton" (click)="verwijderTeam(team.teamId)"> Verwijder </button></ul>
     </div>
 
     <div class="card-container">
