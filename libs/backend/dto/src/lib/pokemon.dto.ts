@@ -2,10 +2,7 @@ import {
     IsNotEmpty,
     IsString,
     IsNumber,
-    IsEnum,
-    IsOptional,
     IsBoolean,
-    IsDate
 } from 'class-validator';
 import {
     ICreatePokemon,

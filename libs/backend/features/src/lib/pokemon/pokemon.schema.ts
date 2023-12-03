@@ -36,7 +36,7 @@ export class Pokemon implements IPokemon {
         required: true,
         type: Number,
     })
-    rating: number = 100;
+    rating!: number;
 
     @Prop({
         required: true,

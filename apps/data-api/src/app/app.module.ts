@@ -3,7 +3,6 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { TeamModule, UserModule } from '@pokemon/backend/features';
 import { PokemonModule } from '@pokemon/backend/features';
 import { environment } from '@pokemon/shared/util-env';
-
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 
