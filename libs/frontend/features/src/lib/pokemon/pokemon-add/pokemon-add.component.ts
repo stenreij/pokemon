@@ -34,7 +34,7 @@ export class PokemonAddComponent {
       this.pokemonService.addPokemon(newPokemon).subscribe(
         (addedPokemon: IPokemon) => {
           console.log('Toegevoegd pokémon:', addedPokemon);
-          this.router.navigateByUrl('/');
+          this.router.navigateByUrl('/pokemon');
         },
         (error: any) => {
           console.error('Fout bij het toevoegen van pokémon:', error);
