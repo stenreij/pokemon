@@ -21,8 +21,8 @@
         <div class="card-header">
           <h4>{{ pokemon.name }}</h4>
         </div>
-        <button class="card-delete">
-          <a class="link" (click)="removePokemon(pokemon)">Verwijder</a>
+        <button class="card-delete" (click)="removePokemon(pokemon)">
+          <a class="link">Verwijder</a>
         </button>
         <div class="card-body">
           <div class="card-image">
@@ -30,8 +30,8 @@
           </div>
 
         </div>
-        <button class="card-footer">
-          <a class="link" [routerLink]="['/pokemon/' + pokemon.pokemonId]">Details</a>
+        <button class="card-footer" [routerLink]="['/pokemon/' + pokemon.pokemonId]">
+          <a class="link">Details</a>
         </button>
       </div>
     </div>
