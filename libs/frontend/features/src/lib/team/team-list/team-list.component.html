@@ -1,6 +1,6 @@
 <div>
-  <button class="addButton">
-    <a class="linkButton" [routerLink]="['/team-add']">Voeg team toe</a>
+  <button class="addButton" [routerLink]="['/team-add']">
+    <a class="linkButton">Voeg team toe</a>
   </button>
 </div>
 
@@ -24,9 +24,9 @@
         <td>{{ team.teamName }}</td>
         <td>{{ team.trainer }}</td>
         <td>{{ team.rating }}</td>
-        <td><button class="actionButton"><a class="link" id="team-details" [routerLink]="['/team/' + team.teamId]"> Details </a></button>
+        <td><button class="actionButton" [routerLink]="['/team/' + team.teamId]"><a class="link" id="team-details"> Details </a></button>
         </td>
-        <td><button class="actionButton"><a class="link" [routerLink]="['/team-edit',team.teamId]"> Edit </a></button>
+        <td><button class="actionButton" [routerLink]="['/team-edit',team.teamId]"><a class="link"> Edit </a></button>
         </td>
         <td><button class="deleteButton" (click)="verwijderTeam(team.teamId)"> Verwijder </button></td>
       </tr>

@@ -1,6 +1,6 @@
 <div>
-  <button class="addButton">
-    <a class="linkButton" [routerLink]="['/pokemon-add']">Voeg Pokémon toe</a>
+  <button class="addButton" [routerLink]="['/pokemon-add']">
+    <a class="linkButton">Voeg Pokémon toe</a>
   </button>
 </div>
 
@@ -17,7 +17,7 @@
         <p><strong>Type 1:</strong> {{ pokemon.type1 }}</p>
         <p><strong>Type 2:</strong> {{ pokemon.type2 }}</p>
         <div class="buttons">
-          <button class="actionButton"><a class="link" [routerLink]="['/pokemon-edit',pokemon.pokemonId]"> Edit pokémon</a></button>
+          <button class="actionButton" [routerLink]="['/pokemon-edit',pokemon.pokemonId]"><a class="link"> Edit pokémon</a></button>
           <div class="button-space"></div>
           <button class="deleteButton" (click)="verwijderPokemon(pokemon.pokemonId)"> Verwijder pokémon</button>
         </div>
