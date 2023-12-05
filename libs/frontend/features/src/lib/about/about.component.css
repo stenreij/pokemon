@@ -2,12 +2,12 @@
     background-color: #7a48b34b;
     width: fit-content;
     height: fit-content;
-    padding: 15px 30px 15px 30px;
+    padding: 5px 30px 5px 30px;
     margin-bottom: 25px;
-    border-radius: 8px;
+    border-radius: 5px;
     border: solid 1px black;
     align-items: center;
-    margin-top: 25px;
+    margin-top: 30px;
 }
 
 .table-bordered {
@@ -48,15 +48,17 @@ td {
     background-color: #7a48b34b !important;
 }
 
-h2 {
-    padding-left: 20px;
-}
-
 .container {
     height: 100%;
     margin: 40px;
     padding-left: 30px;
     background-color: rgb(219, 231, 235);;
     border-radius: 10px;
+    border: solid 1px black;
+}
+
+.img{
+    width: 95%;
+    height: 100%;
     border: solid 1px black;
 }

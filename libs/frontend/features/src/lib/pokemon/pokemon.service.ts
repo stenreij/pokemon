@@ -14,7 +14,7 @@ export const httpOptions = {
 
 @Injectable()
 export class PokemonService {
-    endpoint = environment.onlineApiUrl + '/pokemon';
+    endpoint = environment.lclApiUrl + '/pokemon';
 
     constructor(private readonly http: HttpClient) { }
 
@@ -48,7 +48,7 @@ export class PokemonService {
     }
 
     public addPokemon(pokemon: IPokemon): Observable<IPokemon> {
-        console.log(`addTeam ${this.endpoint}`, pokemon);
+        console.log(`addPokemon ${this.endpoint}`, pokemon);
         const url = `${this.endpoint}`;
         return this.http
             .post<ApiResponse<IPokemon>>(url, pokemon, httpOptions)

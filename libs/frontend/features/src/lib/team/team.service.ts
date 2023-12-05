@@ -13,7 +13,7 @@ export const httpOptions = {
 
 @Injectable()
 export class TeamService {
-    endpoint = environment.onlineApiUrl + '/team';
+    endpoint = environment.lclApiUrl + '/team';
   teams: ITeam[] | null = null;
 
     constructor(private readonly http: HttpClient) { }
