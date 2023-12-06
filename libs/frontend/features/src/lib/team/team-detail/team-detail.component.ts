@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IPokemon, ITeam } from '@pokemon/shared/api';
-import { Subscription } from 'rxjs';
 import { PokemonService } from '../../pokemon/pokemon.service';
 import { TeamService } from '../team.service';
 
@@ -13,7 +12,6 @@ import { TeamService } from '../team.service';
 export class TeamDetailComponent implements OnInit {
   team: ITeam | null = null;
   pokemon: IPokemon[] | undefined;
-  subscription: Subscription | undefined = undefined;
 
   constructor(private route: ActivatedRoute, private teamService: TeamService, private pokemonService: PokemonService, private router: Router) { }
 
@@ -23,7 +21,6 @@ export class TeamDetailComponent implements OnInit {
       if (teamId) {
         this.teamService.read(teamId).subscribe((team) => {
           this.team = team;
-
           this.loadPokemonList();
         });
       }
@@ -44,20 +41,27 @@ export class TeamDetailComponent implements OnInit {
 
   loadPokemonList(): void {
     if (this.team) {
-      this.pokemonService.list().subscribe((allPokemon) => {
-        this.pokemon = allPokemon?.filter((p) => this.team?.pokemon.map(tp => tp.pokemonId).includes(p.pokemonId));
+      this.pokemonService.list().subscribe((pokemon) => {
+        this.pokemon = pokemon?.filter((p) => this.team!.pokemon.some((tp) => tp.pokemonId === p.pokemonId));
       });
     }
   }
+  
 
-  removePokemon(pokemonId: IPokemon): void {
+  removePokemon(pokemon: IPokemon): void {
     if (this.team) {
-      this.team.pokemon = this.team.pokemon.filter((p) => p !== pokemonId);
-      this.teamService.editTeam(this.team).subscribe((team) => {
-        this.team = team;
-        team.rating -= pokemonId.rating;
-        this.loadPokemonList();
-      });
+      const idToUse = pokemon.pokemonId;
+      this.team.pokemon = this.team.pokemon.filter((pokemon) => pokemon.pokemonId !== idToUse);
+      this.teamService.editTeam(this.team).subscribe(
+        (team) => {
+          this.team = team;
+          this.loadPokemonList();
+        },
+        (error) => {
+          console.log('Er is een fout opgetreden:', error);
+        }
+      );
     }
+    this.loadPokemonList();
   }
 }

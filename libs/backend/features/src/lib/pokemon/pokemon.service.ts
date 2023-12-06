@@ -41,24 +41,12 @@ export class PokemonService {
     }
 
     async update(pokemonId: number, pokemon: UpdatePokemonDto): Promise<IPokemon | null> {
-        this.logger.log(`Update pokemon ${pokemon.name}`);
-        const updatedPokemon = await this.pokemonModel.findOneAndUpdate({ pokemonId }, pokemon, { new: true });
-        if (!updatedPokemon) {
-            return null; 
-        }
-
-        await this.updatePokemonInTeams(updatedPokemon);
-        return updatedPokemon;
+        return this.pokemonModel.findOneAndUpdate({ pokemonId }, pokemon);
     }
 
     async delete(pokemonId: number): Promise<IPokemon | null> {
-        this.logger.log(`Delete pokemon ${pokemonId}`);
-        const deletedItem = await this.pokemonModel.findOneAndDelete({ pokemonId }, {}).exec();
-        if (deletedItem) {
-            await this.removePokemonFromTeams(deletedItem);
-        }
-    
-        return deletedItem;
+        const deletedPokemon = await this.pokemonModel.findOneAndDelete({ pokemonId }, {}).exec();
+        return deletedPokemon;
     }
 
     private async getLowestAvailablePokemonId(): Promise<number> {
@@ -68,45 +56,5 @@ export class PokemonService {
             lowestId++;
         }
         return lowestId;
-    }
-
-    private async updatePokemonInTeams(pokemon: IPokemon): Promise<void> {
-        const teamsContainingPokemon = await this.teamModel.find({ 'pokemon.pokemonId': pokemon.pokemonId }).exec();
-
-        if (teamsContainingPokemon.length === 0) {
-            return; 
-        }
-
-        await Promise.all(
-            teamsContainingPokemon.map(async (team) => {
-                const updatedTeam = team.toObject();
-                const index = updatedTeam.pokemon.findIndex((p) => p.pokemonId === pokemon.pokemonId);
-
-                if (index !== -1) {
-                    updatedTeam.pokemon[index] = { ...pokemon }; 
-                    await this.teamModel.findOneAndUpdate({ teamId: team.teamId }, updatedTeam);
-                }
-            })
-        );
-    }
-
-    private async removePokemonFromTeams(pokemon: IPokemon): Promise<void> {
-        const teamsContainingPokemon = await this.teamModel.find({ 'pokemon.pokemonId': pokemon.pokemonId }).exec();
-    
-        if (teamsContainingPokemon.length === 0) {
-            return;
-        }
-    
-        await Promise.all(
-            teamsContainingPokemon.map(async (team) => {
-                const updatedTeam = team.toObject();
-                const index = updatedTeam.pokemon.findIndex((p) => p.pokemonId === pokemon.pokemonId);
-    
-                if (index !== -1) {
-                    updatedTeam.pokemon.splice(index, 1);
-                    await this.teamModel.findOneAndUpdate({ teamId: team.teamId }, updatedTeam);
-                }
-            })
-        );
     }
 }
