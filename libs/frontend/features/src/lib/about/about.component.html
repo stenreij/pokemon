@@ -4,8 +4,8 @@
             <div class="col-sm-6 col-md-4 col-lg-3">
                 <div class="card">
                     <div class="card-body">
-                        <h3 class="card-title">Sten Reijerse</h3>
-                        <p class="card-text">Studentnummer: 2175709</p>
+                        <h2 class="card-title">Sten Reijerse</h2>
+                        <p class="card-text"><strong>Studentnummer: 2175709</strong></p>
                     </div>
                 </div>
             </div>
@@ -19,7 +19,7 @@
                 Met deze app kun je als trainer verschillende teams maken en samenstellen. 
                 Op deze manier kun je gemakkelijk verschillende teams bekijken en vergelijken.
                 Je kunt zelf een team aanmaken en een naam geven. 
-                Je tot maximaal 6 pokémon toevoegen aan een team. Het is mogelijk om een bestaand team aan te 
+                Je kan tot maximaal 6 pokémon toevoegen aan een team. Het is mogelijk om een bestaand team aan te 
                 passen of te verwijderen. Je kunt ook de details van een team bekijken.
             </p>
         </div>
@@ -27,11 +27,11 @@
 
     <h3>Entiteiten</h3>
 
-    <img src="assets/pokemonERD.png" class="px-5 py-5" alt="casus-afbeelding" />
+    <img src="assets/pokemonERD.png" class="img" alt="casus-afbeelding" />
 
     <div class="row">
         <div class="col-sm-12 col-md-4">
-            <p>Gebruiker / Pokémon Trainer</p>
+            <p><strong>Gebruiker / Pokémon Trainer</strong></p>
             <ul>
                 <li>trainerId: number</li>
                 <li>trainerNaam: string</li>
@@ -40,7 +40,7 @@
             </ul>
         </div>
         <div class="col-sm-12 col-md-4">
-            <p>Team</p>
+            <p><strong>Team</strong></p>
             <ul>
                 <li>teamNaam: string</li>
                 <li>teamId: number</li>
@@ -50,7 +50,7 @@
             </ul>
         </div>
         <div class="col-sm-12 col-md-4">
-            <p>Pokémon</p>
+            <p><strong>Pokémon</strong></p>
             <ul>
                 <li>pokémonId: number</li>
                 <li>naam: string</li>
@@ -61,14 +61,14 @@
             </ul>
         </div>
         <div class="col-sm-12 col-md-4">
-            <p>Item Voorraad</p>
+            <p><strong>Item Voorraad</strong></p>
             <ul>
                 <li>itemVoorraadId: number</li>
                 <li>aantal: number</li>
             </ul>
         </div>
         <div class="col-sm-12 col-md-4">
-            <p>Item</p>
+            <p><strong>Item</strong></p>
             <ul>
                 <li>itemId: number</li>
                 <li>naam: string</li>
@@ -85,48 +85,100 @@
                 <thead>
                     <th class="th-css">Nr</th>
                     <th class="col-6">Userstory</th>
+                    <th class="col-6">Acceptatiecriteria</th>
+                    <th class="col-9">Prioriteit</th>
                 </thead>
                 <tbody>
                     <tr>
                         <td class="td-css">1.</td>
                         <td class="td-underlined">
-                            Als gebruiker wil ik een team kunnen aanmaken zodat ik een team kan samenstellen.
+                            Als trainer wil ik een overzicht hebben van mijn teams, zodat ik weet welke teams ik heb.
                         </td>
+                        <td class="td-underlined">
+                            <li>Er is een overzicht van de teams.</li>
+                            <li>Belangrijkste info van een team is te zien in het overzicht.</li>
+                        </td>
+                        <td class="td-underlined">Must</td>                  
                     </tr>
                     <tr>
                         <td class="td-css">2.</td>
                         <td class="td-underlined">
-                            Als gebruiker wil ik een team kunnen verwijderen zodat ik een team kan verwijderen.
+                            Als trainer wil ik de details van een team kunnen bekijken zodat ik de info 
+                            van een team kan bekijken en de pokémon in een team kan bekijken.
                         </td>
+                        <td class="td-underlined">
+                            <li>In het overzicht van de teams is een knop aanwezig waarmee ik kan navigeren naar de details van een team.</li>
+                            <li>In de detailspagina staan alle gegevens van een team.</li>
+                            <li>In de detailspagina staan de pokémon die tot de geselecteerde team behoren.</li>
+                        </td>
+                        <td class="td-underlined">Must</td>
                     </tr>
                     <tr>
                         <td class="td-css">3.</td>
                         <td class="td-underlined">
-                            Als gebruiker wil ik een team kunnen aanpassen zodat ik de 
+                            Als trainer wil ik een team kunnen aanpassen zodat ik de 
                             info van een team kan aanpassen of de pokémon in een team kan aanpassen.
                         </td>
+                        <td class="td-underlined">
+                            <li>Er is een knop waarmee ik een specifiek team kan aanpassen.</li>
+                        </td>
+                        <td class="td-underlined">Must</td>
                     </tr>
                     <tr>
                         <td class="td-css">4.</td>
                         <td class="td-underlined">
-                            Als gebruiker wil ik de details van een team kunnen bekijken zodat ik de info 
-                            van een team kan bekijken en de pokémon in een team kan bekijken.
+                            Als trainer wil ik een team kunnen verwijderen zodat ik een team kan verwijderen.
                         </td>
+                        <td class="td-underlined">
+                            <li>Er is een knop waarmee ik een specifiek team kan verwijderen.</li>
+                        </td>
+                        <td class="td-underlined">Must</td>
                     </tr>
                     <tr>
                         <td class="td-css">5.</td>
                         <td class="td-underlined">
-                            Als gebruiker wil ik een lijst van al mijn teams kunnen bekijken zodat ik alle 
-                            teams kan bekijken en kan kiezen welk team ik wil aanpassen of verwijderen 
-                            of de details van wil bekijken.
+                            Als trainer wil ik een team kunnen aanmaken zodat ik een nieuw team kan samenstellen.
                         </td>
+                        <td class="td-underlined">
+                            <li>Er is pagina waarop ik alle nodige gegevens voor een team kan invullen en opgeven.</li>
+                            <li>Er is een knop zodat ik daadwerkelijk een nieuw team aan mijn profiel/account toevoeg.</li>
+                        </td>
+                        <td class="td-underlined">Must</td>
                     </tr>                  
                     <tr>
                         <td class="td-css">6.</td>
                         <td class="td-underlined">
-                            Als gebruiker wil ik een lijst van alle pokémon kunnen bekijken zodat ik alle bestaande 
-                            pokémon kan bekijken en kan kiezen welke pokémon ik wil toevoegen aan een team.
+                            Als trainer wil ik een lijst van alle pokémon kunnen bekijken zodat ik alle bestaande 
+                            pokémon kan bekijken.
                         </td>
+                        <td class="td-underlined">
+                            <li>Er is een overzicht van alle pokémon.</li>
+                            <li>In het overzicht staan de belangrijkste eigenschappen van de pokémon.</li>
+                            <li>Elke pokémon heeft een afbeelding.</li>
+                        </td>
+                        <td class="td-underlined">Must</td>
+                    </tr>
+                    <tr>
+                        <td class="td-css">7.</td>
+                        <td class="td-underlined">
+                            Als trainer wil ik pokémon aan mijn team kunnen toevoegen of verwijderen.
+                        </td>
+                        <td class="td-underlined">
+                            <li>Op de pokémon (details) pagina is en knop waarmee je de geselecteerde pokémon kan toevoegen aan een team.</li>
+                            <li>Op de team detail pagina is een knop waarmee je een specifieke pokémon kan verwijderen uit het gekozen team.</li>
+                        </td>
+                        <td class="td-underlined">Must</td>
+                    </tr>
+                    <tr>
+                        <td class="td-css">8.</td>
+                        <td class="td-underlined">
+                            Als Admin wil ik pokémon kunnen aanpassen, zodat ik de gegevens kan veranderen.
+                        </td>
+                        <td class="td-underlined">
+                            <li>Op de pokemon (details) pagina is een knop waarmee je de geselecteerde pokémon kan aanpassen.</li>
+                            <li>Een pokémon kan alleen aangepast worden als alle velden zijn ingevuld.</li>
+                        </td>
+                        <td class="td-underlined">Must</td>
                     </tr>
                 </tbody>
             </table>

@@ -48,7 +48,7 @@ export class PokemonService {
     }
 
     public addPokemon(pokemon: IPokemon): Observable<IPokemon> {
-        console.log(`addTeam ${this.endpoint}`, pokemon);
+        console.log(`addPokemon ${this.endpoint}`, pokemon);
         const url = `${this.endpoint}`;
         return this.http
             .post<ApiResponse<IPokemon>>(url, pokemon, httpOptions)

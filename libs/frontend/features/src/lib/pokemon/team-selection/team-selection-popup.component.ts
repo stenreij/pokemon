@@ -32,17 +32,15 @@ export class PopupComponent implements OnInit {
       const selectedPokemon: IPokemon = this.selectedPokemon;  
       if (this.selectedTeam.pokemon.length < 6) {
         const isPokemonAlreadyInTeam = this.selectedTeam.pokemon.find(pokemon => pokemon.pokemonId === selectedPokemon.pokemonId);
-        console.log('?????', this.selectedTeam.pokemon);
-        console.log('?????', selectedPokemon.pokemonId);
         if (!isPokemonAlreadyInTeam) {
           this.selectedTeam.pokemon.push(selectedPokemon);
           this.teamService.editTeam(this.selectedTeam).subscribe(
             (team) => {
               this.selectedTeam = team;
   
-              console.log('!!!!Pokemon in team:', this.selectedTeam.pokemon);
-              console.log('!!!!Geselecteerde team:', this.selectedTeam.teamName);
-              console.log('!!!!Geselecteerde Pokémon:', this.selectedPokemon?.name);
+              console.log('Pokemon in team:', this.selectedTeam.pokemon);
+              console.log('Geselecteerde team:', this.selectedTeam.teamName);
+              console.log('Geselecteerde Pokémon:', this.selectedPokemon?.name);
   
               this.teamService.closePopup();
               this.router.navigate(['/team', this.selectedTeam.teamId]);

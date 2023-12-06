@@ -2,12 +2,12 @@
     background-color: #7a48b34b;
     width: fit-content;
     height: fit-content;
-    padding: 15px 30px 15px 30px;
+    padding: 5px 30px 5px 30px;
     margin-bottom: 25px;
-    border-radius: 8px;
+    border-radius: 5px;
     border: solid 1px black;
     align-items: center;
-    margin-top: 25px;
+    margin-top: 30px;
 }
 
 .table-bordered {
@@ -19,7 +19,7 @@
     border-right: 1px solid black;
     padding-left: 10px;
     background-color: inherit !important;
-    width: 5%;
+    width: 3%;
     text-align: center;
 }
 
@@ -32,7 +32,6 @@ td {
     padding-left: 10px;
     border-bottom: 1px solid black;
     background-color: inherit !important;
-    width: 95%;
 }
 
 .th-css {
@@ -43,13 +42,13 @@ td {
 }
 
 .col-6 {
-    border-bottom: 1px solid black;
+    border: 1px solid black;
     padding-left: 10px;
     background-color: #7a48b34b !important;
 }
 
-h2 {
-    padding-left: 20px;
+.col-9{
+    background-color: #7a48b34b !important;
 }
 
 .container {
@@ -58,5 +57,11 @@ h2 {
     padding-left: 30px;
     background-color: rgb(219, 231, 235);;
     border-radius: 10px;
+    border: solid 1px black;
+}
+
+.img{
+    width: 95%;
+    height: 100%;
     border: solid 1px black;
 }
