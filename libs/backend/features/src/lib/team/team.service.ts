@@ -53,7 +53,16 @@ export class TeamService {
 
     async update(teamId: number, team: UpdateTeamDto): Promise<ITeam | null> {
         this.logger.log(`Update team ${team.teamName}`);
-        return this.teamModel.findOneAndUpdate({ teamId }, team);
+        const updatedTeam = await this.teamModel.findOneAndUpdate({ teamId }, team, { new: true }).exec();
+    
+        if (!updatedTeam) {
+            return null;
+        }
+    
+        const rating = await this.calculateTeamrating(updatedTeam);
+        updatedTeam.rating = rating;
+    
+        return updatedTeam;
     }
 
     async delete(teamId: number): Promise<ITeam | null> {
