@@ -3,6 +3,7 @@ import { IUser } from '@pokemon/shared/api';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router'
 import { UserService } from '../user.service';
+import { AuthService } from '../../auth/auth.service';
 
 
 @Component({
@@ -15,9 +16,10 @@ export class UserListComponent implements OnInit, OnDestroy {
     users: IUser[] | null = null;
     subscription: Subscription | undefined = undefined;
 
-    constructor(private userService: UserService, private router: Router) { }
+    constructor(private userService: UserService, private router: Router, private authService: AuthService) { }
 
     ngOnInit(): void {
+        if(!this.authService.isAuthenticated()) this.router.navigateByUrl('/login');
         this.subscription = this.userService.list().subscribe((results) => {
             if (results) {
                 console.log(`results: ${results}`);

@@ -4,6 +4,7 @@ import { IPokemon, ITeam } from '@pokemon/shared/api';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 import { TeamService } from '../../team/team.service';
+import { AuthService } from '../../auth/auth.service';
 
 @Component({
   selector: 'pokemon-pokemon-list',
@@ -20,10 +21,12 @@ export class PokemonListComponent implements OnInit, OnDestroy {
   constructor(
     private pokemonService: PokemonService,
     private router: Router,
-    public teamService: TeamService
+    public teamService: TeamService,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
+    if (!this.authService.isAuthenticated()) this.router.navigateByUrl('/login');
     this.subscription = this.pokemonService.list().subscribe((results) => {
         console.log(`results: ${results}`);
       this.pokemon = results;

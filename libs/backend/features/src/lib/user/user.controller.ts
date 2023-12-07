@@ -1,16 +1,16 @@
-import { Controller, Delete, Put, UseGuards } from '@nestjs/common';
+import { Controller, Delete, Put, Req, UseGuards } from '@nestjs/common';
 import { UserService } from './user.service';
 import { Get, Param, Post, Body } from '@nestjs/common';
-import { IUserInfo, IUser } from '@pokemon/shared/api';
+import { IUser } from '@pokemon/shared/api';
 import { CreateUserDto, UpdateUserDto } from '@pokemon/backend/dto';
 import { UserExistGuard } from './user-exists.guard';
 
 @Controller('user')
 export class UserController {
-    constructor(private userService: UserService) {}
+    constructor(private userService: UserService) { }
 
     @Get('')
-    async findAll(): Promise<IUserInfo[]> {
+    async findAll(): Promise<IUser[]> {
         return this.userService.findAll();
     }
 
@@ -21,15 +21,25 @@ export class UserController {
 
     @Post('')
     @UseGuards(UserExistGuard)
-    async create(@Body() user: CreateUserDto): Promise<IUserInfo> {
+    async create(@Body() user: CreateUserDto): Promise<IUser> {
         return this.userService.create(user);
+    }
+
+    @Post('login')
+    async login(@Body() user: CreateUserDto): Promise<IUser | null> {
+        return this.userService.login(user.email, user.password);
+    }
+
+    @Post('logout/:id')
+    async logout(@Param('id') id: number): Promise<void> {
+        await this.userService.logout(id);
     }
 
     @Put(':id')
     update(
         @Param('id') id: number,
         @Body() data: UpdateUserDto
-    ): Promise<IUserInfo | null> {
+    ): Promise<IUser | null> {
         return this.userService.update(id, data);
     }
 }

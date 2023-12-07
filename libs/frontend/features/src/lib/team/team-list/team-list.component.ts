@@ -3,6 +3,7 @@ import { TeamService } from '../team.service';
 import { ITeam } from '@pokemon/shared/api';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router'
+import { AuthService } from '../../auth/auth.service';
 
 
 @Component({
@@ -15,9 +16,10 @@ export class TeamListComponent implements OnInit, OnDestroy {
     teams: ITeam[] | null = null;
     subscription: Subscription | undefined = undefined;
 
-    constructor(private teamService: TeamService, private router: Router) { }
+    constructor(private teamService: TeamService, private router: Router, private authService: AuthService) { }
 
     ngOnInit(): void {
+        if(!this.authService.isAuthenticated()) this.router.navigateByUrl('/login');
         this.subscription = this.teamService.list().subscribe((results) => {
             console.log(`results: ${results}`);
             this.teams = results;

@@ -11,6 +11,8 @@ import { PokemonListComponent } from 'libs/frontend/features/src/lib/pokemon/pok
 import { TeamAddComponent } from 'libs/frontend/features/src/lib/team/team-add/team-add.component';
 import { TeamEditComponent } from 'libs/frontend/features/src/lib/team/team-edit/team-edit.component';
 import { UserListComponent } from 'libs/frontend/features/src/lib/user/user-list/user-list.component';
+import { RegisterComponent } from 'libs/frontend/features/src/lib/auth/register/register.component';
+import { LoginComponent } from 'libs/frontend/features/src/lib/auth/login/login.component';
 
 export const appRoutes: Routes= [
     { path:"", component: TeamListComponent },
@@ -23,6 +25,8 @@ export const appRoutes: Routes= [
     { path: "pokemon-add", component: PokemonAddComponent},
     { path: "pokemon-edit/:id", component: PokemonEditComponent},
     { path: "user", component: UserListComponent},
+    { path: "register", component: RegisterComponent},
+    { path: "login", component: LoginComponent},
 ];
 
 @NgModule({

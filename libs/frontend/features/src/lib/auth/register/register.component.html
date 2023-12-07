@@ -1,0 +1,53 @@
+<div class="container">
+    <div class="title">
+        <h2>Registreren</h2>
+        <hr>
+    </div>
+    <div class="from">
+        <form [formGroup]="registerForm">
+            <div class="form-group">
+                <label for="userName">Trainersnaam:</label>
+                <input type="text" class="form-control" id="userName" formControlName="userName"
+                    placeholder="Trainersnaam"
+                    [ngClass]="{'is-invalid': registerForm.get('userName')?.invalid && registerForm.get('userName')?.touched}">
+                <div class="error-message"
+                    *ngIf="registerForm.get('userName')?.hasError('required') && registerForm.get('userName')?.touched">
+                    Trainersnaam is verplicht</div>
+            </div>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="text" class="form-control" id="email" formControlName="email" placeholder="Email"
+                    [ngClass]="{'is-invalid': registerForm.get('email')?.invalid && registerForm.get('email')?.touched}">
+                <div class="error-message"
+                    *ngIf="registerForm.get('email')?.hasError('required') && registerForm.get('email')?.touched">Email
+                    is verplicht
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="birthDate">Geboortedatum:</label>
+                <input type="date" class="form-control" id="birthDate" formControlName="birthDate"
+                    placeholder="Geboortedatum"
+                    [ngClass]="{'is-invalid': registerForm.get('birthDate')?.invalid && registerForm.get('birthDate')?.touched}">
+                <div class="error-message"
+                    *ngIf="registerForm.get('birthDate')?.hasError('required') && registerForm.get('birthDate')?.touched">
+                    Geboortedatum is
+                    verplicht</div>
+            </div>
+            <div class="form-group">
+                <label for="password">Wachtwoord:</label>
+                <input type="password" class="form-control" id="password" formControlName="password"
+                    placeholder="Wachtwoord"
+                    [ngClass]="{'is-invalid': registerForm.get('password')?.invalid && registerForm.get('password')?.touched}">
+                <div class="error-message"
+                    *ngIf="registerForm.get('password')?.hasError('required') && registerForm.get('password')?.touched">
+                    Wachtwoord is
+                    verplicht</div>
+            </div>
+            <div class="button">
+                <button class="addButton" type="submit" (click)="register()" [disabled]="!registerForm.valid">
+                    Registreer
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

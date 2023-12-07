@@ -55,7 +55,7 @@ export class UserService {
             .pipe(catchError(this.handleError));
     }
 
-    public addUser(user: IUser): Observable<IUser> {
+    public register(user: IUser): Observable<IUser> {
         console.log(`addUser ${this.endpoint}`, user);
         const url = `${this.endpoint}`;
         return this.http
@@ -63,6 +63,23 @@ export class UserService {
             .pipe(
                 tap(console.log),
                 map((response: any) => response.results as IUser),
+                catchError(this.handleError)
+            );
+    }
+
+    public login(user: IUser): Observable<IUser> {
+        console.log(`login ${this.endpoint}`, user);
+        const url = `${this.endpoint}/login`;
+    
+        return this.http
+            .post<ApiResponse<IUser>>(url, user, httpOptions)
+            .pipe(
+                tap(console.log),
+                map((response: any) => {
+                    const loggedInUser = response.results as IUser;
+                    localStorage.setItem('token', loggedInUser.token? loggedInUser.token : '');
+                    return loggedInUser;
+                }),
                 catchError(this.handleError)
             );
     }

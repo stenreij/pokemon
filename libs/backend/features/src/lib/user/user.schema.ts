@@ -37,9 +37,9 @@ export class User implements IUser {
     @Prop({
         required: true,
         type: String,
-        default: Role.UNKNOWN,
+        default: Role.TRAINER,
     })
-    role: Role = Role.UNKNOWN;
+    role: Role = Role.TRAINER;
 
     @Prop({
         required: true,
