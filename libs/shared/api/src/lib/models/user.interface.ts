@@ -2,9 +2,6 @@
 import { Role } from './role.enum';
 import { Id } from './id.type';
 import { ITeam } from './team.interface';
-import { IUserRegistration } from './auth.interface';
-import { DeclarationListEmitMode } from '@angular/compiler';
-import { IEntity } from '@pokemon/frontend/common';
 
 export interface IUser {
     userId: Id;
@@ -14,22 +11,7 @@ export interface IUser {
     role: Role;
     birthDate: Date;
     teams: ITeam[];
-}
-
-export interface IUserIdentity extends IEntity {
-    userName: string;
-    email: string;
-    role: Role;
     token?: string;
-}
-
-export interface IUserInfo extends IUserRegistration {
-    userId: Id;
-    role: Role;
-}
-
-export interface IUser extends IUserInfo {
-    teams: ITeam[];
 }
 
 export type ICreateUser = Pick<

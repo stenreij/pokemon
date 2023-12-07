@@ -18,6 +18,9 @@ import { PokemonEditComponent } from './pokemon/pokemon-edit/pokemon-edit.compon
 import { FormsModule } from '@angular/forms';
 import { PopupComponent } from './pokemon/team-selection/team-selection-popup.component';
 import { UserListComponent } from './user/user-list/user-list.component';
+import { AuthService } from './auth/auth.service';
+import { RegisterComponent } from './auth/register/register.component';
+import { LoginComponent } from './auth/login/login.component';
 
 @NgModule({
   imports: [CommonModule, HttpClientModule, RouterModule, ReactiveFormsModule, FormsModule],
@@ -33,8 +36,10 @@ import { UserListComponent } from './user/user-list/user-list.component';
     PokemonEditComponent,
     PopupComponent,
     UserListComponent,
+    RegisterComponent,
+    LoginComponent,
   ],
-  providers: [TeamService, PokemonService, UserService],
+  providers: [TeamService, PokemonService, UserService, AuthService],
   exports: [
     TeamListComponent,
     TeamDetailComponent,
@@ -47,6 +52,8 @@ import { UserListComponent } from './user/user-list/user-list.component';
     PokemonEditComponent,
     PopupComponent,
     UserListComponent,
+    RegisterComponent,
+    LoginComponent,
   ],
 })
 export class FeaturesModule {}

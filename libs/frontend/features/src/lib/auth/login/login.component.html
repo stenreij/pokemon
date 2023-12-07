@@ -1,0 +1,38 @@
+<div class="container">
+    <div class="title">
+        <h2>Login</h2>
+        <hr>
+    </div>
+    <div class="from">
+        <form [formGroup]="loginForm">
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="text" class="form-control" id="email" formControlName="email" placeholder="Email"
+                    [ngClass]="{'is-invalid': loginForm.get('email')?.invalid && loginForm.get('email')?.touched}">
+                <div class="error-message"
+                    *ngIf="loginForm.get('email')?.hasError('required') && loginForm.get('email')?.touched">Email
+                    is verplicht
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="password">Wachtwoord:</label>
+                <input type="password" class="form-control" id="password" formControlName="password"
+                    placeholder="Wachtwoord"
+                    [ngClass]="{'is-invalid': loginForm.get('password')?.invalid && loginForm.get('password')?.touched}">
+                <div class="error-message"
+                    *ngIf="loginForm.get('password')?.hasError('required') && loginForm.get('password')?.touched">
+                    Wachtwoord is
+                    verplicht</div>
+
+                <div class="error-message">
+                    {{ errorMessage }}
+                </div>
+            </div>
+            <div class="button">
+                <button class="addButton" type="submit" (click)="login()" [disabled]="!loginForm.valid">
+                    Login
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
