@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Type } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PokemonService } from '../pokemon.service';
 import { IPokemon } from '@pokemon/shared/api';
-import { Type } from 'libs/shared/api/src/lib/models/type.enum';
+import { AuthService } from '../../auth/auth.service';
 
 @Component({
   selector: 'pokemon-pokemon-edit',
@@ -18,7 +18,8 @@ export class PokemonEditComponent implements OnInit {
     private fb: FormBuilder,
     private pokemonService: PokemonService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private authService: AuthService
   ) {
     this.pokemonForm = this.fb.group({
         name: ['', Validators.required],
@@ -35,6 +36,7 @@ export class PokemonEditComponent implements OnInit {
       }
 
   ngOnInit(): void {
+    if(!this.authService.isAuthenticated()) this.router.navigateByUrl('/login');
     this.route.paramMap.subscribe((params) => {
       const pokemonId = params.get('id');
       if (pokemonId) {

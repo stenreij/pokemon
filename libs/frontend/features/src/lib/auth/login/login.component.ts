@@ -3,7 +3,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router'
 import { IUser } from '@pokemon/shared/api';
 import { isEmpty, isNotEmpty } from 'class-validator';
-import { UserService } from '../../user/user.service';
 import { AuthService } from '../auth.service';
 
 @Component({
@@ -15,7 +14,7 @@ export class LoginComponent {
   loginForm: FormGroup;
   errorMessage: string | null = null;
 
-  constructor(private fb: FormBuilder, private userService: UserService, private router: Router, private authService: AuthService) {
+  constructor(private fb: FormBuilder, private router: Router, private authService: AuthService) {
     this.loginForm = this.fb.group({
         password: ['', [Validators.required, Validators.maxLength(30)]],
         email: ['', [Validators.required, Validators.maxLength(150)]],
@@ -29,11 +28,11 @@ export class LoginComponent {
         this.authService
         .login(email, password)
         .subscribe((user) => {
-            console.log('Toegevoegd user:', user);
+            console.log('Ingelogd user:', user);
             this.router.navigateByUrl('/');
         },
         (error: any) => {
-            console.error('Fout bij het toevoegen van user:', error);
+            console.error('Fout bij het inloggen van user:', error);
         }
         );
     }

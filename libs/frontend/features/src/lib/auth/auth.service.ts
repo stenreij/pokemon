@@ -15,12 +15,13 @@ export const AUTH_SERVICE_TOKEN = new InjectionToken<AuthService>(
   providedIn: 'root',
 })
 export class AuthService {
+  endpoint = environment.lclApiUrl + '/user';
   public currentUser$ = new BehaviorSubject<IUser | null>(null);
   private readonly CURRENT_USER = 'currentuser';
   private readonly headers = new HttpHeaders({
     'Content-Type': 'application/json',
   });
-  private readonly jwtHelper = new JwtHelperService();
+  private readonly jwtHelper: JwtHelperService = new JwtHelperService();
   private readonly tokenKey = 'auth_token';
 
   constructor(private http: HttpClient, private router: Router) {
@@ -41,17 +42,15 @@ export class AuthService {
   }
 
   login(email: string, password: string): Observable<IUser | null> {
-    console.log(`login at ${environment.lclApiUrl}/user/login`);
+    console.log(`login at ${this.endpoint}/login`);
     return this.http
       .post<{ results: IUser } | null>( 
-        `${environment.lclApiUrl}/user/login`,
+        `${this.endpoint}/login`,
         { email: email, password: password },
         { headers: this.headers }
       )
       .pipe(
         map((response) => {
-          console.log('Raw Backend Response:', response);
-
           if (
             response &&
             response.results &&
@@ -72,15 +71,13 @@ export class AuthService {
         }),
         catchError((error: any) => {
           console.log('error:', error);
-          console.log('error.message:', error.message);
-          console.log('error.error.message:', error.error.message);
           return of(null);
         })
       );
   }
 
   validateToken(userData: IUser): Observable<IUser | null> {
-    const url = `${environment.lclApiUrl}/auth/profile`;
+    const url = `${this.endpoint}/login`;
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -103,7 +100,7 @@ export class AuthService {
   }
 
   logout(): void {
-    console.log(`logout at ${environment.lclApiUrl}/user/logout`);
+    console.log(`logout at ${this.endpoint}/logout`);
 
     this.router
       .navigate(['/login'])
@@ -142,12 +139,10 @@ export class AuthService {
 
   public isAuthenticated(): boolean {
     const token = this.getAuthToken();
-    console.log('isAuthenticated token:', token);
     return token ? !this.jwtHelper.isTokenExpired(token) : false;
   }
 
   private getAuthToken(): string | null {
-    console.log('getAuthToken', localStorage.getItem(this.tokenKey));
     return localStorage.getItem(this.tokenKey);
   }
 }

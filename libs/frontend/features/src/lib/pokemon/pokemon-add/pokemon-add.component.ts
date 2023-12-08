@@ -4,6 +4,7 @@ import { PokemonService } from '../pokemon.service';
 import { Router } from '@angular/router'
 import { IPokemon } from '@pokemon/shared/api';
 import { Type } from '@pokemon/shared/api';
+import { AuthService } from '../../auth/auth.service';
 
 @Component({
   selector: 'pokemon-pokemon-add',
@@ -13,7 +14,7 @@ import { Type } from '@pokemon/shared/api';
 export class PokemonAddComponent {
   pokemonForm: FormGroup;
 
-  constructor(private fb: FormBuilder, private pokemonService: PokemonService, private router: Router) {
+  constructor(private fb: FormBuilder, private pokemonService: PokemonService, private router: Router, private authService: AuthService) {
     this.pokemonForm = this.fb.group({
       name: ['', Validators.required],
       type1: [null, Validators.required],
@@ -29,6 +30,7 @@ export class PokemonAddComponent {
   }
 
   addPokemon():void {
+    if(!this.authService.isAuthenticated()) this.router.navigateByUrl('/login');
     if (this.pokemonForm.valid) {
       const newPokemon: IPokemon = this.pokemonForm.value as IPokemon;
       this.pokemonService.addPokemon(newPokemon).subscribe(

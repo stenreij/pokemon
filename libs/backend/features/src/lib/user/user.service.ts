@@ -7,7 +7,6 @@ import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { randomBytes } from 'crypto';
 import { sign } from 'jsonwebtoken';
-import { Token } from '@angular/compiler';
 
 @Injectable()
 export class UserService {

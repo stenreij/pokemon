@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TeamService } from '../team.service';
 import { ITeam } from '@pokemon/shared/api';
+import { AuthService } from '../../auth/auth.service';
 
 @Component({
   selector: 'pokemon-team-edit',
@@ -17,7 +18,8 @@ export class TeamEditComponent implements OnInit {
     private fb: FormBuilder,
     private teamService: TeamService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private authService: AuthService
   ) {
     this.teamForm = this.fb.group({
       teamName: ['', Validators.required],
@@ -27,6 +29,7 @@ export class TeamEditComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    if(!this.authService.isAuthenticated()) this.router.navigateByUrl('/login');
     this.route.paramMap.subscribe((params) => {
       const teamId = params.get('id');
       if (teamId) {

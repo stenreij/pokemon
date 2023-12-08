@@ -1,4 +1,3 @@
-/* eslint-disable @nx/enforce-module-boundaries */
 import { Role } from './role.enum';
 import { Id } from './id.type';
 import { ITeam } from './team.interface';

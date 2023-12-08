@@ -2,7 +2,6 @@ import { IEntity } from './entity.model';
 import { Observable, of } from 'rxjs';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { catchError, map } from 'rxjs/operators';
-// eslint-disable-next-line @nx/enforce-module-boundaries
 import { Id } from '@pokemon/shared/api';
 
 

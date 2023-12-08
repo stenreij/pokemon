@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { IPokemon, ITeam } from '@pokemon/shared/api';
 import { PokemonService } from '../pokemon.service';
 import { TeamService } from '../../team/team.service';
+import { AuthService } from '../../auth/auth.service';
 
 @Component({
   selector: 'pokemon-detail',
@@ -15,9 +16,10 @@ export class PokemonDetailComponent implements OnInit {
   selectedTeam: ITeam | null = null;
   selectedPokemon: IPokemon | null = null;
 
-  constructor(private route: ActivatedRoute, private pokemonService: PokemonService, public teamService: TeamService, private router: Router) { }
+  constructor(private route: ActivatedRoute, private pokemonService: PokemonService, public teamService: TeamService, private router: Router, private authService: AuthService) { }
 
   ngOnInit(): void {
+    if(!this.authService.isAuthenticated()) this.router.navigateByUrl('/login');
     this.route.paramMap.subscribe((params) => {
       const pokemonId = params.get('id');
       if (pokemonId) {

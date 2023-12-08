@@ -4,6 +4,7 @@ import { TeamService } from '../team.service';
 import { Router } from '@angular/router'
 import { ITeam } from '@pokemon/shared/api';
 import { isEmpty, isNotEmpty } from 'class-validator';
+import { AuthService } from '../../auth/auth.service';
 
 @Component({
   selector: 'pokemon-team-add',
@@ -14,7 +15,7 @@ export class TeamAddComponent {
   teamForm: FormGroup;
   errorMessage: string | null = null;
 
-  constructor(private fb: FormBuilder, private teamService: TeamService, private router: Router) {
+  constructor(private fb: FormBuilder, private teamService: TeamService, private router: Router, private authService: AuthService) {
     this.teamForm = this.fb.group({
       teamName: [null, [Validators.required, Validators.maxLength(30)]],
       trainer: ['', [Validators.required, Validators.maxLength(30)]],
@@ -23,6 +24,7 @@ export class TeamAddComponent {
   }
 
   addTeam():void {
+    if(!this.authService.isAuthenticated()) this.router.navigateByUrl('/login');
     if (this.teamForm.valid) {
       const newTeam: ITeam = this.teamForm.value as ITeam;
       this.teamService.addTeam(newTeam).subscribe(

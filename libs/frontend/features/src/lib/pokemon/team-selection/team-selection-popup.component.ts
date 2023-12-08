@@ -3,6 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { IPokemon, ITeam } from '@pokemon/shared/api';
 import { TeamService } from '../../team/team.service';
 import { RouterLink, Router } from '@angular/router';
+import { AuthService } from '../../auth/auth.service';
 
 @Component({
   selector: 'pokemon-team-selection-popup',
@@ -17,10 +18,11 @@ export class PopupComponent implements OnInit {
   team: ITeam | null = null;
   errorMessage: string | null = null;
 
-  constructor(public teamService: TeamService, private router: Router) {
+  constructor(public teamService: TeamService, private router: Router, private authService: AuthService) {
   }
 
   ngOnInit(): void {
+    if(!this.authService.isAuthenticated()) this.router.navigateByUrl('/login');
     this.teamService.list().subscribe((teams) => {
       this.teams = teams;
       console.log('teamService POPUP: ', this.teamService);
