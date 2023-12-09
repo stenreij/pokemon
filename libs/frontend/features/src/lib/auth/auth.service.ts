@@ -15,7 +15,8 @@ export const AUTH_SERVICE_TOKEN = new InjectionToken<AuthService>(
   providedIn: 'root',
 })
 export class AuthService {
-  endpoint = environment.onlineApiUrl + '/user';
+  endpoint = environment.lclApiUrl + '/user';
+  private currentUser: IUser | null = null;
   public currentUser$ = new BehaviorSubject<IUser | null>(null);
   private readonly CURRENT_USER = 'currentuser';
   private readonly headers = new HttpHeaders({
@@ -23,6 +24,7 @@ export class AuthService {
   });
   private readonly jwtHelper: JwtHelperService = new JwtHelperService();
   private readonly tokenKey = 'auth_token';
+  errorMessage: string | null = null;
 
   constructor(private http: HttpClient, private router: Router) {
     this.getUserFromLocalStorage()
@@ -71,6 +73,7 @@ export class AuthService {
         }),
         catchError((error: any) => {
           console.log('error:', error);
+          this.errorMessage = "Ongeldige email en/of wachtwoord."
           return of(null);
         })
       );
@@ -145,4 +148,13 @@ export class AuthService {
   private getAuthToken(): string | null {
     return localStorage.getItem(this.tokenKey);
   }
+
+  getErrorMessage(): string | null {
+    return this.errorMessage;
+  }
+
+  public getUserInfo(): IUser | null {
+    return this.currentUser;
+  }
+
 }

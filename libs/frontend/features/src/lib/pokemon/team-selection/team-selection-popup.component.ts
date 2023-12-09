@@ -1,9 +1,10 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { IPokemon, ITeam } from '@pokemon/shared/api';
+import { IPokemon, ITeam, IUser } from '@pokemon/shared/api';
 import { TeamService } from '../../team/team.service';
 import { RouterLink, Router } from '@angular/router';
 import { AuthService } from '../../auth/auth.service';
+import { UserService } from '../../user/user.service';
 
 @Component({
   selector: 'pokemon-team-selection-popup',
@@ -17,12 +18,15 @@ export class PopupComponent implements OnInit {
   teams: ITeam[] | null = null;
   team: ITeam | null = null;
   errorMessage: string | null = null;
+  loggedInUser: IUser | null = null;
 
-  constructor(public teamService: TeamService, private router: Router, private authService: AuthService) {
+  constructor(public teamService: TeamService, private router: Router, private authService: AuthService, private userService: UserService) {
   }
 
   ngOnInit(): void {
     if(!this.authService.isAuthenticated()) this.router.navigateByUrl('/login');
+    this.loggedInUser = this.authService.getUserInfo() as IUser;
+    console.log('Gebruiker:', this.loggedInUser);
     this.teamService.list().subscribe((teams) => {
       this.teams = teams;
       console.log('teamService POPUP: ', this.teamService);
@@ -39,6 +43,15 @@ export class PopupComponent implements OnInit {
           this.teamService.editTeam(this.selectedTeam).subscribe(
             (team) => {
               this.selectedTeam = team;
+
+              this.userService.editUser(this.loggedInUser as IUser).subscribe(
+                (user: IUser) => {
+                  console.log('Gebruiker bijgewerkt met nieuw team:', user);
+                },
+                (error: any) => {
+                  console.error('Fout bij het bijwerken van de gebruiker:', error);
+                }
+              );
   
               console.log('Pokemon in team:', this.selectedTeam.pokemon);
               console.log('Geselecteerde team:', this.selectedTeam.teamName);

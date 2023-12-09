@@ -4,13 +4,13 @@
 
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav mr-auto">
-          <li class="nav-item">
+          <li class="nav-item" *ngIf="isAuth()">
             <a class="nav-link" href="">Teams</a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item" *ngIf="isAuth()">
             <a class="nav-link" routerLink='/pokemon'>Pokémon</a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item" *ngIf="isAuth()">
             <a class="nav-link" routerLink='/user'>Users</a>
           </li>
           <li class="nav-item">

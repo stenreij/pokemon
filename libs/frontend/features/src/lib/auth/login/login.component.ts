@@ -21,20 +21,26 @@ export class LoginComponent {
     });
   }
 
-  login():void {
+  login(): void {
     if (this.loginForm.valid) {
-        const email = this.loginForm.value.email;
-        const password = this.loginForm.value.password;
-        this.authService
-        .login(email, password)
-        .subscribe((user) => {
+      const email = this.loginForm.value.email;
+      const password = this.loginForm.value.password;
+  
+      this.authService.login(email, password).subscribe(
+        (user) => {
+          if (user) {
             console.log('Ingelogd user:', user);
             this.router.navigateByUrl('/');
+          } else {
+            console.error('Fout bij het inloggen van user:', 'Gebruiker bestaat niet of ongeldige gegevens.');
+            this.errorMessage = this.authService.errorMessage;
+          }
         },
         (error: any) => {
-            console.error('Fout bij het inloggen van user:', error);
+          console.error('Fout bij het inloggen van user:', error);
+          this.errorMessage = this.authService.errorMessage;
         }
-        );
+      );
     }
-  }
+  }  
 }

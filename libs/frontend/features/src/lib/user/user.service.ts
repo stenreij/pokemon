@@ -13,14 +13,14 @@ export const httpOptions = {
 
 @Injectable()
 export class UserService {
-    endpoint = environment.onlineApiUrl + '/user';
+    endpoint = environment.lclApiUrl + '/user';
     user: IUser[] | null = null;
 
     constructor(private readonly http: HttpClient) { }
 
     public list(options?: any): Observable<IUser[] | null> {
         console.log(`list ${this.endpoint}`);
-    
+
         return this.http
             .get<ApiResponse<IUser[]>>(this.endpoint, {
                 ...options,
@@ -70,7 +70,7 @@ export class UserService {
     public login(user: IUser): Observable<IUser> {
         console.log(`login ${this.endpoint}`, user);
         const url = `${this.endpoint}/login`;
-    
+
         return this.http
             .post<ApiResponse<IUser>>(url, user, httpOptions)
             .pipe(
@@ -92,6 +92,22 @@ export class UserService {
             .pipe(
                 tap(console.log),
                 map((response: any) => response.results as IUser),
+                catchError(this.handleError)
+            );
+
+    }
+
+    public userTeamList(userId: number, options?: any): Observable<IUser[] | null> {
+        console.log(`list ${this.endpoint}/${userId}`);
+
+        return this.http
+            .get<ApiResponse<IUser[]>>(`${this.endpoint}/${userId}`, {
+                ...options,
+                ...httpOptions,
+            })
+            .pipe(
+                map((response: any) => response.results as IUser[]),
+                tap(console.log),
                 catchError(this.handleError)
             );
     }
