@@ -13,6 +13,8 @@ import { TeamEditComponent } from 'libs/frontend/features/src/lib/team/team-edit
 import { UserListComponent } from 'libs/frontend/features/src/lib/user/user-list/user-list.component';
 import { RegisterComponent } from 'libs/frontend/features/src/lib/auth/register/register.component';
 import { LoginComponent } from 'libs/frontend/features/src/lib/auth/login/login.component';
+import { ProfileComponent } from 'libs/frontend/features/src/lib/user/user-profile/user-profile.component';
+import { UserEditComponent } from 'libs/frontend/features/src/lib/user/user-edit/user-edit.component';
 
 export const appRoutes: Routes= [
     { path:"", component: TeamListComponent },
@@ -27,6 +29,8 @@ export const appRoutes: Routes= [
     { path: "user", component: UserListComponent},
     { path: "register", component: RegisterComponent},
     { path: "login", component: LoginComponent},
+    { path: "profile/:id", component: ProfileComponent},
+    { path: "user-edit/:id", component: UserEditComponent},
 ];
 
 @NgModule({

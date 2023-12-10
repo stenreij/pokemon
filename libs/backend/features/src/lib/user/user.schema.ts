@@ -1,6 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Schema as MongooseSchema } from 'mongoose';
 import { ITeam, IUser, Role } from '@pokemon/shared/api';
+import { Team, TeamDocument, TeamSchema } from '../team/team.schema';
 
 export type UserDocument = User & Document;
 
@@ -49,10 +50,9 @@ export class User implements IUser {
 
     @Prop({
         default: [],
-        type: [MongooseSchema.Types.ObjectId],
-        ref: 'ITeam',
+        type: [TeamSchema],
     })
-    teams: ITeam[] = [];
+    teams: TeamDocument[] = [];
 
 }
 

@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy, NgModule } from '@angular/core';
 import { TeamService } from '../team.service';
-import { ITeam } from '@pokemon/shared/api';
+import { ITeam, IUser } from '@pokemon/shared/api';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router'
 import { AuthService } from '../../auth/auth.service';
@@ -15,16 +15,28 @@ import { AuthService } from '../../auth/auth.service';
 export class TeamListComponent implements OnInit, OnDestroy {
     teams: ITeam[] | null = null;
     subscription: Subscription | undefined = undefined;
+    loggedInUser: IUser | null = null;
 
     constructor(private teamService: TeamService, private router: Router, private authService: AuthService) { }
 
     ngOnInit(): void {
-        if(!this.authService.isAuthenticated()) this.router.navigateByUrl('/login');
-        this.subscription = this.teamService.list().subscribe((results) => {
-            console.log(`results: ${results}`);
-            this.teams = results;
+        if (!this.authService.isAuthenticated()) {
+          this.router.navigateByUrl('/login');
+        }
+      
+        this.authService.currentUser$.subscribe((user: IUser | null) => {
+          this.loggedInUser = user;
+          console.log('Logged in user:', this.loggedInUser);
+      
+          if (this.loggedInUser) {
+            this.subscription = this.teamService.list().subscribe((allTeams) => {
+              this.teams = allTeams!.filter((team) => team.trainer === this.loggedInUser?.userName);
+              console.log('Filtered Teams:', this.teams);
+            });
+          }
         });
-    }
+      }
+      
 
     ngOnDestroy(): void {
         if (this.subscription) this.subscription.unsubscribe();

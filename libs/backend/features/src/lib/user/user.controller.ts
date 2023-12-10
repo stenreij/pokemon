@@ -36,10 +36,15 @@ export class UserController {
     }
 
     @Put(':id')
-    update(
+    async update(
         @Param('id') id: number,
-        @Body() data: UpdateUserDto
+        @Body() user: UpdateUserDto
     ): Promise<IUser | null> {
-        return this.userService.update(id, data);
+        return this.userService.update(id, user);
+    }
+
+    @Delete(':id')
+    async delete(@Param('id') id: number): Promise<void> {
+        await this.userService.delete(id);
     }
 }

@@ -15,10 +15,7 @@
         </div>
         <div class="form-group">
           <label for="trainer">Wijzig je trainers naam:</label>
-          <input type="text" class="form-control" id="trainer" formControlName="trainer">
-          <div *ngIf="teamForm.get('trainer')?.invalid && teamForm.get('trainer')?.touched" class="error-message">
-            Trainer is verplicht!
-          </div>
+          <input type="text" class="form-control" id="trainer" formControlName="trainer" readonly>
         </div>
         <div class="form-group">
           <label for="teamInfo">Wijzig je team info:</label>

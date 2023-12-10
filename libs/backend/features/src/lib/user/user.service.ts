@@ -49,7 +49,15 @@ export class UserService {
         const createdItem = this.userModel.create(user);
         return createdItem;
     }
-
+        
+    async update(userId: number, user: UpdateUserDto): Promise<IUser | null> {
+        this.logger.log(`Update user ${user.userName}`);
+        const updatedItem = await this.userModel.findOneAndUpdate({ userId }, user, {
+            new: true,
+        }).exec();
+        return updatedItem;
+    }
+    
     async login(email: string, password: string): Promise<IUser> {
         console.log('login called');
         const user = await this.userModel
@@ -89,9 +97,14 @@ export class UserService {
     
         console.log('Logout successful');
     }
-    
-    async update(id: number, user: UpdateUserDto): Promise<IUser | null> {
-        this.logger.log(`Update user ${user.userName}`);
-        return this.userModel.findByIdAndUpdate({ id }, user);
+
+    async delete(userId: number): Promise<void> {
+        this.logger.log(`delete(${userId})`);
+        const deletedItem = await this.userModel
+            .findOneAndDelete({ userId })
+            .exec();
+        if (!deletedItem) {
+            throw new NotFoundException(`User #${userId} not found`);
+        }
     }
 }

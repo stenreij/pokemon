@@ -20,14 +20,17 @@ export class UserService {
 
     public list(options?: any): Observable<IUser[] | null> {
         console.log(`list ${this.endpoint}`);
-    
+
         return this.http
             .get<ApiResponse<IUser[]>>(this.endpoint, {
                 ...options,
                 ...httpOptions,
             })
             .pipe(
-                map((response: any) => response.results as IUser[]),
+                map((response: any) => {
+                    this.user = response.results as IUser[];
+                    return this.user;
+                  }),
                 tap(console.log),
                 catchError(this.handleError)
             );
@@ -70,7 +73,7 @@ export class UserService {
     public login(user: IUser): Observable<IUser> {
         console.log(`login ${this.endpoint}`, user);
         const url = `${this.endpoint}/login`;
-    
+
         return this.http
             .post<ApiResponse<IUser>>(url, user, httpOptions)
             .pipe(
@@ -94,6 +97,22 @@ export class UserService {
                 map((response: any) => response.results as IUser),
                 catchError(this.handleError)
             );
+
+    }
+
+    public userTeamList(userId: number, options?: any): Observable<IUser[] | null> {
+        console.log(`list ${this.endpoint}/${userId}`);
+
+        return this.http
+            .get<ApiResponse<IUser[]>>(`${this.endpoint}/${userId}`, {
+                ...options,
+                ...httpOptions,
+            })
+            .pipe(
+                map((response: any) => response.results as IUser[]),
+                tap(console.log),
+                catchError(this.handleError)
+            );
     }
 
     public handleError(error: HttpErrorResponse): Observable<any> {
@@ -101,4 +120,11 @@ export class UserService {
 
         return throwError(() => new Error(error.message));
     }
+
+    public isUser(email: string): boolean {
+        if (this.user) {
+          return this.user.some((u) => u.email === email);
+        }
+        return false;
+      }
 }

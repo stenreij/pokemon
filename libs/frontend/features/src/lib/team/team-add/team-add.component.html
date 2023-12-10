@@ -15,11 +15,7 @@
       </div>
       <div class="form-group">
         <label for="trainer">Trainer:</label>
-        <input type="text" class="form-control" id="trainer" formControlName="trainer" placeholder="Trainer"
-          [ngClass]="{'is-invalid': teamForm.get('trainer')?.invalid && teamForm.get('trainer')?.touched}">
-        <div class="error-message"
-          *ngIf="teamForm.get('trainer')?.hasError('required') && teamForm.get('trainer')?.touched">Trainer is verplicht
-        </div>
+        <input type="text" class="form-control" id="trainer" formControlName="trainer" [value]="loggedInUser?.userName" readonly>
       </div>
       <div class="form-group">
         <label for="teamInfo">Team info:</label>
