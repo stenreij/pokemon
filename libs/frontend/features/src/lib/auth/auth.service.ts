@@ -15,7 +15,7 @@ export const AUTH_SERVICE_TOKEN = new InjectionToken<AuthService>(
   providedIn: 'root',
 })
 export class AuthService {
-  endpoint = environment.lclApiUrl + '/user';
+  endpoint = environment.onlineApiUrl + '/user';
   private currentUser: IUser | null = null;
   public currentUser$ = new BehaviorSubject<IUser | null>(null);
   private readonly CURRENT_USER = 'currentuser';
@@ -68,6 +68,7 @@ export class AuthService {
             return response.results;
           } else {
             console.log('Else statement response structure:', response);
+            this.errorMessage = "Ongeldige email en/of wachtwoord."
             return null;
           }
         }),

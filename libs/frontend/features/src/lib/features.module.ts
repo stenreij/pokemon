@@ -21,6 +21,8 @@ import { UserListComponent } from './user/user-list/user-list.component';
 import { AuthService } from './auth/auth.service';
 import { RegisterComponent } from './auth/register/register.component';
 import { LoginComponent } from './auth/login/login.component';
+import { ProfileComponent } from './user/user-profile/user-profile.component';
+import { UserEditComponent } from './user/user-edit/user-edit.component';
 
 @NgModule({
   imports: [CommonModule, HttpClientModule, RouterModule, ReactiveFormsModule, FormsModule],
@@ -38,6 +40,8 @@ import { LoginComponent } from './auth/login/login.component';
     UserListComponent,
     RegisterComponent,
     LoginComponent,
+    ProfileComponent,
+    UserEditComponent,
   ],
   providers: [TeamService, PokemonService, UserService, AuthService],
   exports: [
@@ -54,6 +58,8 @@ import { LoginComponent } from './auth/login/login.component';
     UserListComponent,
     RegisterComponent,
     LoginComponent,
+    ProfileComponent,
+    UserEditComponent,
   ],
 })
 export class FeaturesModule {}

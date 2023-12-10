@@ -62,4 +62,5 @@ label {
 .error-message {
     color: rgba(247, 76, 76, 0.858);
     font-size: 20px;
+    text-align: center;
 }

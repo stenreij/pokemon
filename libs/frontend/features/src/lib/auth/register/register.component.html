@@ -43,6 +43,9 @@
                     Wachtwoord is
                     verplicht</div>
             </div>
+            <div class="error-message">
+                {{ errorMessage }}
+            </div>
             <div class="button">
                 <button class="addButton" type="submit" (click)="register()" [disabled]="!registerForm.valid">
                     Registreer

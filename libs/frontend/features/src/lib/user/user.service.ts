@@ -13,7 +13,7 @@ export const httpOptions = {
 
 @Injectable()
 export class UserService {
-    endpoint = environment.lclApiUrl + '/user';
+    endpoint = environment.onlineApiUrl + '/user';
     user: IUser[] | null = null;
 
     constructor(private readonly http: HttpClient) { }
@@ -27,7 +27,10 @@ export class UserService {
                 ...httpOptions,
             })
             .pipe(
-                map((response: any) => response.results as IUser[]),
+                map((response: any) => {
+                    this.user = response.results as IUser[];
+                    return this.user;
+                  }),
                 tap(console.log),
                 catchError(this.handleError)
             );
@@ -117,4 +120,11 @@ export class UserService {
 
         return throwError(() => new Error(error.message));
     }
+
+    public isUser(email: string): boolean {
+        if (this.user) {
+          return this.user.some((u) => u.email === email);
+        }
+        return false;
+      }
 }

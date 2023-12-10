@@ -1,0 +1,35 @@
+<div class="container">
+    <div class="title">
+        <h2>Bewerk gebruiker</h2>
+        <hr>
+    </div>
+    <div class="form">
+        <form [formGroup]="userForm">
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="text" class="form-control" id="email" formControlName="email" placeholder="Email">
+                <div class="error-message"
+                    *ngIf="userForm.get('email')?.hasError('required') && userForm.get('email')?.touched">
+                    Email is verplicht
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="birthDate">Geboortedatum:</label>
+                <input type="datetime" class="form-control" id="birthDate" formControlName="birthDate"
+                    [ngClass]="{'is-invalid': userForm.get('birthDate')?.invalid && userForm.get('birthDate')?.touched}">
+                <div class="error-message"
+                    *ngIf="userForm.get('birthDate')?.hasError('pattern') && userForm.get('birthDate')?.touched">
+                    Ongeldig datumformaat. Gebruik het formaat yyyy-MM-dd.
+                </div>
+            </div>
+            <div class="error-message">
+                {{ errorMessage }}
+            </div>
+            <div class="button">
+                <button class="addButton" type="submit" (click)="editUser()">
+                    Bewerk
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

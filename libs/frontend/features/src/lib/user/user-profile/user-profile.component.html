@@ -1,0 +1,23 @@
+<div *ngIf="user" class="container">
+    <div class="title">
+        <h2>Account Details</h2>
+        <h3>{{ user.userName }}</h3>
+        <hr>
+    </div>
+    <div class="info">
+        <ul><strong>Id:</strong> {{ user.userId }}</ul>
+        <ul><strong>TrainerNaam:</strong> {{ user.userName }}</ul>
+        <ul><strong>Email:</strong> {{ user.email }}</ul>
+        <ul><strong>Geboortedatum:</strong> {{ user.birthDate | date: 'dd-MM-yyyy' }} </ul>
+        <ul><strong>Rol:</strong> {{ user.role }} </ul>
+    </div>
+    <div class="button">
+        <button class="deleteButton" (click)="deleteUser()">
+            Verwijder
+        </button>
+        <div></div>
+        <button class="addButton" type="submit" [routerLink]="['/user-edit',user.userId]">
+            Edit
+        </button>
+    </div>
+</div>

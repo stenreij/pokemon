@@ -42,4 +42,9 @@ export class UserController {
     ): Promise<IUser | null> {
         return this.userService.update(id, user);
     }
+
+    @Delete(':id')
+    async delete(@Param('id') id: number): Promise<void> {
+        await this.userService.delete(id);
+    }
 }
