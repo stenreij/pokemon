@@ -16,27 +16,33 @@ export class TeamListComponent implements OnInit, OnDestroy {
     teams: ITeam[] | null = null;
     subscription: Subscription | undefined = undefined;
     loggedInUser: IUser | null = null;
+    user= this.authService.currentUser$.value!;
 
     constructor(private teamService: TeamService, private router: Router, private authService: AuthService) { }
 
     ngOnInit(): void {
-        if (!this.authService.isAuthenticated()) {
-          this.router.navigateByUrl('/login');
-        }
-      
-        this.authService.currentUser$.subscribe((user: IUser | null) => {
-          this.loggedInUser = user;
-          console.log('Logged in user:', this.loggedInUser);
-      
-          if (this.loggedInUser) {
-            this.subscription = this.teamService.list().subscribe((allTeams) => {
-              this.teams = allTeams!.filter((team) => team.trainer === this.loggedInUser?.userName);
-              console.log('Filtered Teams:', this.teams);
-            });
-          }
-        });
+      if (!this.authService.isAuthenticated()) {
+        this.router.navigateByUrl('/login');
       }
+  
+      this.authService.currentUser$.subscribe((user: IUser | null) => {
+        this.loggedInUser = user;
+        console.log('Logged in user:', this.loggedInUser);
+  
+        if (this.loggedInUser) {
+          this.loadTeams();
+        }
+      });
+    }
       
+    loadTeams(): void {
+      this.subscription = this.teamService.list().subscribe((allTeams) => {
+        this.teams = allTeams!.filter(
+          (team) => team.trainer === this.loggedInUser?.userName
+        );
+        console.log('Filtered Teams:', this.teams);
+      });
+    }
 
     ngOnDestroy(): void {
         if (this.subscription) this.subscription.unsubscribe();
@@ -44,12 +50,11 @@ export class TeamListComponent implements OnInit, OnDestroy {
 
     verwijderTeam(teamId: number): void {
         this.teamService.delete(teamId).subscribe(() => {
-            this.teamService.list().subscribe((results) => {
-                this.teams = results;
-            },
+          this.loadTeams();
+        },
                 (error) => {
                     console.log('Er is een fout opgetreden:', error);
                 });
-        });
+        
     }
 }

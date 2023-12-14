@@ -51,6 +51,12 @@ export class Pokemon implements IPokemon {
     })
     afbeelding!: string;
 
+    @Prop({
+        required: true,
+        type: String,
+    })
+    creator!: string;
+
 }
 
 export const PokemonSchema = SchemaFactory.createForClass(Pokemon);

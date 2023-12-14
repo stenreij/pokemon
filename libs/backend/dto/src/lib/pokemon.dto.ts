@@ -10,6 +10,7 @@ import {
     IUpsertPokemon,
 } from '@pokemon/shared/api';
 import { Type } from '@pokemon/shared/api';
+import { StringExpressionOperatorReturningBoolean } from 'mongoose';
 
 export class CreatePokemonDto implements ICreatePokemon {
     @IsString()
@@ -35,6 +36,10 @@ export class CreatePokemonDto implements ICreatePokemon {
     @IsString()
     @IsNotEmpty()
     afbeelding!: string;
+
+    @IsString()
+    @IsNotEmpty()
+    creator!: string;
 }
 
 export class UpsertPokemonDto implements IUpsertPokemon {
@@ -65,6 +70,10 @@ export class UpsertPokemonDto implements IUpsertPokemon {
     @IsString()
     @IsNotEmpty()
     afbeelding!: string;
+
+    @IsString()
+    @IsNotEmpty()
+    creator!: string;
 }
 
 export class UpdatePokemonDto implements IUpdatePokemon {

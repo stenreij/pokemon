@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { IPokemon, ITeam } from '@pokemon/shared/api';
+import { IPokemon, ITeam, Role } from '@pokemon/shared/api';
 import { PokemonService } from '../pokemon.service';
 import { TeamService } from '../../team/team.service';
 import { AuthService } from '../../auth/auth.service';
@@ -15,6 +15,7 @@ export class PokemonDetailComponent implements OnInit {
   teams: ITeam[] | null = null;
   selectedTeam: ITeam | null = null;
   selectedPokemon: IPokemon | null = null;
+  user= this.authService.currentUser$.value?.userName;
 
   constructor(private route: ActivatedRoute, private pokemonService: PokemonService, public teamService: TeamService, private router: Router, private authService: AuthService) { }
 
@@ -40,6 +41,11 @@ export class PokemonDetailComponent implements OnInit {
         console.log('Er is een fout opgetreden:', error);
       }
     )
+  }
+
+  isAdmin(): boolean {
+    const user = this.authService.currentUser$.value;
+    return user?.role === Role.ADMIN;
   }
 
   openPopup() {

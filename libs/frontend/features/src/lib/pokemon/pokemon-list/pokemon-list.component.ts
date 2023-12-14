@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { PokemonService } from '../pokemon.service';
-import { IPokemon, ITeam } from '@pokemon/shared/api';
+import { IPokemon, ITeam, Role } from '@pokemon/shared/api';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 import { TeamService } from '../../team/team.service';
@@ -16,19 +16,20 @@ export class PokemonListComponent implements OnInit, OnDestroy {
   subscription: Subscription | undefined = undefined;
   teams: ITeam[] | null = null;
   selectedTeam: ITeam | null = null;
-  selectedPokemon: IPokemon | null = null; 
+  selectedPokemon: IPokemon | null = null;
+  user= this.authService.currentUser$.value?.userName;
 
   constructor(
     private pokemonService: PokemonService,
     private router: Router,
     public teamService: TeamService,
     private authService: AuthService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     if (!this.authService.isAuthenticated()) this.router.navigateByUrl('/login');
     this.subscription = this.pokemonService.list().subscribe((results) => {
-        console.log(`results: ${results}`);
+      console.log(`results: ${results}`);
       this.pokemon = results;
 
       this.subscription = this.teamService.list().subscribe((resultss) => {
@@ -42,14 +43,14 @@ export class PokemonListComponent implements OnInit, OnDestroy {
 
   verwijderPokemon(pokemonId: number): void {
     this.pokemonService.delete(pokemonId).subscribe(() => {
-        this.pokemonService.list().subscribe((results) => {
-            this.pokemon = results;
-        },
-            (error) => {
-                console.log('Er is een fout opgetreden:', error);
-            });
+      this.pokemonService.list().subscribe((results) => {
+        this.pokemon = results;
+      },
+        (error) => {
+          console.log('Er is een fout opgetreden:', error);
+        });
     });
-}
+  }
 
   ngOnDestroy(): void {
     if (this.subscription) this.subscription.unsubscribe();
@@ -57,14 +58,19 @@ export class PokemonListComponent implements OnInit, OnDestroy {
 
   openPopup(pokemon: IPokemon) {
     this.selectedPokemon = pokemon;
-    this.teamService.list().subscribe((teams)=>{
-        this.teams = teams;
-        this.selectedTeam = null;
-        this.teamService.openPopup();
+    this.teamService.list().subscribe((teams) => {
+      this.teams = teams;
+      this.selectedTeam = null;
+      this.teamService.openPopup();
     });
   }
 
   closePopup() {
     this.teamService.closePopup();
+  }
+
+  isAdmin(): boolean {
+    const user = this.authService.currentUser$.value;
+    return user?.role === Role.ADMIN;
   }
 }
