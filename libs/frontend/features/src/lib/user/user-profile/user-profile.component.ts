@@ -49,6 +49,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
             (response) => {
               console.log('Verwijder gebruiker:', response);
               this.verwijderGerelateerdeTeams();
+              this.authService.logout();
             },
             (error) => {
               console.log('Er is een fout opgetreden bij het verwijderen van de gebruiker:', error);
@@ -65,7 +66,6 @@ export class ProfileComponent implements OnInit, OnDestroy {
                 this.verwijderTeam(team.teamId);
               }
             });
-            this.authService.logout();
             this.router.navigateByUrl('/');
           },
           (error) => {
