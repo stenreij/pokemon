@@ -42,14 +42,29 @@ export class PokemonListComponent implements OnInit, OnDestroy {
   }
 
   verwijderPokemon(pokemonId: number): void {
-    this.pokemonService.delete(pokemonId).subscribe(() => {
-      this.pokemonService.list().subscribe((results) => {
-        this.pokemon = results;
-      },
+    const bevestigen = window.confirm('Weet je zeker dat je deze Pokémon wilt verwijderen?');
+  
+    if (bevestigen) {
+      this.pokemonService.delete(pokemonId).subscribe(
+        () => {
+          this.herlaadPokemonLijst();
+        },
         (error) => {
-          console.log('Er is een fout opgetreden:', error);
-        });
-    });
+          console.log('Er is een fout opgetreden bij het verwijderen van de Pokémon:', error);
+        }
+      );
+    }
+  }
+  
+  private herlaadPokemonLijst(): void {
+    this.pokemonService.list().subscribe(
+      (resultaten) => {
+        this.pokemon = resultaten;
+      },
+      (error) => {
+        console.log('Er is een fout opgetreden bij het ophalen van de Pokémon-lijst:', error);
+      }
+    );
   }
 
   ngOnDestroy(): void {
