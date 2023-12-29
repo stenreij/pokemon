@@ -15,6 +15,7 @@ import { RegisterComponent } from 'libs/frontend/features/src/lib/auth/register/
 import { LoginComponent } from 'libs/frontend/features/src/lib/auth/login/login.component';
 import { ProfileComponent } from 'libs/frontend/features/src/lib/user/user-profile/user-profile.component';
 import { UserEditComponent } from 'libs/frontend/features/src/lib/user/user-edit/user-edit.component';
+import { PowermoveListComponent } from 'libs/frontend/features/src/lib/powermove/powermove-list/powermove-list.component';
 
 export const appRoutes: Routes= [
     { path:"", component: TeamListComponent },
@@ -31,6 +32,7 @@ export const appRoutes: Routes= [
     { path: "login", component: LoginComponent},
     { path: "profile/:id", component: ProfileComponent},
     { path: "user-edit/:id", component: UserEditComponent},
+    { path: "powermove", component: PowermoveListComponent},
 ];
 
 @NgModule({

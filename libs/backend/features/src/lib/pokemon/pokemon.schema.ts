@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Schema as MongooseSchema } from 'mongoose';
-import { IPokemon, Type } from '@pokemon/shared/api';
+import { IPokemon, IPowermove, Type } from '@pokemon/shared/api';
 
 export type PokemonDocument = Pokemon & Document;
 
@@ -57,6 +57,11 @@ export class Pokemon implements IPokemon {
     })
     creator!: string;
 
+    @Prop({
+        required: true,
+        type: String,
+    })
+    powermove!: IPowermove;
 }
 
 export const PokemonSchema = SchemaFactory.createForClass(Pokemon);

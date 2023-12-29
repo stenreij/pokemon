@@ -6,6 +6,7 @@ import {
 } from 'class-validator';
 import {
     ICreatePokemon,
+    IPowermove,
     IUpdatePokemon,
     IUpsertPokemon,
 } from '@pokemon/shared/api';
@@ -40,6 +41,9 @@ export class CreatePokemonDto implements ICreatePokemon {
     @IsString()
     @IsNotEmpty()
     creator!: string;
+
+    @IsString()
+    powermove!: IPowermove;
 }
 
 export class UpsertPokemonDto implements IUpsertPokemon {
@@ -74,6 +78,10 @@ export class UpsertPokemonDto implements IUpsertPokemon {
     @IsString()
     @IsNotEmpty()
     creator!: string;
+
+    @IsString()
+    @IsNotEmpty()
+    powermove!: IPowermove;
 }
 
 export class UpdatePokemonDto implements IUpdatePokemon {

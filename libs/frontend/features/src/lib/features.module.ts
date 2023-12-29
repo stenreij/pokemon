@@ -23,6 +23,8 @@ import { RegisterComponent } from './auth/register/register.component';
 import { LoginComponent } from './auth/login/login.component';
 import { ProfileComponent } from './user/user-profile/user-profile.component';
 import { UserEditComponent } from './user/user-edit/user-edit.component';
+import { PowermoveListComponent } from './powermove/powermove-list/powermove-list.component';
+import { PowermoveService } from './powermove/powermove.service';
 
 @NgModule({
   imports: [CommonModule, HttpClientModule, RouterModule, ReactiveFormsModule, FormsModule],
@@ -42,8 +44,9 @@ import { UserEditComponent } from './user/user-edit/user-edit.component';
     LoginComponent,
     ProfileComponent,
     UserEditComponent,
+    PowermoveListComponent,
   ],
-  providers: [TeamService, PokemonService, UserService, AuthService],
+  providers: [TeamService, PokemonService, UserService, AuthService, PowermoveService],
   exports: [
     TeamListComponent,
     TeamDetailComponent,
@@ -60,6 +63,7 @@ import { UserEditComponent } from './user/user-edit/user-edit.component';
     LoginComponent,
     ProfileComponent,
     UserEditComponent,
+    PowermoveListComponent,
   ],
 })
 export class FeaturesModule {}
