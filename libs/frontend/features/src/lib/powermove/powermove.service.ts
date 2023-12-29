@@ -13,7 +13,7 @@ export const httpOptions = {
 
 @Injectable()
 export class PowermoveService {
-    endpoint = environment.lclApiUrl + '/powermove';
+    endpoint = environment.onlineApiUrl + '/powermove';
     powermoves: IPowermove[] | null = null;
 
     constructor(private readonly http: HttpClient) { }
