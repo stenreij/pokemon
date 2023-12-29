@@ -5,3 +5,4 @@ export * from './lib/models/user.interface';
 export * from './lib/models/role.enum';
 export * from './lib/models/type.enum';
 export * from './lib/models/id.type';
+export * from './lib/models/powermove.interface';

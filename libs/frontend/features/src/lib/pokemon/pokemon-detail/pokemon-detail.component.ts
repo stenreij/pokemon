@@ -30,17 +30,20 @@ export class PokemonDetailComponent implements OnInit {
       }
     });
   }
-
+  
   verwijderPokemon(pokemonId: number): void {
-    this.pokemonService.delete(pokemonId).subscribe(
-      () => {
-        this.pokemon = undefined;
-        this.router.navigateByUrl('/pokemon');
-      },
-      (error) => {
-        console.log('Er is een fout opgetreden:', error);
-      }
-    )
+    const bevestigen = window.confirm('Weet je zeker dat je deze Pokémon wilt verwijderen?');
+  
+    if (bevestigen) {
+      this.pokemonService.delete(pokemonId).subscribe(
+        () => {
+          this.router.navigateByUrl('/pokemon');
+        },
+        (error) => {
+          console.log('Er is een fout opgetreden bij het verwijderen van de Pokémon:', error);
+        }
+      );
+    }
   }
 
   isAdmin(): boolean {

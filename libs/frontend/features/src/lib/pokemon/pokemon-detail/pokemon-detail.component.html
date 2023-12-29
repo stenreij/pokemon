@@ -10,6 +10,7 @@
         <h4><strong>Type 1:</strong> {{ pokemon.type1 }}</h4>
         <h4><strong>Type 2:</strong> {{ pokemon.type2 }}</h4>
         <h4><strong>Rating:</strong> {{ pokemon.rating }}</h4>
+        <h4><strong>Powermove:</strong> {{ pokemon.powermove }}</h4>
         <h4><strong>Is legendary:</strong> {{ pokemon.legendary }}</h4>
         <h4><strong>Toegevoegd door:</strong> {{ pokemon.creator }}</h4>
         <div class="buttons" *ngIf="isAdmin() || user===pokemon.creator">

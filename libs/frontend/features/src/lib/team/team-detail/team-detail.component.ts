@@ -50,15 +50,18 @@ export class TeamDetailComponent implements OnInit {
   }
 
   verwijderTeam(teamId: number): void {
-    this.teamService.delete(teamId).subscribe(
-      () => {
-        this.team = null;
-        this.router.navigateByUrl('/');
-      },
-      (error) => {
-        console.log('Er is een fout opgetreden:', error);
-      }
-    )
+    const bevestigen = window.confirm('Weet je zeker dat je dit team wilt verwijderen?');
+    
+    if (bevestigen) {
+      this.teamService.delete(teamId).subscribe(
+        () => {
+          this.router.navigateByUrl('/');
+        },
+        (error) => {
+          console.log('Er is een fout opgetreden bij het verwijderen van het team:', error);
+        }
+      );
+    }
   }
 
   loadPokemonList(): void {
@@ -70,9 +73,12 @@ export class TeamDetailComponent implements OnInit {
   }
 
   removePokemon(pokemon: IPokemon): void {
-    if (this.team) {
+    const bevestigen = window.confirm('Weet je zeker dat je deze Pokémon wilt verwijderen?');
+  
+    if (bevestigen && this.team) {
       const idToUse = pokemon.pokemonId;
-      this.team.pokemon = this.team.pokemon.filter((pokemon) => pokemon.pokemonId !== idToUse);
+      this.team.pokemon = this.team.pokemon.filter((p) => p.pokemonId !== idToUse);
+  
       this.teamService.editTeam(this.team).subscribe(
         (team) => {
           this.team = team;
@@ -83,6 +89,7 @@ export class TeamDetailComponent implements OnInit {
         }
       );
     }
+  
     this.loadPokemonList();
-  }
+  }  
 }

@@ -42,21 +42,47 @@ export class ProfileComponent implements OnInit, OnDestroy {
     }
 
     deleteUser(): void {
-        if (this.user) {
-            this.userService.delete(this.user.userId).subscribe((response) => {
-                console.log('Verwijder user:', response);
-                this.router.navigateByUrl('/');
-                this.teamService.list().subscribe((results) => {
-                    results?.forEach((team) => {
-                        if (team.trainer === this.user?.userName) {
-                            this.teamService.delete(team.teamId).subscribe((response) => {
-                                console.log('Verwijder team:', response);
-                            });
-                        }
-                    });
-                    this.authService.logout();
-                });
-            });
+        const bevestigen = window.confirm('Weet je zeker dat je deze gebruiker wilt verwijderen?');
+      
+        if (bevestigen && this.user) {
+          this.userService.delete(this.user.userId).subscribe(
+            (response) => {
+              console.log('Verwijder gebruiker:', response);
+              this.verwijderGerelateerdeTeams();
+              this.authService.logout();
+            },
+            (error) => {
+              console.log('Er is een fout opgetreden bij het verwijderen van de gebruiker:', error);
+            }
+          );
         }
-    }
+      }
+      
+      private verwijderGerelateerdeTeams(): void {
+        this.teamService.list().subscribe(
+          (teams) => {
+            teams?.forEach((team) => {
+              if (team.trainer === this.user?.userName) {
+                this.verwijderTeam(team.teamId);
+              }
+            });
+            this.router.navigateByUrl('/');
+          },
+          (error) => {
+            console.log('Er is een fout opgetreden bij het ophalen van de teams:', error);
+          }
+        );
+      }
+      
+      private verwijderTeam(teamId: number): void {
+        this.teamService.delete(teamId).subscribe(
+          (response) => {
+            console.log('Verwijder team:', response);
+          },
+          (error) => {
+            console.log('Er is een fout opgetreden bij het verwijderen van het team:', error);
+          }
+        );
+      }
+      
 }

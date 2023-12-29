@@ -49,12 +49,17 @@ export class TeamListComponent implements OnInit, OnDestroy {
     }
 
     verwijderTeam(teamId: number): void {
-        this.teamService.delete(teamId).subscribe(() => {
-          this.loadTeams();
-        },
-                (error) => {
-                    console.log('Er is een fout opgetreden:', error);
-                });
-        
+      const bevestigen = window.confirm('Weet je zeker dat je dit team wilt verwijderen?');
+      
+      if (bevestigen) {
+        this.teamService.delete(teamId).subscribe(
+          () => {
+            this.loadTeams();
+          },
+          (error) => {
+            console.log('Er is een fout opgetreden bij het verwijderen van het team:', error);
+          }
+        );
+      }
     }
 }
