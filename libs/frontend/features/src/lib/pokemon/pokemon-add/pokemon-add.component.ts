@@ -2,9 +2,10 @@ import { Component} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { PokemonService } from '../pokemon.service';
 import { Router } from '@angular/router'
-import { IPokemon, IUser } from '@pokemon/shared/api';
+import { IPokemon, IPowermove, IUser } from '@pokemon/shared/api';
 import { Type } from '@pokemon/shared/api';
 import { AuthService } from '../../auth/auth.service';
+import { PowermoveService } from '../../powermove/powermove.service';
 
 @Component({
   selector: 'pokemon-pokemon-add',
@@ -14,8 +15,15 @@ import { AuthService } from '../../auth/auth.service';
 export class PokemonAddComponent {
   pokemonForm: FormGroup;
   loggedInUser: IUser | null = null;
+  powermoves: IPowermove[] | undefined;
 
-  constructor(private fb: FormBuilder, private pokemonService: PokemonService, private router: Router, private authService: AuthService) {
+  constructor(
+    private fb: FormBuilder, 
+    private pokemonService: PokemonService, 
+    private router: Router, 
+    private authService: AuthService,
+    private powermoveService: PowermoveService
+    ) {
     this.pokemonForm = this.fb.group({
       name: ['', Validators.required],
       type1: [null, Validators.required],
@@ -23,16 +31,30 @@ export class PokemonAddComponent {
       rating: ['', Validators.required],
       legendary: [false, Validators.required],
       afbeelding: ['', Validators.required],
+      powermove: [null, Validators.required],
     });
     this.authService.currentUser$.subscribe((user: IUser | null) => {
       this.loggedInUser = user;
       console.log('Logged in user:', this.loggedInUser);
       this.pokemonForm.get('creator')?.setValue(this.loggedInUser?.userName);
     });
+
+    this.loadPowermoves();
   }
 
   getTypeOptions(){
     return Object.values(Type);
+  }
+
+  loadPowermoves() {
+    this.powermoveService.list().subscribe(
+      (powermoves: IPowermove[] | null) => {
+        this.powermoves = powermoves!;
+      },
+      (error: any) => {
+        console.error('Error loading powermoves:', error);
+      }
+    );
   }
 
   addPokemon(): void {

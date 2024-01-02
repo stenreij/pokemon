@@ -13,6 +13,9 @@
           <th>Powermove</th>
           <th>Type</th>
           <th>Power</th>
+          <th>Details</th>
+          <th>Edit</th>
+          <th>Verwijder</th>
         </tr>
       </thead>
       <tbody>
@@ -21,11 +24,11 @@
           <td>{{ powermove.name }}</td>
           <td>{{ powermove.type }}</td>
           <td>{{ powermove.power }}</td>
-          <!-- <td><button class="actionButton" [routerLink]="['/team/' + team.teamId]"><a class="link" id="team-details"> Details </a></button>
+          <td><button class="actionButton"><a class="link" id="powermove-details"> Details </a></button>
           </td>
-          <td><button class="actionButton" [routerLink]="['/team-edit',team.teamId]"><a class="link"> Edit </a></button>
+          <td><button class="actionButton"><a class="link"> Edit </a></button>
           </td>
-          <td><button class="deleteButton" (click)="verwijderTeam(team.teamId)"> Verwijder </button></td> -->
+          <td><button class="deleteButton" (click)="verwijderPowermove(powermove.powermoveId)"> Verwijder </button></td>
         </tr>
       </tbody>
     </table>

@@ -36,6 +36,15 @@
                     is verplicht</div>
             </div>
             <div class="form-group">
+                <label for="powermove">Powermove:</label>
+                <select class="form-control" id="powermove" formControlName="powermove">
+                    <option *ngFor="let powermove of powermoves" [value]="powermove.name">{{ powermove.name }}</option>
+                </select>
+                <div class="error-message"
+                    *ngIf="pokemonForm.get('powermove')?.hasError('required') && pokemonForm.get('powermove')?.touched">Powermove
+                    is verplicht</div>
+            </div>
+            <div class="form-group">
                 <label for="rating">Rating:</label>
                 <input type="number" class="form-control" id="rating" formControlName="rating" placeholder="Rating"
                     [ngClass]="{'is-invalid': pokemonForm.get('rating')?.invalid && pokemonForm.get('rating')?.touched}">
