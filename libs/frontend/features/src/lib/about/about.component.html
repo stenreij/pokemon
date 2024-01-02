@@ -21,6 +21,8 @@
                 Je kunt zelf een team aanmaken en een naam geven. 
                 Je kan tot maximaal 6 pokémon toevoegen aan een team. Het is mogelijk om een bestaand team aan te 
                 passen of te verwijderen. Je kunt ook de details van een team bekijken.
+                Als gebruiker heb je ook de mogelijkheid om pokémon zelf toe te voegen en je eigen toegevoegde pokémon te updaten.
+                En als laatste is er de mogelijkheid om als gebruiker powermoves te bekijken en toe te voegen. 
             </p>
         </div>
     </div>
@@ -61,19 +63,13 @@
             </ul>
         </div>
         <div class="col-sm-12 col-md-4">
-            <p><strong>Item Voorraad</strong></p>
+            <p><strong>Powermove</strong></p>
             <ul>
-                <li>itemVoorraadId: number</li>
-                <li>aantal: number</li>
-            </ul>
-        </div>
-        <div class="col-sm-12 col-md-4">
-            <p><strong>Item</strong></p>
-            <ul>
-                <li>itemId: number</li>
+                <li>powermoveId: number</li>
                 <li>naam: string</li>
-                <li>beschrijving: string</li>
-                <li>Type: string</li>
+                <li>type: Type</li>
+                <li>kracht: number</li>
+                <li>nauwkeurigheid: number</li>
             </ul>
         </div>
     </div>
@@ -179,6 +175,36 @@
                             <li>Een pokémon kan alleen aangepast worden als alle velden zijn ingevuld.</li>
                         </td>
                         <td class="td-underlined">Must</td>
+                    </tr>
+                    <tr>
+                        <td class="td-css">9.</td>
+                        <td class="td-underlined">
+                            Als gebruiker wil ik een lijst van powermoves kunnen zien, zodat ik weet welke powermoves er zijn.
+                        </td>
+                        <td class="td-underlined">
+                            <li>Er is een overzicht van alle powermoves die er zijn.</li>
+                            <li>De belangrijkste info van de powermoves zijn te zien.</li>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="td-css">10.</td>
+                        <td class="td-underlined">
+                            Als gebruiker wil ik de details van de powermoves kunnen zien, zodat ik de verdere informatie van een powermove kan bekijken.
+                        </td>
+                        <td class="td-underlined">
+                            <li>In het overzicht van powermoves is een knop aanwezig waarmee ik kan navigeren naar de details van een powermove.</li>
+                            <li>In de detailspagina staan alle gegevens van een powermove.</li>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="td-css">11.</td>
+                        <td class="td-underlined">
+                            Als gebruiker wil ik een powermove kunnen aanmaken, zodat ik een powermove kan toevoegen als die nog niet bestaat.
+                        </td>
+                        <td class="td-underlined">
+                            <li>Er is een pagina waarop ik alle nodige gegevens van een powermove kan invullen en opgeven.</li>
+                            <li>Er is een knop zodat ik daadwerkelijk een nieuwe powermove aanmaak.</li>
+                        </td>
                     </tr>
                 </tbody>
             </table>
