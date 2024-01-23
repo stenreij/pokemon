@@ -17,6 +17,7 @@ import { ProfileComponent } from 'libs/frontend/features/src/lib/user/user-profi
 import { UserEditComponent } from 'libs/frontend/features/src/lib/user/user-edit/user-edit.component';
 import { PowermoveListComponent } from 'libs/frontend/features/src/lib/powermove/powermove-list/powermove-list.component';
 import { PowermoveDetailComponent } from 'libs/frontend/features/src/lib/powermove/powermove-detail/powermove-detail.component';
+import { PowermoveAddComponent } from 'libs/frontend/features/src/lib/powermove/powermove-add/powermove-add.component';
 
 export const appRoutes: Routes= [
     { path:"", component: TeamListComponent },
@@ -34,7 +35,8 @@ export const appRoutes: Routes= [
     { path: "profile/:id", component: ProfileComponent},
     { path: "user-edit/:id", component: UserEditComponent},
     { path: "powermove", component: PowermoveListComponent},
-    { path: "powermove/:id", component: PowermoveDetailComponent}
+    { path: "powermove/:id", component: PowermoveDetailComponent},
+    { path: "powermove-add", component: PowermoveAddComponent}
 ];
 
 @NgModule({

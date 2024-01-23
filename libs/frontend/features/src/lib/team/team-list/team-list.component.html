@@ -7,8 +7,7 @@
   </button>
 </div>
 
-<div>
-
+<div *ngIf="teams && teams.length > 0">
   <table class="table table-striped">
     <thead>
       <tr>
@@ -16,9 +15,9 @@
         <th>TeamNaam</th>
         <th>Trainer</th>
         <th>Rating</th>
-        <th>Details</th>
-        <th>Edit</th>
-        <th>Verwijder</th>
+        <th></th>
+        <th></th>
+        <th></th>
       </tr>
     </thead>
     <tbody>
@@ -35,4 +34,9 @@
       </tr>
     </tbody>
   </table>
+</div>
+<div *ngIf="!teams || teams.length === 0" class="alert-box">
+  <h3>Je hebt nog geen teams!</h3>
+  <hr>
+  <p>Voeg nu een team toe!</p>
 </div>

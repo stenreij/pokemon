@@ -31,3 +31,13 @@
     color: black !important;
     text-decoration: none;
 }
+
+.alert-box{
+    background-color: rgb(216, 168, 168); 
+    margin-top: 50px;
+    font-size: 20px;
+    padding: 15px; 
+    border: 1px solid #000000; 
+    border-radius: 4px; 
+    width: fit-content;
+}

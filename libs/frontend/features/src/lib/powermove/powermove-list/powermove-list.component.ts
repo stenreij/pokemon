@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy, NgModule } from '@angular/core';
 
-import { IPowermove, IUser } from '@pokemon/shared/api';
+import { IPowermove, Role } from '@pokemon/shared/api';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router'
 import { AuthService } from '../../auth/auth.service';
@@ -16,7 +16,7 @@ import { PowermoveService } from '../powermove.service';
 export class PowermoveListComponent implements OnInit, OnDestroy {
     powermoves: IPowermove[] | null = null;
     subscription: Subscription | undefined = undefined;
-    loggedInUser = this.authService.currentUser$.value!;
+    user= this.authService.currentUser$.value?.userName;
 
     constructor(private powermoveService: PowermoveService, private router: Router, private authService: AuthService) { }
 
@@ -57,5 +57,10 @@ export class PowermoveListComponent implements OnInit, OnDestroy {
                 }
             );
         }
+    }
+
+    isAdmin(): boolean {
+      const user = this.authService.currentUser$.value;
+      return user?.role === Role.ADMIN;
     }
 }

@@ -1,0 +1,52 @@
+<div class="container">
+    <div class="title">
+        <h2>Voeg Powermove Toe!</h2>
+        <hr>
+    </div>
+    <div class="from">
+        <form [formGroup]="powermoveForm">
+            <div class="form-group">
+                <label for="name">Naam van powermove:</label>
+                <input type="text" class="form-control" id="name" formControlName="name" placeholder="Naam"
+                    [ngClass]="{'is-invalid': powermoveForm.get('name')?.invalid && powermoveForm.get('name')?.touched}">
+                <div class="error-message"
+                    *ngIf="powermoveForm.get('name')?.hasError('required') && powermoveForm.get('name')?.touched">Naam is
+                    verplicht</div>
+            </div>
+            <div class="form-group">
+                <label for="type">Type:</label>
+                <select class="form-control" id="type" formControlName="type"
+                    [ngClass]="{'is-invalid': powermoveForm.get('type')?.invalid && powermoveForm.get('type')?.touched}">
+                    <option value="" disabled selected>Selecteer een type:</option>
+                    <option *ngFor="let type of getTypeOptions()" [value]="type">{{ type }}</option>
+                </select>
+                <div class="error-message"
+                    *ngIf="powermoveForm.get('type')?.hasError('required') && powermoveForm.get('type')?.touched">Type
+                    is verplicht</div>
+            </div>
+            <div class="form-group">
+                <label for="power">Power:</label>
+                <input type="number" class="form-control" id="power" formControlName="power" placeholder="Power"
+                    [ngClass]="{'is-invalid': powermoveForm.get('power')?.invalid && powermoveForm.get('power')?.touched}">
+                <div class="error-message"
+                    *ngIf="powermoveForm.get('power')?.hasError('required') && powermoveForm.get('power')?.touched">Power
+                    is
+                    verplicht</div>
+            </div>
+            <div class="form-group">
+                <label for="accuracy">Accuracy:</label>
+                <input type="number" class="form-control" id="accuracy" formControlName="accuracy" placeholder="Accuracy"
+                    [ngClass]="{'is-invalid': powermoveForm.get('accuracy')?.invalid && powermoveForm.get('accuracy')?.touched}">
+                <div class="error-message"
+                    *ngIf="powermoveForm.get('accuracy')?.hasError('required') && powermoveForm.get('accuracy')?.touched">Power
+                    is
+                    verplicht</div>
+            </div>
+            <div class="button">
+                <button class="addButton" type="submit" (click)="addPowermove()" [disabled]="!powermoveForm.valid">
+                    Voeg Powermove Toe
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
