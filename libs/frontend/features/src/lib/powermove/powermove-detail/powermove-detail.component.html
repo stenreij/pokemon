@@ -1,0 +1,27 @@
+<div class="card-container">
+    <div class="card" *ngIf="powermove">
+        <div class="card-body">
+            <div class="card-image">
+                <h1>{{ powermove.name }}</h1>
+                <img class="image"
+                    [src]="'https://www.giantbomb.com/a/uploads/square_small/0/9740/270122-pok_mon_firered_first_battle.png'"
+                    alt="{{ powermove.powermoveId }}">
+            </div>
+            <div class="card-info">
+                <h3><strong>Id:</strong> {{ powermove.powermoveId }}</h3>
+                <h4><strong>Type:</strong> {{ powermove.type }}</h4>
+                <h4><strong>Power:</strong> {{ powermove.power }}</h4>
+                <h4><strong>Accurcay:</strong> {{ powermove.accuracy }}</h4>
+                <h4><strong>Creator:</strong> {{ powermove.creator }}</h4>
+
+                <div></div>
+                <h4><button><a class="link">
+                            Edit pokémon</a></button></h4>
+                <h4><button class="deleteButton" (click)="verwijderPowermove(powermove.powermoveId)"> Verwijder
+                        powermove</button>
+                </h4>
+
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,35 +1,35 @@
 <div>
-    <button class="addButton" [routerLink]="['/powermove-add']">
-      <a class="linkButton">Voeg powermove toe</a>
-    </button>
-  </div>
-  
-  <div>
-  
-    <table class="table table-striped">
-      <thead>
-        <tr>
-          <th>Id</th>
-          <th>Powermove</th>
-          <th>Type</th>
-          <th>Power</th>
-          <th>Details</th>
-          <th>Edit</th>
-          <th>Verwijder</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let powermove of powermoves">
-          <td>{{ powermove.powermoveId }}</td>
-          <td>{{ powermove.name }}</td>
-          <td>{{ powermove.type }}</td>
-          <td>{{ powermove.power }}</td>
-          <td><button class="actionButton"><a class="link" id="powermove-details"> Details </a></button>
-          </td>
-          <td><button class="actionButton"><a class="link"> Edit </a></button>
-          </td>
-          <td><button class="deleteButton" (click)="verwijderPowermove(powermove.powermoveId)"> Verwijder </button></td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+  <button class="addButton" [routerLink]="['/powermove-add']">
+    <a class="linkButton">Voeg powermove toe</a>
+  </button>
+</div>
+
+<div>
+
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Id</th>
+        <th>Powermove</th>
+        <th>Type</th>
+        <th>Power</th>
+        <th>Details</th>
+        <th>Edit</th>
+        <th>Verwijder</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let powermove of powermoves">
+        <td>{{ powermove.powermoveId }}</td>
+        <td>{{ powermove.name }}</td>
+        <td>{{ powermove.type }}</td>
+        <td>{{ powermove.power }}</td>
+        <td><button class="actionButton" [routerLink]="['/powermove/' + powermove.powermoveId]"><a class="link" id="powermove-details"> Details </a></button>
+        </td>
+        <td><button class="actionButton"><a class="link"> Edit </a></button>
+        </td>
+        <td><button class="deleteButton" (click)="verwijderPowermove(powermove.powermoveId)"> Verwijder </button></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
