@@ -36,6 +36,12 @@ export class Powermove implements IPowermove {
         type: Number,
     })
     accuracy!: number;
+
+    @Prop({
+        required: true,
+        type: String,
+    })
+    creator!: string;
 }
 
 export const PowermoveSchema = SchemaFactory.createForClass(Powermove);

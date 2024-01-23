@@ -28,6 +28,10 @@ export class CreatePowermoveDto implements ICreatePowermove {
     @IsNumber()
     @IsNotEmpty()
     accuracy!: number;
+
+    @IsString()
+    @IsNotEmpty()
+    creator!: string;
 }
 
 export class UpsertPowermoveDto implements IUpsertPowermove {
@@ -50,6 +54,10 @@ export class UpsertPowermoveDto implements IUpsertPowermove {
     @IsNumber()
     @IsNotEmpty()
     accuracy!: number;
+
+    @IsString()
+    @IsNotEmpty()
+    creator!: string;
 }
 
 export class UpdatePowermoveDto implements IUpdatePowermove {

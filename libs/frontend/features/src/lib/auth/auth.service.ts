@@ -15,7 +15,7 @@ export const AUTH_SERVICE_TOKEN = new InjectionToken<AuthService>(
   providedIn: 'root',
 })
 export class AuthService {
-  endpoint = environment.onlineApiUrl + '/user';
+  endpoint = environment.lclApiUrl + '/user';
   private currentUser: IUser | null = null;
   public currentUser$ = new BehaviorSubject<IUser | null>(null);
   private readonly CURRENT_USER = 'currentuser';

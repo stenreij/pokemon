@@ -8,11 +8,12 @@ export interface IPowermove {
     type: Type;
     power: number;
     accuracy: number;
+    creator: string;
 }
 
 export type ICreatePowermove = Pick<
     IPowermove,
-    'name' | 'type' | 'power' | 'accuracy' 
+    'name' | 'type' | 'power' | 'accuracy' | 'creator'
 >;
 export type IUpdatePowermove = Partial<Omit<IPowermove, 'powermoveId'>>;
 export type IUpsertPowermove = IPowermove;

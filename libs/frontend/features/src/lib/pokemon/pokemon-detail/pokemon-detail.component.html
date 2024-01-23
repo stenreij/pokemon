@@ -12,7 +12,7 @@
         <h4><strong>Rating:</strong> {{ pokemon.rating }}</h4>
         <h4><strong>Powermove:</strong> {{ pokemon.powermove }}</h4>
         <h4><strong>Is legendary:</strong> {{ pokemon.legendary }}</h4>
-        <h4><strong>Toegevoegd door:</strong> {{ pokemon.creator }}</h4>
+        <h4><strong>Creator:</strong> {{ pokemon.creator }}</h4>
         <div class="buttons" *ngIf="isAdmin() || user===pokemon.creator">
           <h4><button class="actionButton" [routerLink]="['/pokemon-edit',pokemon.pokemonId]"><a class="link"> Edit pokémon</a></button></h4>
           <h4><button class="deleteButton" (click)="verwijderPokemon(pokemon.pokemonId)"> Verwijder pokémon</button>

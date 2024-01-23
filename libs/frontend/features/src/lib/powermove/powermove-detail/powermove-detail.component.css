@@ -1,0 +1,73 @@
+.card-container {
+    border-radius: 10px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .card {
+    width: 1000px;
+    border: 1px solid #ccc;
+    border-radius: 15px;
+    overflow: hidden;
+    border: solid 1px black;
+  }
+  
+  .card-body {
+    flex: 1;
+    display: flex;
+    background-color: rgb(219, 231, 235);
+  }
+  
+  .card-image {
+    flex: 1;
+    text-align: center;
+    border-right: 1px solid black;
+    padding: 10px;
+  }
+  
+  .card img {
+    max-width: 100%;
+    height: auto;
+  }
+  
+  .card-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 75px;
+  }
+  
+  .card-toevoegen{
+    padding: 10px;
+    background-color: #80bd3e4b;
+    border: solid 1px black;
+    border-radius: 8px;
+    margin-top: 50px;
+  }
+  
+  .deleteButton {
+    padding: 5px;
+    background-color: rgb(208, 157, 157);
+    border: 1px solid black;
+    border-radius: 5px;
+    width: 70%;
+  }
+  
+  .actionButton {
+    width: 70%;
+    padding: 5px;
+    background-color: #7a48b34b;
+    border: 1px solid black;
+    border-radius: 5px;
+  }
+  
+  .link {
+    color: black !important;
+    text-decoration: none;
+  }
