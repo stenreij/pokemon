@@ -14,7 +14,7 @@ export const httpOptions = {
 
 @Injectable()
 export class PokemonService {
-    endpoint = environment.lclApiUrl + '/pokemon';
+    endpoint = environment.onlineApiUrl + '/pokemon';
 
     constructor(private readonly http: HttpClient) { }
 
