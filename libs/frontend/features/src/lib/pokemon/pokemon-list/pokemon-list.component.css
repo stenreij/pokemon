@@ -70,10 +70,14 @@
     height: auto;
 }
 
+.addButtonContainer{
+    text-align: center;
+}
+
 .addButton {
     margin-top: 20px;
     margin-bottom: 20px;
-    padding: 10px;
+    padding: 15px 40px 15px 40px;
     background-color: #7a48b34b;
     border: 1px solid black;
     border-radius: 5px;

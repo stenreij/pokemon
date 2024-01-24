@@ -76,6 +76,7 @@ h3 {
 .addButton {
     margin-top: 20px;
     margin-bottom: 20px;
+    margin-right: 10px;
     padding: 10px;
     background-color: #7a48b34b;
     border: 1px solid black;
@@ -86,6 +87,7 @@ h3 {
 .deleteButton {
     margin-top: 20px;
     margin-bottom: 20px;
+    margin-left: 10px;
     padding: 10px;
     background-color: rgb(208, 157, 157);
     border: 1px solid black;
@@ -96,5 +98,19 @@ h3 {
 
 .button{
     text-align: center;
-    margin: 10px;
+    margin: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.button button {
+    margin: 0 50px;
+    margin-bottom: 20px;
+}
+
+.info{
+    font-size: 20px;
+    margin-top: 50px;
+    margin-left: 50px;
 }
