@@ -1,4 +1,4 @@
-<div>
+<div class="addButtonContainer">
   <button class="addButton" [routerLink]="['/pokemon-add']">
     <a class="linkButton">Voeg Pokémon toe</a>
   </button>
@@ -16,6 +16,7 @@
       <div class="card-info">
         <p><strong>Type 1:</strong> {{ pokemon.type1 }}</p>
         <p><strong>Type 2:</strong> {{ pokemon.type2 }}</p>
+        <p><strong>Powermove:</strong> {{ pokemon.powermove }}</p>
         <div class="buttons" *ngIf="isAdmin() || user===pokemon.creator">
           <button class="actionButton" [routerLink]="['/pokemon-edit',pokemon.pokemonId]"><a class="link"> Edit pokémon</a></button>
           <div class="button-space"></div>
