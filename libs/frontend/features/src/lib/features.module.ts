@@ -27,6 +27,7 @@ import { PowermoveListComponent } from './powermove/powermove-list/powermove-lis
 import { PowermoveService } from './powermove/powermove.service';
 import { PowermoveDetailComponent } from './powermove/powermove-detail/powermove-detail.component';
 import { PowermoveAddComponent } from './powermove/powermove-add/powermove-add.component';
+import { PowermoveEditComponent } from './powermove/powermove-edit/powermove-edit.component';
 
 @NgModule({
   imports: [CommonModule, HttpClientModule, RouterModule, ReactiveFormsModule, FormsModule],
@@ -49,6 +50,7 @@ import { PowermoveAddComponent } from './powermove/powermove-add/powermove-add.c
     PowermoveListComponent,
     PowermoveDetailComponent,
     PowermoveAddComponent,
+    PowermoveEditComponent
   ],
   providers: [TeamService, PokemonService, UserService, AuthService, PowermoveService],
   exports: [
@@ -70,6 +72,7 @@ import { PowermoveAddComponent } from './powermove/powermove-add/powermove-add.c
     PowermoveListComponent,
     PowermoveDetailComponent,
     PowermoveAddComponent,
+    PowermoveEditComponent
   ],
 })
 export class FeaturesModule {}
