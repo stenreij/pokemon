@@ -28,7 +28,7 @@
           </button>
         </td>
         <td>
-          <button *ngIf="isAdmin() || user === powermove.creator" class="actionButton"><a class="link">Edit</a></button>
+          <button *ngIf="isAdmin() || user === powermove.creator" class="actionButton" [routerLink]="['/powermove-edit',powermove.powermoveId]"><a class="link"> Edit powermove</a></button>
         </td>
         <td>
           <button *ngIf="isAdmin() || user === powermove.creator" class="deleteButton" (click)="verwijderPowermove(powermove.powermoveId)">Verwijder</button>

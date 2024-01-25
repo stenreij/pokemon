@@ -1,0 +1,46 @@
+<div class="container" *ngIf="powermove">
+    <div class="title">
+        <h2>Wijzig Powermove</h2>
+        <h3>{{ powermove.name }}</h3>
+        <hr>
+    </div>
+    <div class="from">
+        <form [formGroup]="powermoveForm">
+            <div class="form-group">
+                <label for="name">Wijzig Powermove naam:</label>
+                <input type="text" class="form-control" id="name" formControlName="name">
+                <div *ngIf="powermoveForm.get('name')?.invalid && powermoveForm.get('name')?.touched"
+                    class="error-message">
+                    Naam is verplicht!
+                </div>
+            </div>           
+            <div class="form-group">
+                <label for="type">Wijzig Type:</label>
+                <select class="form-control" id="type" formControlName="type">
+                    <option *ngFor="let type of getTypeOptions()" [value]="type">{{ type }}</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="power">Wijzig Power:</label>
+                <input type="text" class="form-control" id="power" formControlName="power">
+                <div *ngIf="powermoveForm.get('power')?.invalid && powermoveForm.get('power')?.touched"
+                    class="error-message">
+                    Power is verplicht!
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="accuracy">Wijzig Accuracy:</label>
+                <input type="text" class="form-control" id="accuracy" formControlName="accuracy">
+                <div *ngIf="powermoveForm.get('accuracy')?.invalid && powermoveForm.get('accuracy')?.touched"
+                    class="error-message">
+                    Accuracy is verplicht!
+                </div>
+            </div>
+            <div>
+                <button class="addButton" type="submit" (click)="editPowermove()">
+                    Bewerk Powermove
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

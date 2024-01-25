@@ -14,13 +14,12 @@
                 <h4><strong>Accurcay:</strong> {{ powermove.accuracy }}</h4>
                 <h4><strong>Creator:</strong> {{ powermove.creator }}</h4>
 
-                <div></div>
-                <h4><button><a class="link">
-                            Edit pokémon</a></button></h4>
-                <h4><button class="deleteButton" (click)="verwijderPowermove(powermove.powermoveId)"> Verwijder
-                        powermove</button>
-                </h4>
-
+                <div class="buttons" *ngIf="isAdmin() || user===powermove.creator">
+                    <h4><button class="actionButton" [routerLink]="['/powermove-edit',powermove.powermoveId]"><a class="link"> Edit powermove</a></button></h4>
+                    <h4><button class="deleteButton" (click)="verwijderPowermove(powermove.powermoveId)"> Verwijder
+                            powermove</button>
+                    </h4>
+                </div>
             </div>
         </div>
     </div>

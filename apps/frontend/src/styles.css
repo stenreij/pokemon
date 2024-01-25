@@ -4,6 +4,7 @@
 .navbar {
     background-color: #acc1c8 !important;
     font-size: 30px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.321);
 }
 
 .navbar-brand {
