@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TeamService } from '../team.service';
-import { ITeam, IUser } from '@pokemon/shared/api';
+import { ITeam, IUser, Role } from '@pokemon/shared/api';
 import { AuthService } from '../../auth/auth.service';
 import { UserService } from '../../user/user.service';
 
@@ -48,6 +48,10 @@ export class TeamEditComponent implements OnInit {
             trainer: team.trainer,
             teamInfo: team.teamInfo,
           });
+          if (this.authService.currentUser$.value?.role !== Role.ADMIN && this.authService.currentUser$.value?.userName !== team.trainer) {
+            this.router.navigateByUrl('/'); 
+            console.log(this.authService.currentUser$.value?.role + ", " + this.authService.currentUser$.value?.userName + ": " + team.trainer)
+          }
         });
       }
     });

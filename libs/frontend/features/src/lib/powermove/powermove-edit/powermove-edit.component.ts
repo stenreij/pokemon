@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { IPowermove } from '@pokemon/shared/api';
+import { IPowermove, Role } from '@pokemon/shared/api';
 import { AuthService } from '../../auth/auth.service';
 import { Type } from '@pokemon/shared/api';
 import { PowermoveService } from '../../powermove/powermove.service';
@@ -47,6 +47,10 @@ export class PowermoveEditComponent implements OnInit {
             power: powermove.power,
             accuracy: powermove.accuracy,
           });
+          if (this.authService.currentUser$.value?.role !== Role.ADMIN && this.authService.currentUser$.value?.userName !== powermove.creator) {
+            this.router.navigateByUrl('/powermove'); 
+            console.log(this.authService.currentUser$.value?.role + ", " + this.authService.currentUser$.value?.userName + ": " + powermove.creator)
+          }
         });
       }
     });

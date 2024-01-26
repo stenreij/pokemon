@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from '../user.service';
-import { IUser } from '@pokemon/shared/api';
+import { IUser, Role } from '@pokemon/shared/api';
 import { AuthService } from '../../auth/auth.service';
 
 @Component({
@@ -37,11 +37,18 @@ export class UserEditComponent implements OnInit {
             const userId = params.get('id');
             if (userId) {
                 this.userService.read(userId).subscribe((user) => {
-                    this.user = user;
-                    this.userForm.patchValue({
-                        birthDate: this.formatDate(user.birthDate),
-                        email: user.email,
-                    });
+                    if (!user || !this.authService.currentUser$.value) {
+                        this.router.navigateByUrl('/user');
+                    } else if (this.authService.currentUser$.value.role !== Role.ADMIN && this.authService.currentUser$.value.userId !== user.userId) {
+                        this.router.navigateByUrl('/user');
+                        console.log(this.authService.currentUser$.value.role + ", " + this.authService.currentUser$.value.userId + ": " + user.userId);
+                    } else {
+                        this.user = user;
+                        this.userForm.patchValue({
+                            birthDate: user.birthDate,
+                            email: user.email,
+                        });
+                    }
                 });
             }
         });
