@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { PokemonService } from '../pokemon.service';
 import { IPokemon, IPowermove } from '@pokemon/shared/api';
 import { AuthService } from '../../auth/auth.service';
-import { Type } from '@pokemon/shared/api';
+import { Type, Role } from '@pokemon/shared/api';
 import { PowermoveService } from '../../powermove/powermove.service';
 
 @Component({
@@ -68,6 +68,10 @@ export class PokemonEditComponent implements OnInit {
             afbeelding: pokemon.afbeelding,
             powermove: pokemon.powermove,
           });
+          if (this.authService.currentUser$.value?.role !== Role.ADMIN && this.authService.currentUser$.value?.userName !== pokemon.creator) {
+            this.router.navigateByUrl('/pokemon'); 
+            console.log(this.authService.currentUser$.value?.role + ", " + this.authService.currentUser$.value?.userName + ": " + pokemon.creator)
+          }
         });
       }
     });
