@@ -95,5 +95,5 @@ jobs:
         uses: azure/webapps-deploy@v2
         with:
           app-name: 'pokemon-cswf'
-          publish-profile: ${{ secrets.NESTJS_PUBLISHPROFILE }}
+          publish-profile: ${{ secrets.NESTJS_PUBLISHPROFILE2 }}
           package: .
