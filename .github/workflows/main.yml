@@ -63,7 +63,7 @@ jobs:
         id: builddeploy
         uses: Azure/static-web-apps-deploy@v1
         with:
-          azure_static_web_apps_api_token: ${{ secrets.ANGULAR_PUBLISHTOKEN }}
+          azure_static_web_apps_api_token: ${{ secrets.SWATOKEN }}
           repo_token: ${{ secrets.GITHUB_TOKEN }} # Used for Github integrations (i.e. PR comments)
           action: "upload"
           app_location: "/" # App source code path
@@ -95,5 +95,5 @@ jobs:
         uses: azure/webapps-deploy@v2
         with:
           app-name: 'pokemon-cswf'
-          publish-profile: ${{ secrets.NEXTJS_PUBLISHPROFILE }}
+          publish-profile: ${{ secrets.NESTJS_PUBLISHPROFILE }}
           package: .
