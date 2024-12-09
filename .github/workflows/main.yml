@@ -32,13 +32,13 @@ jobs:
           cd ${GITHUB_WORKSPACE}/dist/apps/frontend/ && zip ${GITHUB_WORKSPACE}/frontend-release.zip ./* -r
 
       - name: Upload frontend artifact for deployment job
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v3
         with:
           name: frontend
           path: frontend-release.zip
           
       - name: Upload data-api artifact for deployment job
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v3
         with:
           name: data-api
           path: data-api-release.zip
@@ -52,7 +52,7 @@ jobs:
 
     steps:
       - name: Download artifact from build job
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v3
         with:
           name: frontend
 
@@ -80,7 +80,7 @@ jobs:
 
     steps:
       - name: Download artifact from build job
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v3
         with:
           name: data-api
 
@@ -92,7 +92,7 @@ jobs:
        
       - name: 'Deploy to Azure Web App'
         id: deploy-to-webapp
-        uses: azure/webapps-deploy@v3
+        uses: azure/webapps-deploy@v2
         with:
           app-name: 'pokemon-cswf'
           publish-profile: ${{ secrets.NESTJS_PUBLISHPROFILE }}
