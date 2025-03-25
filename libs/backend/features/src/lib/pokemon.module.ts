@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { PokemonController } from './pokemon/pokemon.controller';
 import { PokemonService } from './pokemon/pokemon.service';
 import { MongooseModule } from '@nestjs/mongoose';
@@ -12,11 +12,11 @@ import { Team, TeamSchema } from './team/team.schema';
       { name: Pokemon.name, schema: PokemonSchema },
       { name: Team.name, schema: TeamSchema}
     ]),
-    TeamModule,
+    forwardRef(() => TeamModule),
   ],
   controllers: [PokemonController],
   providers: [PokemonService],
-  exports: [PokemonService],
+  exports: [PokemonService, MongooseModule],
 })
 
 export class PokemonModule {}

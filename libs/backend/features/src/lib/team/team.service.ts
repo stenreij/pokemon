@@ -5,6 +5,7 @@ import { Logger } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Team as teamModel, TeamDocument } from './team.schema';
+import { Pokemon as pokemonModel, PokemonDocument } from '../pokemon/pokemon.schema';
 
 @Injectable()
 export class TeamService {
@@ -12,7 +13,8 @@ export class TeamService {
     private readonly logger: Logger = new Logger(TeamService.name);
 
     constructor(
-        @InjectModel(teamModel.name) private teamModel: Model<TeamDocument>
+        @InjectModel(teamModel.name) private teamModel: Model<TeamDocument>,
+        @InjectModel(pokemonModel.name) private pokemonModel: Model<PokemonDocument>
     ) { }
 
     async findAll(): Promise<ITeam[]> {
@@ -70,7 +72,59 @@ export class TeamService {
         const deletedItem = await this.teamModel.findOneAndDelete({ teamId }, {}).exec();
         return deletedItem;
     }
+    
+    async addPokemonToTeam(pokemonId: number, teamId: number): Promise<string> {
+        this.logger.log(`addPokemonToTeam called with pokemon ${pokemonId} and teamId ${teamId}`);
+    
+        const pokemon = await this.pokemonModel.findOne({ pokemonId }).lean();
+        const team = await this.teamModel.findOne({ teamId });
+    
+        if (!pokemon || !team) {
+            this.logger.warn(`Pokemon or team not found (pokemonId: ${pokemonId}, teamId: ${teamId})`);
+            return 'Pokemon or team not found';
+        }
+    
+        if (team.pokemon.some((p: any) => p.pokemonId === pokemon.pokemonId)) {
+            this.logger.warn(`Pokemon ${pokemonId} already exists in team ${teamId}`);
+            return 'Pokemon is already in this team';
+        }
+    
+        team.pokemon.push(pokemon);
+    
+        await team.save();
+    
+        this.logger.log(`Successfully added pokemon ${pokemonId} to team ${teamId}`);
+        return 'Pokemon added to the team';
+    }
 
+    async removePokemonFromTeam(pokemonId: number, teamId: number): Promise<string> {
+        this.logger.log(`removePokemonFromTeam called with pokemonId ${pokemonId} and teamId ${teamId}`);
+    
+        const pokemon = await this.pokemonModel.findOne({ pokemonId }).lean();
+        const team = await this.teamModel.findOne({ teamId });
+    
+        if (!pokemon || !team) {
+            this.logger.warn(`Pokemon or team not found (pokemonId: ${pokemonId}, teamId: ${teamId})`);
+            return 'Pokemon or team not found';
+        }
+    
+        this.logger.log('team.pokemon array: ', team.pokemon);
+    
+        const pokemonIndex = team.pokemon.findIndex((p: IPokemon) => Number(p.pokemonId) === Number(pokemonId));
+        this.logger.log(`pokemonIndex: ` + pokemonIndex);
+    
+        if (pokemonIndex === -1) {
+            this.logger.warn(`Pokemon ${pokemonId} does not exist in team ${teamId}`);
+            return 'Pokemon does not exist in this team';
+        }
+    
+        team.pokemon.splice(pokemonIndex, 1);
+        await team.save();
+    
+        this.logger.log(`Successfully removed pokemon ${pokemonId} from team ${teamId}`);
+        return 'Pokemon removed from the team';
+    }
+    
     private async getLowestAvailableTeamId(): Promise<number> {
         const usedIds = (await this.teamModel.distinct('teamId').exec()) as number[];
         let lowestId = 1;
