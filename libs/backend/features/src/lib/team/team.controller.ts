@@ -1,4 +1,4 @@
-import { Controller, Delete, Put } from '@nestjs/common';
+import { Controller, Delete, HttpException, HttpStatus, Put } from '@nestjs/common';
 import { TeamService } from '../team/team.service';
 import { Get, Param, Post, Body } from '@nestjs/common';
 import { ITeam } from '@pokemon/shared/api';
@@ -6,7 +6,7 @@ import { CreateTeamDto, UpdateTeamDto } from '@pokemon/backend/dto';
 
 @Controller('team')
 export class TeamController {
-    constructor(private teamService: TeamService) {}
+    constructor(private teamService: TeamService) { }
 
     @Get('')
     async findAll(): Promise<ITeam[]> {
@@ -15,6 +15,17 @@ export class TeamController {
 
     @Get(':id')
     async findOne(@Param('id') id: number): Promise<ITeam | null> {
+        const item = await this.teamService.findOne(id);
+        if (!item) {
+            throw new HttpException(
+                {
+                    status: HttpStatus.NOT_FOUND,
+                    error: 'Not Found',
+                    message: `Team with id: ${id} not found`
+                },
+                HttpStatus.NOT_FOUND
+            );
+        }
         return this.teamService.findOne(id);
     }
 
@@ -24,14 +35,37 @@ export class TeamController {
     }
 
     @Put(':id')
-    async update(@Param('id') teamId: number,
+    async update(
+        @Param('id') teamId: number,
         @Body() data: UpdateTeamDto
     ): Promise<ITeam | null> {
-        return this.teamService.update(teamId, data);
+        const updatedItem = await this.teamService.update(teamId, data);
+        if (!updatedItem) {
+            throw new HttpException(
+                {
+                    status: HttpStatus.NOT_FOUND,
+                    error: 'Not Found',
+                    message: `Team with id: ${teamId} not found`
+                },
+                HttpStatus.NOT_FOUND
+            );
+        }
+        return updatedItem;
     }
 
     @Delete(':id')
-    delete(@Param('id') teamId: number): Promise<ITeam | null> {
-        return this.teamService.delete(teamId);
+    async delete(@Param('id') teamId: number): Promise<ITeam | null> {
+        const deletedItem = await this.teamService.delete(teamId);
+        if (!deletedItem) {
+            throw new HttpException(
+                {
+                    status: HttpStatus.NOT_FOUND,
+                    error: 'Not Found',
+                    message: `Team with id: ${teamId} not found`
+                },
+                HttpStatus.NOT_FOUND
+            );
+        }
+        return deletedItem;
     }
 }

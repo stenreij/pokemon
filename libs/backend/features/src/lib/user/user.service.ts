@@ -98,13 +98,17 @@ export class UserService {
         console.log('Logout successful');
     }
 
-    async delete(userId: number): Promise<void> {
+    async delete(userId: number): Promise<IUser | null> {
         this.logger.log(`delete(${userId})`);
         const deletedItem = await this.userModel
-            .findOneAndDelete({ userId })
-            .exec();
+        .findOneAndDelete({userId})
+        .lean()
+        .exec();
         if (!deletedItem) {
-            throw new NotFoundException(`User #${userId} not found`);
+            this.logger.log(`User #${userId} not found`);
+            return null;
         }
+        this.logger.log(`Deleted gebruiker with id ${userId}`)
+        return deletedItem as IUser;
     }
 }

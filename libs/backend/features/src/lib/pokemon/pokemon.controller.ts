@@ -1,4 +1,4 @@
-import { Controller, Delete, Put } from '@nestjs/common';
+import { Controller, Delete, HttpException, HttpStatus, Put } from '@nestjs/common';
 import { PokemonService } from './pokemon.service';
 import { Get, Param, Post, Body } from '@nestjs/common';
 import { IPokemon } from '@pokemon/shared/api';
@@ -15,7 +15,18 @@ export class PokemonController {
 
     @Get(':id')
     async findOne(@Param('id') id: number): Promise<IPokemon | null> {
-        return this.pokemonService.findOne(id);
+        const pokemon = await this.pokemonService.findOne(id);
+        if (!pokemon) {
+            throw new HttpException(
+                {
+                    status: HttpStatus.NOT_FOUND,
+                    error: 'Not Found',
+                    message: `Pokemon with id: ${id} not found`
+                },
+                HttpStatus.NOT_FOUND
+            );
+        }
+        return pokemon;
     }
 
     @Post('')
@@ -24,14 +35,33 @@ export class PokemonController {
     }
 
     @Put(':id')
-    async update(@Param('id') pokemonId: number,
-        @Body() data: UpdatePokemonDto
-    ): Promise<IPokemon | null> {
-        return this.pokemonService.update(pokemonId, data);
+    async update(@Param('id') pokemonId: number, @Body() data: UpdatePokemonDto): Promise<IPokemon | null> {
+        const updatedPokemon = await this.pokemonService.update(pokemonId, data);
+        if (!updatedPokemon) {
+            throw new HttpException(
+                {
+                    status: HttpStatus.NOT_FOUND,
+                    error: 'Not Found',
+                    message: `Pokemon with id: ${pokemonId} not found`
+                },
+                HttpStatus.NOT_FOUND
+            );
+        }
+        return updatedPokemon;
     }
 
     @Delete(':id')
-    delete(@Param('id') pokemonId: number): Promise<IPokemon | null> {
-        return this.pokemonService.delete(pokemonId);
+    async delete(@Param('id') pokemonId: number): Promise<void> {
+        const deletedPokemon = await this.pokemonService.delete(pokemonId);
+        if (!deletedPokemon) {
+            throw new HttpException(
+                {
+                    status: HttpStatus.NOT_FOUND,
+                    error: 'Not Found',
+                    message: `Pokemon with id: ${pokemonId} not found`
+                },
+                HttpStatus.NOT_FOUND
+            );
+        }
     }
 }

@@ -1,4 +1,4 @@
-import { Controller, Delete, Put, Req, UseGuards } from '@nestjs/common';
+import { Controller, Delete, HttpException, HttpStatus, Put, Req, UseGuards } from '@nestjs/common';
 import { UserService } from './user.service';
 import { Get, Param, Post, Body } from '@nestjs/common';
 import { IUser } from '@pokemon/shared/api';
@@ -16,7 +16,18 @@ export class UserController {
 
     @Get(':id')
     async findOne(@Param('id') id: number): Promise<IUser | null> {
-        return this.userService.findOne(id);
+        const user = await this.userService.findOne(id);
+        if (!user) {
+            throw new HttpException(
+                {
+                    status: HttpStatus.NOT_FOUND,
+                    error: 'Not Found',
+                    message: `User with id: ${id} not found`
+                },
+                HttpStatus.NOT_FOUND
+            );
+        }
+        return user;
     }
 
     @Post('')
@@ -36,15 +47,34 @@ export class UserController {
     }
 
     @Put(':id')
-    async update(
-        @Param('id') id: number,
-        @Body() user: UpdateUserDto
-    ): Promise<IUser | null> {
-        return this.userService.update(id, user);
+    async update(@Param('id') id: number, @Body() user: UpdateUserDto): Promise<IUser | null> {
+        const updatedUser = await this.userService.update(id, user);
+        if (!updatedUser) {
+            throw new HttpException(
+                {
+                    status: HttpStatus.NOT_FOUND,
+                    error: 'Not Found',
+                    message: `User with id: ${id} not found`
+                },
+                HttpStatus.NOT_FOUND
+            );
+        }
+        return updatedUser;
     }
 
-    @Delete(':id')
-    async delete(@Param('id') id: number): Promise<void> {
-        await this.userService.delete(id);
+@Delete(':id')
+    async delete(@Param('id') id: number): Promise<{ message: string }> {
+        const result = await this.userService.delete(id);
+        if (!result) {
+            throw new HttpException(
+                {
+                    status: HttpStatus.NOT_FOUND,
+                    error: 'Not Found',
+                    message: `Gebruiker with id ${id} not found`
+                },
+                HttpStatus.NOT_FOUND
+            );
+        }
+        return { message: `Gebruiker with id ${id} deleted successfully` };
     }
 }
