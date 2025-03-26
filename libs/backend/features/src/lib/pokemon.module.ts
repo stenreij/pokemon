@@ -5,6 +5,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { Pokemon, PokemonSchema } from './pokemon/pokemon.schema';
 import { TeamModule } from './team.module';
 import { Team, TeamSchema } from './team/team.schema';
+import { UserModule } from './user.module';
 
 @Module({
   imports: [
@@ -13,6 +14,7 @@ import { Team, TeamSchema } from './team/team.schema';
       { name: Team.name, schema: TeamSchema}
     ]),
     forwardRef(() => TeamModule),
+    UserModule
   ],
   controllers: [PokemonController],
   providers: [PokemonService],
