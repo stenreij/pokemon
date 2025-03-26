@@ -12,11 +12,13 @@ export class UserController {
     constructor(private userService: UserService) { }
 
     @Get('')
+    @UseGuards(AuthGuard)
     async findAll(): Promise<IUser[]> {
         return this.userService.findAll();
     }
 
     @Get(':id')
+    @UseGuards(AuthGuard)
     async findOne(@Param('id') id: number): Promise<IUser | null> {
         const user = await this.userService.findOne(id);
         if (!user) {
@@ -33,6 +35,7 @@ export class UserController {
     }
 
     @Post('')
+    @UseGuards(AuthGuard)
     @UseGuards(UserExistGuard)
     async create(@Body() user: CreateUserDto): Promise<IUser> {
         return this.userService.create(user);
@@ -55,9 +58,9 @@ export class UserController {
     }
 
     @Post('logout')
-    @UseGuards(AuthGuard) 
+    @UseGuards(AuthGuard)
     async logout(@Req() request: CustomRequest): Promise<{ message: string }> {
-        const userId = request.userId; 
+        const userId = request.userId;
         const authorizationHeader = request.headers.authorization;
 
         if (!authorizationHeader || !authorizationHeader.startsWith('Bearer ')) {
@@ -98,6 +101,8 @@ export class UserController {
     }
 
     @Put(':id')
+    @UseGuards(AuthGuard)
+    @UseGuards(UserExistGuard)
     async update(@Param('id') id: number, @Body() user: UpdateUserDto): Promise<IUser | null> {
         const updatedUser = await this.userService.update(id, user);
         if (!updatedUser) {
@@ -113,7 +118,8 @@ export class UserController {
         return updatedUser;
     }
 
-@Delete(':id')
+    @Delete(':id')
+    @UseGuards(AuthGuard)
     async delete(@Param('id') id: number): Promise<{ message: string }> {
         const result = await this.userService.delete(id);
         if (!result) {

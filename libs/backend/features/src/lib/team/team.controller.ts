@@ -35,11 +35,13 @@ export class TeamController {
     }
 
     @Post('')
+    @UseGuards(AuthGuard)
     async create(@Body() team: CreateTeamDto): Promise<ITeam> {
         return this.teamService.create(team);
     }
 
     @Post('addPokemonToTeam/:pokemonId/:teamId')
+    @UseGuards(AuthGuard)
     async addPokemonToTeam(
         @Param('pokemonId') pokemonId: number,
         @Param('teamId') teamId: number,
@@ -57,6 +59,7 @@ export class TeamController {
     }
 
     @Delete('removePokemonFromTeam/:pokemonId/:teamId')
+    @UseGuards(AuthGuard)
     async removePokemonFromTeam(
         @Param('pokemonId') pokemonId: number,
         @Param('teamId') teamId: number,
@@ -70,9 +73,8 @@ export class TeamController {
         }
     }
 
-
-
     @Put(':id')
+    @UseGuards(AuthGuard)
     async update(
         @Param('id') teamId: number,
         @Body() data: UpdateTeamDto
@@ -92,6 +94,7 @@ export class TeamController {
     }
 
     @Delete(':id')
+    @UseGuards(AuthGuard)
     async delete(@Param('id') teamId: number): Promise<ITeam | null> {
         const deletedItem = await this.teamService.delete(teamId);
         if (!deletedItem) {
