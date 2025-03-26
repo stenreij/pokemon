@@ -4,6 +4,8 @@ import { Get, Param, Post, Body } from '@nestjs/common';
 import { IUser } from '@pokemon/shared/api';
 import { CreateUserDto, UpdateUserDto } from '@pokemon/backend/dto';
 import { UserExistGuard } from './user-exists.guard';
+import { CustomRequest } from '../auth/custom-request.interface';
+import { AuthGuard } from '../auth/authguard';
 
 @Controller('user')
 export class UserController {
@@ -37,13 +39,62 @@ export class UserController {
     }
 
     @Post('login')
-    async login(@Body() user: CreateUserDto): Promise<IUser | null> {
-        return this.userService.login(user.email, user.password);
+    async login(@Body() body: { email: string, password: string }): Promise<IUser> {
+        const user = await this.userService.login(body.email, body.password);
+        if (!user) {
+            throw new HttpException(
+                {
+                    status: HttpStatus.UNAUTHORIZED,
+                    error: 'Unauthorized',
+                    message: 'Invalid credentials'
+                },
+                HttpStatus.UNAUTHORIZED
+            );
+        }
+        return user;
     }
 
-    @Post('logout/:id')
-    async logout(@Param('id') id: number): Promise<void> {
-        await this.userService.logout(id);
+    @Post('logout')
+    @UseGuards(AuthGuard) 
+    async logout(@Req() request: CustomRequest): Promise<{ message: string }> {
+        const userId = request.userId; 
+        const authorizationHeader = request.headers.authorization;
+
+        if (!authorizationHeader || !authorizationHeader.startsWith('Bearer ')) {
+            throw new HttpException(
+                {
+                    status: HttpStatus.UNAUTHORIZED,
+                    error: 'Unauthorized',
+                    message: 'No valid token provided',
+                },
+                HttpStatus.UNAUTHORIZED,
+            );
+        }
+
+        const token = authorizationHeader.split(' ')[1];
+
+        if (!userId) {
+            throw new HttpException(
+                {
+                    status: HttpStatus.BAD_REQUEST,
+                    error: 'Bad Request',
+                    message: 'gebruikerId is required',
+                },
+                HttpStatus.BAD_REQUEST,
+            );
+        }
+        const success = await this.userService.logout(userId, token);
+        if (!success) {
+            throw new HttpException(
+                {
+                    status: HttpStatus.NOT_FOUND,
+                    error: 'Not Found',
+                    message: `User with id ${userId} not found`,
+                },
+                HttpStatus.NOT_FOUND,
+            );
+        }
+        return { message: 'Successfully logged out' };
     }
 
     @Put(':id')

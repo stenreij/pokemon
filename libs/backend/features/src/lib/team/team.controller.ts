@@ -1,21 +1,24 @@
-import { Controller, Delete, HttpException, HttpStatus, Put } from '@nestjs/common';
+import { Controller, Delete, HttpException, HttpStatus, Put, UseGuards } from '@nestjs/common';
 import { TeamService } from '../team/team.service';
 import { Get, Param, Post, Body } from '@nestjs/common';
 import { ITeam } from '@pokemon/shared/api';
 import { CreateTeamDto, UpdateTeamDto } from '@pokemon/backend/dto';
 import { Pokemon } from '../pokemon/pokemon.schema';
 import internal = require('stream');
+import { AuthGuard } from '../auth/authguard';
 
 @Controller('team')
 export class TeamController {
     constructor(private teamService: TeamService) { }
 
     @Get('')
+    @UseGuards(AuthGuard)
     async findAll(): Promise<ITeam[]> {
         return this.teamService.findAll();
     }
 
     @Get(':id')
+    @UseGuards(AuthGuard)
     async findOne(@Param('id') id: number): Promise<ITeam | null> {
         const item = await this.teamService.findOne(id);
         if (!item) {

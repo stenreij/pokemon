@@ -5,8 +5,9 @@ import { CreateUserDto, UpdatePokemonDto, UpdateUserDto } from '@pokemon/backend
 import { Logger } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
-import { randomBytes } from 'crypto';
 import { sign } from 'jsonwebtoken';
+import { environment } from '@pokemon/shared/util-env';
+import { TokenBlacklistService } from './blacklist.service';
 
 @Injectable()
 export class UserService {
@@ -14,7 +15,9 @@ export class UserService {
     private readonly logger: Logger = new Logger(UserService.name);
 
     constructor(
-        @InjectModel(UserModel.name) private userModel: Model<UserDocument>
+        @InjectModel(UserModel.name) 
+        private readonly userModel: Model<UserDocument>,
+        private readonly tokenBlackListService: TokenBlacklistService
     ) { }
 
     async findAll(): Promise<IUser[]> {
@@ -25,11 +28,11 @@ export class UserService {
 
     async findOne(userId: number): Promise<IUser | null> {
         this.logger.log(`findOne(${userId})`);
-        const item = await this.userModel.findOne({ userId }).exec();
+        const item = await this.userModel.findOne({ userId }).lean().exec();
         if (!item) {
             this.logger.log(`findOne(${userId}) not found`);
         }
-        return item;
+        return item as IUser;
     }
 
     async findOneByEmail(email: string): Promise<IUser | null> {
@@ -49,7 +52,7 @@ export class UserService {
         const createdItem = this.userModel.create(user);
         return createdItem;
     }
-        
+
     async update(userId: number, user: UpdateUserDto): Promise<IUser | null> {
         this.logger.log(`Update user ${user.userName}`);
         const updatedItem = await this.userModel.findOneAndUpdate({ userId }, user, {
@@ -57,9 +60,8 @@ export class UserService {
         }).exec();
         return updatedItem;
     }
-    
+
     async login(email: string, password: string): Promise<IUser> {
-        console.log('login called');
         const user = await this.userModel
             .findOne({ email, password })
             .lean()
@@ -69,41 +71,41 @@ export class UserService {
             throw new Error(`User with email ${email} not found`);
         }
 
-        const secretKey = randomBytes(32).toString('hex');
-        const userId = user.userId.toString();
-        const token = sign({ userId }, secretKey, {
+        const token = sign({ userId: user.userId.toString() }, environment.JWT_SECRET_KEY, {
             expiresIn: '1h',
-        }) as string;
+        });
 
         const response = { ...user, token };
-        console.log('First Backend Response:', response);
         return response as IUser;
     }
 
-    async logout(userId: number): Promise<void> {
-        console.log('logout called');
+    async logout(userId: string, token: string): Promise<boolean> {
+        this.logger.log(`logout called for user id: ${userId}`);
+        try {
+            const user = await this.userModel.findOne({ userId }).lean().exec();
+            this.logger.log('USER:  ' + user);
+            if (!user) {
+                this.logger.warn(`User with id ${userId} not found for logout`);
+                return false;
+            }
     
-        const user = await this.userModel
-            .findOne({ userId })
-            .lean()
-            .exec();
+            this.tokenBlackListService.add(token);
     
-        if (!user) {
-            throw new Error(`User with id ${userId} not found`);
+            this.logger.log(`Token invalidated for user id: ${userId}`);
+            this.logger.log(`Successful logout for user id: ${userId}`);
+            return true;
+        } catch (error) {
+            this.logger.error(`Error during logout for user id: ${userId}, (error as Error).stack`);
+            throw new Error('Logout failed');
         }
-    
-        localStorage.removeItem('auth_token');
-        localStorage.removeItem('currentuser');
-    
-        console.log('Logout successful');
     }
 
     async delete(userId: number): Promise<IUser | null> {
         this.logger.log(`delete(${userId})`);
         const deletedItem = await this.userModel
-        .findOneAndDelete({userId})
-        .lean()
-        .exec();
+            .findOneAndDelete({ userId })
+            .lean()
+            .exec();
         if (!deletedItem) {
             this.logger.log(`User #${userId} not found`);
             return null;
