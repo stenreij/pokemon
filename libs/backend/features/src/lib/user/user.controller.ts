@@ -1,4 +1,4 @@
-import { Controller, Delete, HttpException, HttpStatus, Put, Req, UseGuards } from '@nestjs/common';
+import { Controller, Delete, HttpException, HttpStatus, Logger, Put, Req, UseGuards } from '@nestjs/common';
 import { UserService } from './user.service';
 import { Get, Param, Post, Body } from '@nestjs/common';
 import { IUser } from '@pokemon/shared/api';
@@ -9,18 +9,31 @@ import { AuthGuard } from '../auth/authguard';
 
 @Controller('user')
 export class UserController {
+    private readonly logger: Logger = new Logger(UserController.name);
     constructor(private userService: UserService) { }
 
     @Get('')
     @UseGuards(AuthGuard)
-    async findAll(): Promise<IUser[]> {
-        return this.userService.findAll();
+    async findAll(@Req() request: CustomRequest): Promise<IUser[]> {
+        const userId = request.userId;
+        if (!userId) {
+            throw new HttpException(
+                {
+                    status: HttpStatus.BAD_REQUEST,
+                    error: 'Bad Request',
+                    message: 'userId is required',
+                },
+                HttpStatus.BAD_REQUEST,
+            );
+        }
+        return this.userService.findAll(userId);
     }
 
     @Get(':id')
     @UseGuards(AuthGuard)
-    async findOne(@Param('id') id: number): Promise<IUser | null> {
-        const user = await this.userService.findOne(id);
+    async findOne(@Req() request: CustomRequest, @Param('id') id: string): Promise<IUser | null> {
+        const userId = request.userId as string;
+        const user = await this.userService.findOne(userId, id);
         if (!user) {
             throw new HttpException(
                 {

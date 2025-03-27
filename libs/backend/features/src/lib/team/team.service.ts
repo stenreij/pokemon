@@ -6,6 +6,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Team as teamModel, TeamDocument } from './team.schema';
 import { Pokemon as pokemonModel, PokemonDocument } from '../pokemon/pokemon.schema';
+import { TokenBlacklistService } from '../user/blacklist.service';
 
 @Injectable()
 export class TeamService {
@@ -14,7 +15,8 @@ export class TeamService {
 
     constructor(
         @InjectModel(teamModel.name) private teamModel: Model<TeamDocument>,
-        @InjectModel(pokemonModel.name) private pokemonModel: Model<PokemonDocument>
+        @InjectModel(pokemonModel.name) private pokemonModel: Model<PokemonDocument>,
+        private readonly tokenBlackListService: TokenBlacklistService
     ) { }
 
     async findAll(): Promise<ITeam[]> {

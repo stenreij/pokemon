@@ -5,6 +5,7 @@ import { Logger } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Powermove as PowermoveModel, PowermoveDocument } from './powermove.schema'; 
+import { TokenBlacklistService } from '../user/blacklist.service';
 
 @Injectable()
 export class PowermoveService {
@@ -12,7 +13,8 @@ export class PowermoveService {
     private readonly logger: Logger = new Logger(PowermoveService.name);
 
   constructor(
-        @InjectModel(PowermoveModel.name) private powermoveModel: Model<PowermoveDocument>
+        @InjectModel(PowermoveModel.name) private powermoveModel: Model<PowermoveDocument>,
+        private readonly tokenBlackListService: TokenBlacklistService
         ) {}
 
     async findAll(): Promise<IPowermove[]> {

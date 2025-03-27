@@ -5,6 +5,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { Team, TeamSchema } from './team/team.schema';
 import { PokemonModule } from './pokemon.module';
 import { UserModule } from './user.module';
+import { TokenBlacklistService } from './user/blacklist.service';
 
 @Module({
   imports: [
@@ -15,7 +16,7 @@ import { UserModule } from './user.module';
     UserModule
   ],
   controllers: [TeamController],
-  providers: [TeamService],
+  providers: [TeamService, TokenBlacklistService],
   exports: [TeamService],
 })
 

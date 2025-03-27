@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable, NotFoundException } from '@nestjs/common';
 import { IUser } from '@pokemon/shared/api';
 import { User as UserModel, UserDocument } from './user.schema';
 import { CreateUserDto, UpdatePokemonDto, UpdateUserDto } from '@pokemon/backend/dto';
@@ -15,24 +15,66 @@ export class UserService {
     private readonly logger: Logger = new Logger(UserService.name);
 
     constructor(
-        @InjectModel(UserModel.name) 
+        @InjectModel(UserModel.name)
         private readonly userModel: Model<UserDocument>,
         private readonly tokenBlackListService: TokenBlacklistService
     ) { }
 
-    async findAll(): Promise<IUser[]> {
+    async findAll(id: string): Promise<IUser[]> {
         this.logger.log(`findAll()`);
+        const userId = parseInt(id, 10);
         const items = await this.userModel.find().exec();
+        const user = await this.userModel.findOne({ userId }).lean().exec();
+
+        this.logger.log(`user: ` + user)
+        if (user?.role !== 'Admin') {
+            throw new HttpException(
+                {
+                    status: HttpStatus.UNAUTHORIZED,
+                    error: 'Bad Request',
+                    message: 'Unauthorized',
+                },
+                HttpStatus.UNAUTHORIZED,
+            );
+        }
         return items;
     }
 
-    async findOne(userId: number): Promise<IUser | null> {
-        this.logger.log(`findOne(${userId})`);
-        const item = await this.userModel.findOne({ userId }).lean().exec();
-        if (!item) {
-            this.logger.log(`findOne(${userId}) not found`);
+    async findOne(userId: string, id: string): Promise<IUser | null> {
+        const userIdNum = parseInt(userId, 10);
+        const targetId = typeof id === 'string' ? parseInt(id, 10) : id;
+        this.logger.log(`userIdNum: ` + userIdNum)
+        this.logger.log(`targetId: ` + targetId)
+
+        const loggedInUser = await this.userModel
+            .findOne({ userId: userIdNum })
+            .lean()
+            .exec();
+
+        this.logger.log(`loggedInUser: ` + loggedInUser)
+
+        const isAdmin = loggedInUser?.role === 'Admin';
+        const isSameUser = userIdNum === targetId;
+        this.logger.log(`isAdmin: ` + isAdmin)
+
+        const userToFind = await this.userModel.findOne({ userId: id }).lean().exec();
+        if (!isAdmin && !isSameUser) {
+            this.logger.warn(`Unauthorized access for user: ${ userId }`);
+            throw new HttpException(
+                {
+                    status: HttpStatus.UNAUTHORIZED,
+                    error: 'Unauthorized',
+                    message: 'You do not have permission to view a user other than yourself',
+                },
+                HttpStatus.UNAUTHORIZED
+            );
         }
-        return item as IUser;
+        if (!userToFind) {
+            this.logger.warn(`User with id ${ id } not found`);
+            return null;
+        }
+        this.logger.log(`Found user with id ${ id }`);
+        return userToFind as IUser;
     }
 
     async findOneByEmail(email: string): Promise<IUser | null> {
@@ -88,9 +130,9 @@ export class UserService {
                 this.logger.warn(`User with id ${userId} not found for logout`);
                 return false;
             }
-    
+
             this.tokenBlackListService.add(token);
-    
+
             this.logger.log(`Token invalidated for user id: ${userId}`);
             this.logger.log(`Successful logout for user id: ${userId}`);
             return true;
