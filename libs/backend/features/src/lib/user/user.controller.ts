@@ -116,8 +116,9 @@ export class UserController {
     @Put(':id')
     @UseGuards(AuthGuard)
     @UseGuards(UserExistGuard)
-    async update(@Param('id') id: number, @Body() user: UpdateUserDto): Promise<IUser | null> {
-        const updatedUser = await this.userService.update(id, user);
+    async update(@Req() request: CustomRequest,@Param('id') id: number, @Body() user: UpdateUserDto): Promise<IUser | null> {
+        const userId = request.userId as string;
+        const updatedUser = await this.userService.update(userId, id, user);
         if (!updatedUser) {
             throw new HttpException(
                 {
