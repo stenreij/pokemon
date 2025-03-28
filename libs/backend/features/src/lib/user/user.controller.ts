@@ -116,7 +116,7 @@ export class UserController {
     @Put(':id')
     @UseGuards(AuthGuard)
     @UseGuards(UserExistGuard)
-    async update(@Req() request: CustomRequest,@Param('id') id: number, @Body() user: UpdateUserDto): Promise<IUser | null> {
+    async update(@Req() request: CustomRequest, @Param('id') id: number, @Body() user: UpdateUserDto): Promise<IUser | null> {
         const userId = request.userId as string;
         const updatedUser = await this.userService.update(userId, id, user);
         if (!updatedUser) {
@@ -134,18 +134,19 @@ export class UserController {
 
     @Delete(':id')
     @UseGuards(AuthGuard)
-    async delete(@Param('id') id: number): Promise<{ message: string }> {
-        const result = await this.userService.delete(id);
+    async delete(@Req() request: CustomRequest, @Param('id') id: number): Promise<{ message: string }> {
+        const loggedInUserId = request.userId as string;
+        const result = await this.userService.delete(loggedInUserId, id);
         if (!result) {
             throw new HttpException(
                 {
                     status: HttpStatus.NOT_FOUND,
                     error: 'Not Found',
-                    message: `Gebruiker with id ${id} not found`
+                    message: `User with id ${id} not found`
                 },
                 HttpStatus.NOT_FOUND
             );
         }
-        return { message: `Gebruiker with id ${id} deleted successfully` };
+        return { message: `User with id ${id} deleted successfully` };
     }
 }

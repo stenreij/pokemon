@@ -88,9 +88,9 @@ export class UserService {
         const userIdNum = parseInt(userId, 10);
         const targetId = typeof id === 'string' ? parseInt(id, 10) : id;
         const loggedInUser = await this.userModel
-        .findOne({userId : userIdNum})
-        .lean()
-        .exec();
+            .findOne({ userId: userIdNum })
+            .lean()
+            .exec();
 
         const isAdmin = loggedInUser?.role === 'Admin';
         const isSameUser = userIdNum === targetId;
@@ -107,31 +107,55 @@ export class UserService {
                 HttpStatus.UNAUTHORIZED
             );
         }
-    
+
         const updatedItem = await this.userModel.findOneAndUpdate({ userId: targetId }, user, {
             new: true,
         }).exec();
 
-        if(!updatedItem){
+        if (!updatedItem) {
             this.logger.warn(`User with id ${targetId} not found`);
             return null;
         }
         return updatedItem;
     }
 
-    async delete(userId: number): Promise<IUser | null> {
-        this.logger.log(`delete(${userId})`);
-        const deletedItem = await this.userModel
-            .findOneAndDelete({ userId })
-            .lean()
-            .exec();
+    async delete(loggedInUserId: string, userIdToDelete: number): Promise<IUser | null> {
+        this.logger.log(`delete(${userIdToDelete})`);
+    
+        const targetId = typeof userIdToDelete === 'string' ? parseInt(userIdToDelete, 10) : userIdToDelete;
+        const loggedInUserNum = parseInt(loggedInUserId, 10);
+        const loggedInUser = await this.userModel
+        .findOne({ userId: loggedInUserNum })
+        .lean()
+        .exec();
+    
+        const isAdmin = loggedInUser?.role === 'Admin';
+        const isSameUser = loggedInUserNum === targetId;
+        this.logger.log(`isAdmin: ` + isAdmin, 
+        `isSameUser: ` + isSameUser,
+        `targetid: ` + targetId)
+    
+        if (!isAdmin && !isSameUser) {
+            this.logger.warn(`Unauthorized access for user: ${loggedInUserId}`);
+            throw new HttpException(
+                {
+                    status: HttpStatus.UNAUTHORIZED,
+                    error: 'Unauthorized',
+                    message: 'You do not have permission to delete a user other than yourself',
+                },
+                HttpStatus.UNAUTHORIZED
+            );
+        }
+    
+        const deletedItem = await this.userModel.findOneAndDelete({ userId: targetId }).lean().exec();
         if (!deletedItem) {
-            this.logger.log(`User #${userId} not found`);
+            this.logger.log(`User #${targetId} not found`);
             return null;
         }
-        this.logger.log(`Deleted gebruiker with id ${userId}`)
+    
+        this.logger.log(`Deleted user with id ${targetId}`);
         return deletedItem as IUser;
-    }
+    }    
 
     async login(email: string, password: string): Promise<IUser> {
         const user = await this.userModel
