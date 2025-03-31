@@ -21,8 +21,13 @@ export class TeamService {
         private readonly tokenBlackListService: TokenBlacklistService
     ) { }
 
-    async findAll(): Promise<ITeam[]> {
+    async findAll(userId: string): Promise<ITeam[]> {
         this.logger.log(`findAll()`);
+        const id = parseInt(userId, 10);
+        const user = await this.userModel.findOne({ id }).lean().exec();
+
+        this.logger.log(`user: ` + user)
+
         const items = await this.teamModel.find().exec();
         const updateTeamRatingsPromises = items.map(async (item) => {
             const rating = await this.calculateTeamrating(item);

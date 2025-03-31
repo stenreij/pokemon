@@ -4,7 +4,6 @@ import { PowermoveController } from "./powermove/powermove.controller";
 import { Powermove, PowermoveSchema } from "./powermove/powermove.schema";
 import { PowermoveService } from "./powermove/powermove.service";
 import { UserModule } from "./user.module";
-import { TokenBlacklistService } from "./user/blacklist.service";
 
 
 @Module({
@@ -15,7 +14,7 @@ import { TokenBlacklistService } from "./user/blacklist.service";
     UserModule
   ],
   controllers: [PowermoveController],
-  providers: [PowermoveService, TokenBlacklistService],
+  providers: [PowermoveService],
   exports: [PowermoveService],
 })
 

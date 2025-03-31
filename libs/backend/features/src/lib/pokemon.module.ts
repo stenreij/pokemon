@@ -6,7 +6,6 @@ import { Pokemon, PokemonSchema } from './pokemon/pokemon.schema';
 import { TeamModule } from './team.module';
 import { Team, TeamSchema } from './team/team.schema';
 import { UserModule } from './user.module';
-import { TokenBlacklistService } from './user/blacklist.service';
 
 @Module({
   imports: [
@@ -18,7 +17,7 @@ import { TokenBlacklistService } from './user/blacklist.service';
     UserModule
   ],
   controllers: [PokemonController],
-  providers: [PokemonService, TokenBlacklistService],
+  providers: [PokemonService],
   exports: [PokemonService, MongooseModule],
 })
 

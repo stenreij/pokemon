@@ -15,8 +15,19 @@ export class TeamController {
 
     @Get('')
     @UseGuards(AuthGuard)
-    async findAll(): Promise<ITeam[]> {
-        return this.teamService.findAll();
+    async findAll(@Req() request: CustomRequest): Promise<ITeam[]> {
+        const userId = request.userId;
+        if (!userId) {
+            throw new HttpException(
+                {
+                    status: HttpStatus.BAD_REQUEST,
+                    error: 'Bad Request',
+                    message: 'userId is required',
+                },
+                HttpStatus.BAD_REQUEST,
+            );
+        }
+        return this.teamService.findAll(userId);
     }
 
     @Get(':id')
