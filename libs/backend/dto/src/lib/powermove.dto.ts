@@ -3,6 +3,7 @@ import {
     IsString,
     IsNumber,
     IsBoolean,
+    IsOptional,
 } from 'class-validator';
 import {
     ICreatePowermove,
@@ -30,8 +31,8 @@ export class CreatePowermoveDto implements ICreatePowermove {
     accuracy!: number;
 
     @IsString()
-    @IsNotEmpty()
-    creator!: string;
+    @IsOptional()
+    creator!: number;
 }
 
 export class UpsertPowermoveDto implements IUpsertPowermove {
@@ -55,9 +56,9 @@ export class UpsertPowermoveDto implements IUpsertPowermove {
     @IsNotEmpty()
     accuracy!: number;
 
-    @IsString()
-    @IsNotEmpty()
-    creator!: string;
+    @IsNumber()
+    @IsOptional()
+    creator!: number;
 }
 
 export class UpdatePowermoveDto implements IUpdatePowermove {
@@ -76,5 +77,4 @@ export class UpdatePowermoveDto implements IUpdatePowermove {
     @IsNumber()
     @IsNotEmpty()
     accuracy?: number;
-
 }

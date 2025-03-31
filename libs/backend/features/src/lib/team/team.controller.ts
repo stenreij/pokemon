@@ -1,4 +1,4 @@
-import { Controller, Delete, HttpException, HttpStatus, Put, UseGuards } from '@nestjs/common';
+import { Controller, Delete, HttpException, HttpStatus, Put, Req, UseGuards } from '@nestjs/common';
 import { TeamService } from '../team/team.service';
 import { Get, Param, Post, Body } from '@nestjs/common';
 import { ITeam } from '@pokemon/shared/api';
@@ -6,6 +6,8 @@ import { CreateTeamDto, UpdateTeamDto } from '@pokemon/backend/dto';
 import { Pokemon } from '../pokemon/pokemon.schema';
 import internal = require('stream');
 import { AuthGuard } from '../auth/authguard';
+import { CustomRequest } from '../auth/custom-request.interface';
+import { UserExistGuard } from '../user/user-exists.guard';
 
 @Controller('team')
 export class TeamController {
@@ -36,8 +38,9 @@ export class TeamController {
 
     @Post('')
     @UseGuards(AuthGuard)
-    async create(@Body() team: CreateTeamDto): Promise<ITeam> {
-        return this.teamService.create(team);
+    async create(@Req() request: CustomRequest, @Body() team: CreateTeamDto): Promise<ITeam> {
+        const userId = request.userId;
+        return this.teamService.create(team, userId as string);
     }
 
     @Post('addPokemonToTeam/:pokemonId/:teamId')
@@ -95,8 +98,9 @@ export class TeamController {
 
     @Delete(':id')
     @UseGuards(AuthGuard)
-    async delete(@Param('id') teamId: number): Promise<ITeam | null> {
-        const deletedItem = await this.teamService.delete(teamId);
+    async delete(@Req() request: CustomRequest, @Param('id') teamId: number): Promise<ITeam | null> {
+        const userId = request.userId;
+        const deletedItem = await this.teamService.delete(userId as string, teamId);
         if (!deletedItem) {
             throw new HttpException(
                 {

@@ -3,6 +3,7 @@ import {
     IsString,
     IsNumber,
     IsBoolean,
+    IsOptional,
 } from 'class-validator';
 import {
     ICreatePokemon,
@@ -38,9 +39,9 @@ export class CreatePokemonDto implements ICreatePokemon {
     @IsNotEmpty()
     afbeelding!: string;
 
-    @IsString()
-    @IsNotEmpty()
-    creator!: string;
+    @IsNumber()
+    @IsOptional()
+    creator!: number;
 
     @IsString()
     powermove!: IPowermove;
@@ -75,9 +76,9 @@ export class UpsertPokemonDto implements IUpsertPokemon {
     @IsNotEmpty()
     afbeelding!: string;
 
-    @IsString()
-    @IsNotEmpty()
-    creator!: string;
+    @IsNumber()
+    @IsOptional()
+    creator!: number;
 
     @IsString()
     @IsNotEmpty()

@@ -39,9 +39,8 @@ export class Powermove implements IPowermove {
 
     @Prop({
         required: true,
-        type: String,
     })
-    creator!: string;
+    creator!: number;
 }
 
 export const PowermoveSchema = SchemaFactory.createForClass(Powermove);

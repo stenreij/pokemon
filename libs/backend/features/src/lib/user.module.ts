@@ -13,7 +13,7 @@ import { UserService } from './user/user.service';
   ],
   controllers: [UserController],
   providers: [UserService, TokenBlacklistService],
-  exports: [UserService, TokenBlacklistService],
+  exports: [UserService, TokenBlacklistService, MongooseModule],
 })
 
 export class UserModule {}

@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable, NotFoundException } from '@nestjs/common';
 import { IPokemon, ITeam } from '@pokemon/shared/api';
 import { CreateTeamDto, UpdateTeamDto } from '@pokemon/backend/dto';
 import { Logger } from '@nestjs/common';
@@ -6,6 +6,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Team as teamModel, TeamDocument } from './team.schema';
 import { Pokemon as pokemonModel, PokemonDocument } from '../pokemon/pokemon.schema';
+import { User as userModel, UserDocument } from '../user/user.schema';
 import { TokenBlacklistService } from '../user/blacklist.service';
 
 @Injectable()
@@ -16,6 +17,7 @@ export class TeamService {
     constructor(
         @InjectModel(teamModel.name) private teamModel: Model<TeamDocument>,
         @InjectModel(pokemonModel.name) private pokemonModel: Model<PokemonDocument>,
+        @InjectModel(userModel.name) private userModel: Model<UserDocument>,
         private readonly tokenBlackListService: TokenBlacklistService
     ) { }
 
@@ -47,11 +49,25 @@ export class TeamService {
         return item;
     }
 
-    async create(team: CreateTeamDto): Promise<ITeam> {
+    async create(team: CreateTeamDto, userId: string): Promise<ITeam> {
         this.logger.log(`create(${team})`);
+        const user = await this.userModel.findOne({userId: userId}).lean().exec();
+        this.logger.log(`userId: ` + userId, `User: ` + user);
+
+        if(!user){
+            throw new HttpException(
+                {
+                    status: HttpStatus.UNAUTHORIZED,
+                    error: 'Unauthorized',
+                    message: 'User not found',
+                },
+                HttpStatus.UNAUTHORIZED
+            );
+        }
         const lowestAvailableId = await this.getLowestAvailableTeamId();
-        const teamWithId = { ...team, teamId: lowestAvailableId };
-        const createdItem = this.teamModel.create(teamWithId);
+        const teamWithId = { ...team, teamId: lowestAvailableId, trainer: user.userId };
+        team.trainer = user.userId;
+        const createdItem = await this.teamModel.create(teamWithId);
         return createdItem;
     }
 
@@ -69,10 +85,32 @@ export class TeamService {
         return updatedTeam;
     }
 
-    async delete(teamId: number): Promise<ITeam | null> {
+    async delete(userId: string, teamId: number): Promise<ITeam | null> {
         this.logger.log(`Delete team ${teamId}`);
-        const deletedItem = await this.teamModel.findOneAndDelete({ teamId }, {}).exec();
-        return deletedItem;
+        const team = await this.teamModel.findOne({teamId}).lean().exec();
+        const user = await this.userModel.findOne({userId: userId}).lean().exec();
+
+        if(!team || !user){
+            this.logger.warn(`Team or user not found`);
+        }
+        if (user?.role !== 'Admin' && user?.userId !== team?.trainer) {
+            throw new HttpException(
+                {
+                    status: HttpStatus.UNAUTHORIZED,
+                    error: 'Unauthorized',
+                    message: 'You do not have permission to delete this verzameling',
+                },
+                HttpStatus.UNAUTHORIZED
+            );
+        }
+
+        const deletedItem = await this.teamModel.findOneAndDelete({teamId}).lean().exec();
+        if (!deletedItem) {
+            this.logger.warn(`Team with id ${teamId} not found for deletion`);
+            return null;
+        }
+        this.logger.log(`Deleted team with id ${teamId}`);
+        return deletedItem as ITeam;
     }
     
     async addPokemonToTeam(pokemonId: number, teamId: number): Promise<string> {

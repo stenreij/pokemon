@@ -10,13 +10,13 @@ export interface IPokemon {
     rating: number;
     legendary: boolean;
     afbeelding: string;
-    creator: string;
+    creator: number;
     powermove: IPowermove;
 }
 
 export type ICreatePokemon = Pick<
     IPokemon,
-    'name' | 'type1' | 'type2' | 'rating' | 'legendary' | 'afbeelding' | 'creator' | 'powermove'
+    'name' | 'type1' | 'type2' | 'rating' | 'legendary' | 'afbeelding' | 'powermove'
 >;
 export type IUpdatePokemon = Partial<Omit<IPokemon, 'pokemonId'>>;
 export type IUpsertPokemon = IPokemon;

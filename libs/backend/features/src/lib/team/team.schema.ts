@@ -26,9 +26,8 @@ export class Team implements ITeam {
 
     @Prop({
         required: true,
-        type: String,
     })
-    trainer!: string;
+    trainer!: number;
 
     @Prop({
         required: true,

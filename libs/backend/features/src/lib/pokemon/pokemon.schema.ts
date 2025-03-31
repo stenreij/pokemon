@@ -53,9 +53,8 @@ export class Pokemon implements IPokemon {
 
     @Prop({
         required: true,
-        type: String,
     })
-    creator!: string;
+    creator!: number;
 
     @Prop({
         required: true,
