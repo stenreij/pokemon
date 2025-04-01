@@ -82,7 +82,7 @@ export class PokemonService {
         const updatedPokemon = await this.pokemonModel.findOneAndUpdate({pokemonId}, pokemon, { new: true}).exec();
         if(!updatedPokemon) return null;
 
-        return this.pokemonModel.findOneAndUpdate({ pokemonId }, pokemon);
+        return updatedPokemon;
     }
 
     async delete(userId: string, pokemonId: number): Promise<IPokemon | null> {

@@ -1,9 +1,10 @@
-import { Controller, Delete, HttpException, HttpStatus, Put, UseGuards } from '@nestjs/common';
+import { Controller, Delete, HttpException, HttpStatus, Put, Req, UseGuards } from '@nestjs/common';
 import { Get, Param, Post, Body } from '@nestjs/common';
 import { IPowermove } from '@pokemon/shared/api';
 import { CreatePowermoveDto, UpdatePowermoveDto } from '@pokemon/backend/dto';
 import { PowermoveService } from './powermove.service';
 import { AuthGuard } from '../auth/authguard';
+import { CustomRequest } from '../auth/custom-request.interface';
 
 @Controller('powermove')
 export class PowermoveController {
@@ -34,14 +35,17 @@ export class PowermoveController {
 
     @Post('')
     @UseGuards(AuthGuard)
-    async create(@Body() powermove: CreatePowermoveDto): Promise<IPowermove> {
-        return this.powermoveService.create(powermove);
+    async create(@Req() request: CustomRequest, @Body() powermove: CreatePowermoveDto): Promise<IPowermove> {
+        const userId = request.userId;
+        return this.powermoveService.create(powermove, userId as string);
     }
 
     @Put(':id')
     @UseGuards(AuthGuard)
-    async update(@Param('id') powermoveId: number, @Body() data: UpdatePowermoveDto): Promise<IPowermove | null> {
-        const updatedPowermove = await this.powermoveService.update(powermoveId, data);
+    async update(@Req() request: CustomRequest, @Param('id') powermoveId: number, @Body() data: UpdatePowermoveDto): Promise<IPowermove | null> {
+        const userId = request.userId;
+        const updatedPowermove = await this.powermoveService.update(userId as string, powermoveId, data);
+
         if (!updatedPowermove) {
             throw new HttpException(
                 {
@@ -57,8 +61,9 @@ export class PowermoveController {
 
     @Delete(':id')
     @UseGuards(AuthGuard)
-    async delete(@Param('id') powermoveId: number): Promise<void> {
-        const deletedPowermove = await this.powermoveService.delete(powermoveId);
+    async delete(@Req() request: CustomRequest, @Param('id') powermoveId: number): Promise<IPowermove | null> {
+        const userId = request.userId;
+        const deletedPowermove = await this.powermoveService.delete(userId as string, powermoveId);
         if (!deletedPowermove) {
             throw new HttpException(
                 {
@@ -69,5 +74,6 @@ export class PowermoveController {
                 HttpStatus.NOT_FOUND
             );
         }
+        return deletedPowermove;
     }
 }

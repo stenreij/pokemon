@@ -124,7 +124,7 @@ export class TeamService {
                 {
                     status: HttpStatus.UNAUTHORIZED,
                     error: 'Unauthorized',
-                    message: 'You do not have permission to delete this verzameling',
+                    message: 'You do not have permission to delete this team',
                 },
                 HttpStatus.UNAUTHORIZED
             );
