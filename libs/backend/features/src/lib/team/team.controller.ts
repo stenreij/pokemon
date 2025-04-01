@@ -56,51 +56,29 @@ export class TeamController {
 
     @Post('addPokemonToTeam/:pokemonId/:teamId')
     @UseGuards(AuthGuard)
-    async addPokemonToTeam(
-        @Param('pokemonId') pokemonId: number,
-        @Param('teamId') teamId: number,
-    ): Promise<{ message: string }> {
-        const result = await this.teamService.addPokemonToTeam(pokemonId, teamId);
-
-        if (result === 'Pokemon added to the team') {
-            throw new HttpException(
-                { message: result },
-                HttpStatus.CREATED
-            );
-        } else {
-            throw new HttpException(result, HttpStatus.BAD_REQUEST);
-        }
+    async addPokemonToTeam(@Req() request: CustomRequest, @Param('pokemonId') pokemonId: number, @Param('teamId') teamId: number): Promise<{ message: string }> {
+        const userId = request.userId;
+        const result = await this.teamService.addPokemonToTeam(userId as string, pokemonId, teamId);
+        return { message: result };
     }
 
     @Delete('removePokemonFromTeam/:pokemonId/:teamId')
     @UseGuards(AuthGuard)
-    async removePokemonFromTeam(
-        @Param('pokemonId') pokemonId: number,
-        @Param('teamId') teamId: number,
-    ): Promise<{ message: string }> {
-        const result = await this.teamService.removePokemonFromTeam(pokemonId, teamId);
-
-        if (result === 'Pokemon removed from the team') {
-            return { message: result };
-        } else {
-            throw new HttpException(result, HttpStatus.NOT_FOUND);
-        }
+    async removePokemonFromTeam(@Req() request: CustomRequest, @Param('pokemonId') pokemonId: number, @Param('teamId') teamId: number): Promise<{ message: string }> {
+        const userId = request.userId;
+        const result = await this.teamService.removePokemonFromTeam(userId as string, pokemonId, teamId);
+        return { message: result };
     }
 
     @Put(':id')
     @UseGuards(AuthGuard)
-    async update(
-        @Param('id') teamId: number,
-        @Body() data: UpdateTeamDto
-    ): Promise<ITeam | null> {
-        const updatedItem = await this.teamService.update(teamId, data);
+    async update(@Req() request: CustomRequest, @Param('id') teamId: number, @Body() data: UpdateTeamDto): Promise<ITeam | null> {
+        const userId = request.userId;
+        const updatedItem = await this.teamService.update(userId as string, teamId, data);
+
         if (!updatedItem) {
             throw new HttpException(
-                {
-                    status: HttpStatus.NOT_FOUND,
-                    error: 'Not Found',
-                    message: `Team with id: ${teamId} not found`
-                },
+                { status: HttpStatus.NOT_FOUND, error: 'Not Found', message: `Team with id: ${teamId} not found` },
                 HttpStatus.NOT_FOUND
             );
         }

@@ -56,10 +56,10 @@ export class TeamService {
 
     async create(team: CreateTeamDto, userId: string): Promise<ITeam> {
         this.logger.log(`create(${team})`);
-        const user = await this.userModel.findOne({userId: userId}).lean().exec();
+        const user = await this.userModel.findOne({ userId: userId }).lean().exec();
         this.logger.log(`userId: ` + userId, `User: ` + user);
 
-        if(!user){
+        if (!user) {
             throw new HttpException(
                 {
                     status: HttpStatus.UNAUTHORIZED,
@@ -76,27 +76,48 @@ export class TeamService {
         return createdItem;
     }
 
-    async update(teamId: number, team: UpdateTeamDto): Promise<ITeam | null> {
+    async update(userId: string, teamId: number, team: UpdateTeamDto): Promise<ITeam | null> {
         this.logger.log(`Update team ${team.teamName}`);
-        const updatedTeam = await this.teamModel.findOneAndUpdate({ teamId }, team, { new: true }).exec();
     
-        if (!updatedTeam) {
-            return null;
+        const existingTeam = await this.teamModel.findOne({ teamId }).lean().exec();
+        const user = await this.userModel.findOne({ userId }).lean().exec();
+    
+        if (!existingTeam || !user) {
+            throw new HttpException(
+                { status: HttpStatus.NOT_FOUND, error: 'Not Found', message: 'Team or user not found' },
+                HttpStatus.NOT_FOUND
+            );
         }
     
-        const rating = await this.calculateTeamrating(updatedTeam);
-        updatedTeam.rating = rating;
+        if (user.role !== 'Admin' && user.userId !== existingTeam.trainer) {
+            throw new HttpException(
+                { status: HttpStatus.UNAUTHORIZED, error: 'Unauthorized', message: 'You do not have permission to update this team' },
+                HttpStatus.UNAUTHORIZED
+            );
+        }
     
+        const updatedTeam = await this.teamModel.findOneAndUpdate({ teamId }, team, { new: true }).exec();
+        if (!updatedTeam) return null;
+    
+        updatedTeam.rating = await this.calculateTeamrating(updatedTeam);
         return updatedTeam;
     }
 
     async delete(userId: string, teamId: number): Promise<ITeam | null> {
         this.logger.log(`Delete team ${teamId}`);
-        const team = await this.teamModel.findOne({teamId}).lean().exec();
-        const user = await this.userModel.findOne({userId: userId}).lean().exec();
+        const team = await this.teamModel.findOne({ teamId }).lean().exec();
+        const user = await this.userModel.findOne({ userId: userId }).lean().exec();
 
-        if(!team || !user){
+        if (!team || !user) {
             this.logger.warn(`Team or user not found`);
+            throw new HttpException(
+                {
+                    status: HttpStatus.NOT_FOUND,
+                    error: 'Not Found',
+                    message: `Team or user not found`
+                },
+                HttpStatus.NOT_FOUND
+            );
         }
         if (user?.role !== 'Admin' && user?.userId !== team?.trainer) {
             throw new HttpException(
@@ -109,58 +130,68 @@ export class TeamService {
             );
         }
 
-        const deletedItem = await this.teamModel.findOneAndDelete({teamId}).lean().exec();
+        const deletedItem = await this.teamModel.findOneAndDelete({ teamId }).lean().exec();
         if (!deletedItem) {
-            this.logger.warn(`Team with id ${teamId} not found for deletion`);
-            return null;
+            throw new HttpException(
+                {
+                    status: HttpStatus.NOT_FOUND,
+                    error: 'Not Found',
+                    message: `Team with id ${teamId} not found for deletion`
+                },
+                HttpStatus.NOT_FOUND
+            );
         }
         this.logger.log(`Deleted team with id ${teamId}`);
         return deletedItem as ITeam;
     }
-    
-    async addPokemonToTeam(pokemonId: number, teamId: number): Promise<string> {
+
+    async addPokemonToTeam(userId: string, pokemonId: number, teamId: number): Promise<string> {
         this.logger.log(`addPokemonToTeam called with pokemon ${pokemonId} and teamId ${teamId}`);
     
         const pokemon = await this.pokemonModel.findOne({ pokemonId }).lean();
         const team = await this.teamModel.findOne({ teamId });
+        const user = await this.userModel.findOne({ userId }).lean().exec();
     
-        if (!pokemon || !team) {
-            this.logger.warn(`Pokemon or team not found (pokemonId: ${pokemonId}, teamId: ${teamId})`);
-            return 'Pokemon or team not found';
+        if (!pokemon || !team || !user) {
+            this.logger.warn(`Pokemon, team, or user not found`);
+            throw new HttpException('Pokemon, team, or user not found', HttpStatus.NOT_FOUND);
+        }
+    
+        if (user.role !== 'Admin' && user.userId !== team.trainer) {
+            throw new HttpException('You do not have permission to add Pokémon to this team', HttpStatus.UNAUTHORIZED);
         }
     
         if (team.pokemon.some((p: any) => p.pokemonId === pokemon.pokemonId)) {
             this.logger.warn(`Pokemon ${pokemonId} already exists in team ${teamId}`);
-            return 'Pokemon is already in this team';
+            throw new HttpException('Pokemon is already in this team', HttpStatus.BAD_REQUEST);
         }
     
         team.pokemon.push(pokemon);
-    
         await team.save();
     
         this.logger.log(`Successfully added pokemon ${pokemonId} to team ${teamId}`);
         return 'Pokemon added to the team';
-    }
+    }    
 
-    async removePokemonFromTeam(pokemonId: number, teamId: number): Promise<string> {
+    async removePokemonFromTeam(userId: string, pokemonId: number, teamId: number): Promise<string> {
         this.logger.log(`removePokemonFromTeam called with pokemonId ${pokemonId} and teamId ${teamId}`);
     
-        const pokemon = await this.pokemonModel.findOne({ pokemonId }).lean();
         const team = await this.teamModel.findOne({ teamId });
+        const user = await this.userModel.findOne({ userId }).lean().exec();
     
-        if (!pokemon || !team) {
-            this.logger.warn(`Pokemon or team not found (pokemonId: ${pokemonId}, teamId: ${teamId})`);
-            return 'Pokemon or team not found';
+        if (!team || !user) {
+            this.logger.warn(`Team or user not found`);
+            throw new HttpException('Team or user not found', HttpStatus.NOT_FOUND);
         }
     
-        this.logger.log('team.pokemon array: ', team.pokemon);
+        if (user.role !== 'Admin' && user.userId !== team.trainer) {
+            throw new HttpException('You do not have permission to remove Pokémon from this team', HttpStatus.UNAUTHORIZED);
+        }
     
         const pokemonIndex = team.pokemon.findIndex((p: IPokemon) => Number(p.pokemonId) === Number(pokemonId));
-        this.logger.log(`pokemonIndex: ` + pokemonIndex);
-    
         if (pokemonIndex === -1) {
             this.logger.warn(`Pokemon ${pokemonId} does not exist in team ${teamId}`);
-            return 'Pokemon does not exist in this team';
+            throw new HttpException('Pokemon does not exist in this team', HttpStatus.NOT_FOUND);
         }
     
         team.pokemon.splice(pokemonIndex, 1);
@@ -168,8 +199,8 @@ export class TeamService {
     
         this.logger.log(`Successfully removed pokemon ${pokemonId} from team ${teamId}`);
         return 'Pokemon removed from the team';
-    }
-    
+    }    
+
     private async getLowestAvailableTeamId(): Promise<number> {
         const usedIds = (await this.teamModel.distinct('teamId').exec()) as number[];
         let lowestId = 1;
