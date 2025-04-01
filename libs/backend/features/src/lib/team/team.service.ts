@@ -4,9 +4,9 @@ import { CreateTeamDto, UpdateTeamDto } from '@pokemon/backend/dto';
 import { Logger } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { Team as teamModel, TeamDocument } from './team.schema';
-import { Pokemon as pokemonModel, PokemonDocument } from '../pokemon/pokemon.schema';
-import { User as userModel, UserDocument } from '../user/user.schema';
+import { Team as TeamModel, TeamDocument } from './team.schema';
+import { Pokemon as PokemonModel, PokemonDocument } from '../pokemon/pokemon.schema';
+import { User as UserModel, UserDocument } from '../user/user.schema';
 import { TokenBlacklistService } from '../user/blacklist.service';
 
 @Injectable()
@@ -15,9 +15,9 @@ export class TeamService {
     private readonly logger: Logger = new Logger(TeamService.name);
 
     constructor(
-        @InjectModel(teamModel.name) private teamModel: Model<TeamDocument>,
-        @InjectModel(pokemonModel.name) private pokemonModel: Model<PokemonDocument>,
-        @InjectModel(userModel.name) private userModel: Model<UserDocument>,
+        @InjectModel(TeamModel.name) private teamModel: Model<TeamDocument>,
+        @InjectModel(PokemonModel.name) private pokemonModel: Model<PokemonDocument>,
+        @InjectModel(UserModel.name) private userModel: Model<UserDocument>,
         private readonly tokenBlackListService: TokenBlacklistService
     ) { }
 

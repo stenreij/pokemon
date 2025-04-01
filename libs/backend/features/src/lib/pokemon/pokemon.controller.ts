@@ -1,9 +1,10 @@
-import { Controller, Delete, HttpException, HttpStatus, Put, UseGuards } from '@nestjs/common';
+import { Controller, Delete, HttpException, HttpStatus, Put, Req, UseGuards } from '@nestjs/common';
 import { PokemonService } from './pokemon.service';
 import { Get, Param, Post, Body } from '@nestjs/common';
 import { IPokemon } from '@pokemon/shared/api';
 import { CreatePokemonDto, UpdatePokemonDto } from '@pokemon/backend/dto';
 import { AuthGuard } from '../auth/authguard';
+import { CustomRequest } from '../auth/custom-request.interface';
 
 @Controller('pokemon')
 export class PokemonController {
@@ -34,14 +35,17 @@ export class PokemonController {
 
     @Post('')
     @UseGuards(AuthGuard)
-    async create(@Body() pokemon: CreatePokemonDto): Promise<IPokemon> {
-        return this.pokemonService.create(pokemon);
+    async create(@Req() request: CustomRequest, @Body() pokemon: CreatePokemonDto): Promise<IPokemon> {
+        const userId = request.userId;
+        return this.pokemonService.create(pokemon, userId as string);
     }
 
     @Put(':id')
     @UseGuards(AuthGuard)
-    async update(@Param('id') pokemonId: number, @Body() data: UpdatePokemonDto): Promise<IPokemon | null> {
-        const updatedPokemon = await this.pokemonService.update(pokemonId, data);
+    async update(@Req() request: CustomRequest, @Param('id') pokemonId: number, @Body() data: UpdatePokemonDto): Promise<IPokemon | null> {
+        const userId = request.userId;
+        const updatedPokemon = await this.pokemonService.update(userId as string, pokemonId, data);
+        
         if (!updatedPokemon) {
             throw new HttpException(
                 {
@@ -57,8 +61,9 @@ export class PokemonController {
 
     @Delete(':id')
     @UseGuards(AuthGuard)
-    async delete(@Param('id') pokemonId: number): Promise<void> {
-        const deletedPokemon = await this.pokemonService.delete(pokemonId);
+    async delete(@Req() request: CustomRequest, @Param('id') pokemonId: number): Promise<IPokemon | null> {
+        const userId = request.userId;
+        const deletedPokemon = await this.pokemonService.delete(userId as string, pokemonId);
         if (!deletedPokemon) {
             throw new HttpException(
                 {
@@ -69,5 +74,6 @@ export class PokemonController {
                 HttpStatus.NOT_FOUND
             );
         }
+        return deletedPokemon;
     }
 }
