@@ -1,4 +1,4 @@
-import { Logger } from '@nestjs/common';
+import { Logger, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { ApiResponseInterceptor } from '@pokemon/backend/dto';
 import { CorsOptions } from '@nestjs/common/interfaces/external/cors-options.interface';
@@ -16,6 +16,7 @@ async function bootstrap() {
   };
 
   app.enableCors(corsOptions)
+  app.useGlobalPipes(new ValidationPipe({ transform: true, whitelist: true,  transformOptions: { enableImplicitConversion: true } } ));
   app.useGlobalInterceptors(new ApiResponseInterceptor());
 
   const port = process.env.PORT || 3000;

@@ -1,4 +1,4 @@
-import { Controller, Delete, HttpException, HttpStatus, Logger, Put, Req, UseGuards } from '@nestjs/common';
+import { Controller, Delete, HttpException, HttpStatus, Logger, Put, Req, UseGuards, UseInterceptors } from '@nestjs/common';
 import { UserService } from './user.service';
 import { Get, Param, Post, Body } from '@nestjs/common';
 import { IUser } from '@pokemon/shared/api';
@@ -6,7 +6,9 @@ import { CreateUserDto, UpdateUserDto } from '@pokemon/backend/dto';
 import { UserExistGuard } from './user-exists.guard';
 import { CustomRequest } from '../auth/custom-request.interface';
 import { AuthGuard } from '../auth/authguard';
+import { LoggingInterceptor } from '../auth/LoggingInterceptor';
 
+@UseInterceptors(LoggingInterceptor)
 @Controller('user')
 export class UserController {
     private readonly logger: Logger = new Logger(UserController.name);

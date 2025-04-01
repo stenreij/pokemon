@@ -1,4 +1,4 @@
-import { Controller, Delete, HttpException, HttpStatus, Put, Req, UseGuards } from '@nestjs/common';
+import { Controller, Delete, HttpException, HttpStatus, Put, Req, UseGuards, UseInterceptors } from '@nestjs/common';
 import { TeamService } from '../team/team.service';
 import { Get, Param, Post, Body } from '@nestjs/common';
 import { ITeam } from '@pokemon/shared/api';
@@ -8,7 +8,9 @@ import internal = require('stream');
 import { AuthGuard } from '../auth/authguard';
 import { CustomRequest } from '../auth/custom-request.interface';
 import { UserExistGuard } from '../user/user-exists.guard';
+import { LoggingInterceptor } from '../auth/LoggingInterceptor';
 
+@UseInterceptors(LoggingInterceptor)
 @Controller('team')
 export class TeamController {
     constructor(private teamService: TeamService) { }

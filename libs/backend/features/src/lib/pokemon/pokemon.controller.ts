@@ -1,11 +1,13 @@
-import { Controller, Delete, HttpException, HttpStatus, Put, Req, UseGuards } from '@nestjs/common';
+import { Controller, Delete, HttpException, HttpStatus, Put, Req, UseGuards, UseInterceptors } from '@nestjs/common';
 import { PokemonService } from './pokemon.service';
 import { Get, Param, Post, Body } from '@nestjs/common';
 import { IPokemon } from '@pokemon/shared/api';
 import { CreatePokemonDto, UpdatePokemonDto } from '@pokemon/backend/dto';
 import { AuthGuard } from '../auth/authguard';
 import { CustomRequest } from '../auth/custom-request.interface';
+import { LoggingInterceptor } from '../auth/LoggingInterceptor';
 
+@UseInterceptors(LoggingInterceptor)
 @Controller('pokemon')
 export class PokemonController {
     constructor(private pokemonService: PokemonService) {}

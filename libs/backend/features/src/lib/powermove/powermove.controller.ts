@@ -1,11 +1,13 @@
-import { Controller, Delete, HttpException, HttpStatus, Put, Req, UseGuards } from '@nestjs/common';
+import { Controller, Delete, HttpException, HttpStatus, Put, Req, UseGuards, UseInterceptors } from '@nestjs/common';
 import { Get, Param, Post, Body } from '@nestjs/common';
 import { IPowermove } from '@pokemon/shared/api';
 import { CreatePowermoveDto, UpdatePowermoveDto } from '@pokemon/backend/dto';
 import { PowermoveService } from './powermove.service';
 import { AuthGuard } from '../auth/authguard';
 import { CustomRequest } from '../auth/custom-request.interface';
+import { LoggingInterceptor } from '../auth/LoggingInterceptor';
 
+@UseInterceptors(LoggingInterceptor)
 @Controller('powermove')
 export class PowermoveController {
     constructor(private powermoveService: PowermoveService) {}
