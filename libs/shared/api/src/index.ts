@@ -6,3 +6,5 @@ export * from './lib/models/role.enum';
 export * from './lib/models/type.enum';
 export * from './lib/models/id.type';
 export * from './lib/models/powermove.interface';
+export * from './neo4j/neo4j.module'
+export * from './neo4j/neo4j.service'

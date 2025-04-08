@@ -68,6 +68,7 @@ export class UpsertUserDto implements IUpsertUser{
     @IsString()
     @IsNotEmpty()
     email!:string;
+    
     @IsString()
     @IsNotEmpty()
     password!:string;
