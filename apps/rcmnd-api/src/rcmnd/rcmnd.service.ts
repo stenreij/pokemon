@@ -19,7 +19,7 @@ export class RecommendationService {
     }
 
     query += `
-    RETURN similar.pokemonId as id, similar.name as name, similar.powermove as powermove, similar.rating as rating
+    RETURN similar.pokemonId as id, similar.name as name, similar.powermove as powermove, similar.rating as rating, t.name as type
       LIMIT 5
       `;
 
@@ -33,6 +33,7 @@ export class RecommendationService {
     return result?.map(record => ({
       id: record.get('id'),
       name: record.get('name'),
+      type: record.get('type'),
       powermove: record.get('powermove'),
       rating: record.get('rating'),
     })) || [];

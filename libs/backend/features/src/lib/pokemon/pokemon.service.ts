@@ -149,6 +149,15 @@ export class PokemonService {
                 HttpStatus.NOT_FOUND
             );
         }
+
+        await this.neo4jService.runQuery(
+            `
+            MATCH (p:Pokémon {pokemonId:$pokemonId})
+            DETACH DELETE p
+            `,
+            { pokemonId }
+        );
+
         this.logger.log(`Deleted pokémon with id ${pokemonId}`);
         return deletedPokemon;
     }
