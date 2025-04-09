@@ -7,6 +7,8 @@ import { TeamModule } from './team.module';
 import { Team, TeamSchema } from './team/team.schema';
 import { UserModule } from './user.module';
 import { Neo4jService } from '@pokemon/shared/api';
+import { RecommendationClientService } from './rcmnd/rcmndClient.service';
+import { HttpModule } from '@nestjs/axios';
 
 @Module({
   imports: [
@@ -15,10 +17,10 @@ import { Neo4jService } from '@pokemon/shared/api';
       { name: Team.name, schema: TeamSchema}
     ]),
     forwardRef(() => TeamModule),
-    UserModule
+    UserModule, HttpModule
   ],
   controllers: [PokemonController],
-  providers: [PokemonService, Neo4jService],
+  providers: [PokemonService, Neo4jService, RecommendationClientService],
   exports: [PokemonService, MongooseModule],
 })
 

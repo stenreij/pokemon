@@ -20,7 +20,7 @@ export class PokemonController {
 
     @Get(':id')
     @UseGuards(AuthGuard)
-    async findOne(@Param('id') id: number): Promise<IPokemon | null> {
+    async findOne(@Param('id') id: number): Promise<any> {
         const pokemon = await this.pokemonService.findOne(id);
         if (!pokemon) {
             throw new HttpException(

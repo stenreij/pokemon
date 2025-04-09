@@ -8,6 +8,7 @@ import { Pokemon as PokemonModel, PokemonDocument } from './pokemon.schema';
 import { Team as TeamModel, TeamDocument } from '../team/team.schema';
 import { TokenBlacklistService } from '../user/blacklist.service';
 import { User as UserModel, UserDocument } from '../user/user.schema';
+import { RecommendationClientService } from '../rcmnd/rcmndClient.service';
 
 @Injectable()
 export class PokemonService {
@@ -15,11 +16,12 @@ export class PokemonService {
     private readonly logger: Logger = new Logger(PokemonService.name);
 
     constructor(
-        @InjectModel(PokemonModel.name) private pokemonModel: Model<PokemonDocument>,
-        @InjectModel(TeamModel.name) private teamModel: Model<TeamDocument>,
-        @InjectModel(UserModel.name) private userModel: Model<UserDocument>,
+        @InjectModel(PokemonModel.name) private readonly pokemonModel: Model<PokemonDocument>,
+        @InjectModel(TeamModel.name) private readonly teamModel: Model<TeamDocument>,
+        @InjectModel(UserModel.name) private readonly userModel: Model<UserDocument>,
         private readonly tokenBlackListService: TokenBlacklistService,
-        private readonly neo4jService: Neo4jService
+        private readonly neo4jService: Neo4jService,
+        private readonly recommendationClientService: RecommendationClientService,
     ) { }
 
     async findAll(): Promise<IPokemon[]> {
@@ -28,13 +30,19 @@ export class PokemonService {
         return items.sort((a, b) => a.pokemonId - b.pokemonId);
     }
 
-    async findOne(pokemonId: number): Promise<IPokemon | null> {
+    async findOne(pokemonId: number) {
         this.logger.log(`findOne(${pokemonId})`);
-        const item = await this.pokemonModel.findOne({ pokemonId }).exec();
+        const item = await this.pokemonModel.findOne({ pokemonId }).lean().exec();
         if (!item) {
             this.logger.log(`findOne(${pokemonId}) not found`);
+            return null;
         }
-        return item;
+
+        const recType = item.type1.toString();
+        const recommendations = await this.recommendationClientService.getRecommendationsByType(recType, item.pokemonId.toString());
+        return {
+            ...item, suggestions: recommendations,
+        };
     }
 
     async create(pokemon: CreatePokemonDto, userId: string): Promise<IPokemon> {
@@ -60,17 +68,21 @@ export class PokemonService {
 
         // Sync naar Neo4j
         await this.neo4jService.runQuery(
-            `MERGE (t:Type {name: $type}) 
-            MERGE (p:Pokémon {pokemonId: $pokemonId, name: $name, powermove: $powermove, rating: $rating}) 
-            MERGE (p)-[:HAS_MOVE]->(pm)`
-            , {
-                pokemonId: createdItem.pokemonId,
-                name: createdItem.name,
-                type: createdItem.type1,
-                rating: createdItem.rating,
-                powermove: createdItem.powermove,
+            `
+            MERGE (pm:Move {name: $powermove})
+            MERGE (t:Type {name: $type})
+            MERGE (p:Pokémon {pokemonId: $pokemonId})
+            SET p.name = $name, p.powermove = $powermove, p.rating = $rating
+            MERGE (p)-[:HAS_MOVE]->(pm)
+            MERGE (p)-[:HAS_TYPE]->(t)
+            `,
+            {
+              pokemonId: createdItem.pokemonId,
+              name: createdItem.name,
+              type: createdItem.type1,
+              rating: createdItem.rating,
+              powermove: createdItem.powermove,
             });
-
         return createdItem;
     }
 
