@@ -39,9 +39,26 @@ export class PokemonService {
         }
 
         const recType = item.type1.toString();
-        const recommendations = await this.recommendationClientService.getRecommendationsByType(recType, item.pokemonId.toString());
+        const recMove = item.powermove.toString();
+        const recRating = item.rating;
+
+        const recommendations = await this.recommendationClientService.getRecommendationsByTypeAndMoveAndRating(
+            recType,
+            recMove,
+            recRating,
+            item.pokemonId.toString()
+        );
+
+        const recommendations2 = await this.recommendationClientService.getRecommendationsByTypeAndMove(
+            recType,
+            recMove,
+            item.pokemonId.toString()
+        );
+
         return {
-            ...item, suggestions: recommendations,
+            ...item,
+            suggestionsRatingRange: recommendations,
+            suggestionsTypeAndMove: recommendations2,
         };
     }
 
@@ -77,11 +94,11 @@ export class PokemonService {
             MERGE (p)-[:HAS_TYPE]->(t)
             `,
             {
-              pokemonId: createdItem.pokemonId,
-              name: createdItem.name,
-              type: createdItem.type1,
-              rating: createdItem.rating,
-              powermove: createdItem.powermove,
+                pokemonId: createdItem.pokemonId,
+                name: createdItem.name,
+                type: createdItem.type1,
+                rating: createdItem.rating,
+                powermove: createdItem.powermove,
             });
         return createdItem;
     }
