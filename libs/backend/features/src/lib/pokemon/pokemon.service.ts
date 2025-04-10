@@ -133,7 +133,7 @@ export class PokemonService {
         this.logger.log(`Delete pokemon ${pokemonId}`);
         const pokemon = await this.pokemonModel.findOne({ pokemonId }).lean().exec();
         const user = await this.userModel.findOne({ userId: userId }).lean().exec();
-
+    
         if (!pokemon || !user) {
             this.logger.warn(`Pokémon or user not found`);
             throw new HttpException(
@@ -155,29 +155,63 @@ export class PokemonService {
                 HttpStatus.UNAUTHORIZED
             );
         }
-        const deletedPokemon = await this.pokemonModel.findOneAndDelete({ pokemonId }, {}).exec();
-        if (!deletedPokemon) {
+    
+        let deletedPokemon: IPokemon | null = null;
+    
+        try {
+            const neoResult = await this.neo4jService.runQuery(
+                `MATCH (p:Pokémon {pokemonId: $pokemonId}) RETURN p`, 
+                { pokemonId }
+            );
+    
+            if (!neoResult || neoResult.length === 0) {
+                this.logger.warn(`Pokémon not found in Neo4j, skipping deletion there.`);
+                
+                throw new Error('Pokémon not found in Neo4j, rollback required.');
+            }
+    
+            deletedPokemon = await this.pokemonModel.findOneAndDelete({ pokemonId }).exec();
+            if (!deletedPokemon) {
+                throw new HttpException(
+                    {
+                        status: HttpStatus.NOT_FOUND,
+                        error: 'Not Found',
+                        message: `Pokémon with id ${pokemonId} not found for deletion`
+                    },
+                    HttpStatus.NOT_FOUND
+                );
+            }
+    
+            await this.neo4jService.runQuery(
+                `MATCH (p:Pokémon {pokemonId:$pokemonId}) DETACH DELETE p`, 
+                { pokemonId }
+            );
+    
+            this.logger.log(`Deleted Pokémon with id ${pokemonId} from both MongoDB and Neo4j`);
+            return deletedPokemon;
+    
+        } catch (error: unknown) {
+            if (error instanceof Error) {
+                this.logger.error(`Error deleting Pokémon from MongoDB or Neo4j: ${error.message}`);
+            } else {
+                this.logger.error('Unknown error occurred while deleting Pokémon');
+            }
+    
+            if (deletedPokemon) {
+                await this.pokemonModel.create(deletedPokemon);
+            }
+    
             throw new HttpException(
                 {
-                    status: HttpStatus.NOT_FOUND,
-                    error: 'Not Found',
-                    message: `Pokémon with id ${pokemonId} not found for deletion`
+                    status: HttpStatus.INTERNAL_SERVER_ERROR,
+                    error: 'Internal Server Error',
+                    message: `Error while deleting Pokémon. Transaction rolled back.`,
                 },
-                HttpStatus.NOT_FOUND
+                HttpStatus.INTERNAL_SERVER_ERROR
             );
         }
-
-        await this.neo4jService.runQuery(
-            `
-            MATCH (p:Pokémon {pokemonId:$pokemonId})
-            DETACH DELETE p
-            `,
-            { pokemonId }
-        );
-
-        this.logger.log(`Deleted pokémon with id ${pokemonId}`);
-        return deletedPokemon;
     }
+    
 
     private async getLowestAvailablePokemonId(): Promise<number> {
         const usedIds = (await this.pokemonModel.distinct('pokemonId').exec()) as number[];
