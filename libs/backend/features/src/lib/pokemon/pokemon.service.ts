@@ -103,37 +103,95 @@ export class PokemonService {
         return createdItem;
     }
 
-    async update(userId: string, pokemonId: number, pokemon: UpdatePokemonDto): Promise<IPokemon | null> {
-        this.logger.log(`Update pokémon ${pokemon.name}`);
+   async update(userId: string, pokemonId: number, pokemon: UpdatePokemonDto): Promise<IPokemon | null> {
+    this.logger.log(`Update pokémon ${pokemon.name}`);
 
-        const existingPokemon = await this.pokemonModel.findOne({ pokemonId }).lean().exec();
-        const user = await this.userModel.findOne({ userId }).lean().exec();
+    const existingPokemon = await this.pokemonModel.findOne({ pokemonId }).lean().exec();
+    const user = await this.userModel.findOne({ userId }).lean().exec();
 
-        if (!existingPokemon || !user) {
-            throw new HttpException(
-                { status: HttpStatus.NOT_FOUND, error: 'Not Found', message: 'Pokémon or user not found' },
-                HttpStatus.NOT_FOUND
-            );
-        }
-
-        if (user.role !== 'Admin' && user.userId !== existingPokemon.creator) {
-            throw new HttpException(
-                { status: HttpStatus.UNAUTHORIZED, error: 'Unauthorized', message: 'You do not have permission to update this pokémon' },
-                HttpStatus.UNAUTHORIZED
-            );
-        }
-
-        const updatedPokemon = await this.pokemonModel.findOneAndUpdate({ pokemonId }, pokemon, { new: true }).exec();
-        if (!updatedPokemon) return null;
-
-        return updatedPokemon;
+    if (!existingPokemon || !user) {
+        throw new HttpException(
+            { status: HttpStatus.NOT_FOUND, error: 'Not Found', message: 'Pokémon or user not found' },
+            HttpStatus.NOT_FOUND
+        );
     }
+
+    if (user.role !== 'Admin' && user.userId !== existingPokemon.creator) {
+        throw new HttpException(
+            { status: HttpStatus.UNAUTHORIZED, error: 'Unauthorized', message: 'You do not have permission to update this pokémon' },
+            HttpStatus.UNAUTHORIZED
+        );
+    }
+
+    const updatedPokemon = await this.pokemonModel.findOneAndUpdate({ pokemonId }, pokemon, { new: true }).exec();
+    if (!updatedPokemon) return null;
+
+    const updateParams: Record<string, any> = { pokemonId };
+
+    if (pokemon.rating !== undefined) {
+        updateParams['rating'] = pokemon.rating;
+    }
+
+    if (pokemon.name !== undefined) {
+        updateParams['name'] = pokemon.name;
+    }
+
+    if (pokemon.type1) {
+        updateParams['type1'] = pokemon.type1;
+    }
+
+    if (pokemon.powermove) {
+        updateParams['powermove'] = pokemon.powermove;
+    }
+
+    // Cypher query voor update
+    let cypherQuery = `
+        MATCH (p:Pokémon {pokemonId: $pokemonId})
+        SET p.rating = $rating, p.name = $name
+        WITH p
+
+        // Verwijder de oude Type-relatie en voeg de nieuwe toe
+        OPTIONAL MATCH (p)-[rType:HAS_TYPE]->(:Type)
+        DELETE rType
+        MERGE (t:Type {name: $type1})
+        MERGE (p)-[:HAS_TYPE]->(t)
+        WITH p
+
+        // Verwijder de oude Move-relatie en voeg de nieuwe toe
+        OPTIONAL MATCH (p)-[rMove:HAS_MOVE]->(:Move)
+        DELETE rMove
+        MERGE (newMove:Move {name: $powermove})
+        MERGE (p)-[:HAS_MOVE]->(newMove)
+
+        // Eindig met RETURN om de bewerking correct af te sluiten
+        RETURN p
+    `;
+
+    console.log('Generated Cypher Query:', cypherQuery);
+    console.log('Query Parameters:', updateParams);
+
+    try {
+        // Voer de Cypher-query uit
+        await this.neo4jService.runQuery(cypherQuery, updateParams);
+        this.logger.log(`Successfully updated Pokémon with id ${pokemonId} in Neo4j`);
+    } catch (error) {
+        this.logger.error('Error updating Pokémon in Neo4j:', error);
+        throw new HttpException(
+            { status: HttpStatus.INTERNAL_SERVER_ERROR, error: 'Internal Server Error', message: 'Error updating Pokémon in Neo4j' },
+            HttpStatus.INTERNAL_SERVER_ERROR
+        );
+    }
+
+    this.logger.log(`Updated Pokémon with id ${pokemonId} in MongoDB and Neo4j`);
+    return updatedPokemon;
+}
+
 
     async delete(userId: string, pokemonId: number): Promise<IPokemon | null> {
         this.logger.log(`Delete pokemon ${pokemonId}`);
         const pokemon = await this.pokemonModel.findOne({ pokemonId }).lean().exec();
         const user = await this.userModel.findOne({ userId: userId }).lean().exec();
-    
+
         if (!pokemon || !user) {
             this.logger.warn(`Pokémon or user not found`);
             throw new HttpException(
@@ -155,21 +213,21 @@ export class PokemonService {
                 HttpStatus.UNAUTHORIZED
             );
         }
-    
+
         let deletedPokemon: IPokemon | null = null;
-    
+
         try {
             const neoResult = await this.neo4jService.runQuery(
-                `MATCH (p:Pokémon {pokemonId: $pokemonId}) RETURN p`, 
+                `MATCH (p:Pokémon {pokemonId: $pokemonId}) RETURN p`,
                 { pokemonId }
             );
-    
+
             if (!neoResult || neoResult.length === 0) {
                 this.logger.warn(`Pokémon not found in Neo4j, skipping deletion there.`);
-                
+
                 throw new Error('Pokémon not found in Neo4j, rollback required.');
             }
-    
+
             deletedPokemon = await this.pokemonModel.findOneAndDelete({ pokemonId }).exec();
             if (!deletedPokemon) {
                 throw new HttpException(
@@ -181,26 +239,26 @@ export class PokemonService {
                     HttpStatus.NOT_FOUND
                 );
             }
-    
+
             await this.neo4jService.runQuery(
-                `MATCH (p:Pokémon {pokemonId:$pokemonId}) DETACH DELETE p`, 
+                `MATCH (p:Pokémon {pokemonId:$pokemonId}) DETACH DELETE p`,
                 { pokemonId }
             );
-    
+
             this.logger.log(`Deleted Pokémon with id ${pokemonId} from both MongoDB and Neo4j`);
             return deletedPokemon;
-    
+
         } catch (error: unknown) {
             if (error instanceof Error) {
                 this.logger.error(`Error deleting Pokémon from MongoDB or Neo4j: ${error.message}`);
             } else {
                 this.logger.error('Unknown error occurred while deleting Pokémon');
             }
-    
+
             if (deletedPokemon) {
                 await this.pokemonModel.create(deletedPokemon);
             }
-    
+
             throw new HttpException(
                 {
                     status: HttpStatus.INTERNAL_SERVER_ERROR,
@@ -211,7 +269,7 @@ export class PokemonService {
             );
         }
     }
-    
+
 
     private async getLowestAvailablePokemonId(): Promise<number> {
         const usedIds = (await this.pokemonModel.distinct('pokemonId').exec()) as number[];
