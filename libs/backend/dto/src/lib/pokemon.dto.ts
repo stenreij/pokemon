@@ -87,26 +87,30 @@ export class UpsertPokemonDto implements IUpsertPokemon {
 
 export class UpdatePokemonDto implements IUpdatePokemon {
     @IsString()
-    @IsNotEmpty()
+    @IsOptional()
     name?: string;
 
     @IsString()
-    @IsNotEmpty()
+    @IsOptional()
     type1?: Type;
 
     @IsString()
-    @IsNotEmpty()
+    @IsOptional()
     type2?: Type;
 
     @IsNumber()
-    @IsNotEmpty()
+    @IsOptional()
     rating?: number;
 
     @IsBoolean()
-    @IsNotEmpty()
+    @IsOptional()
     legendary?: boolean;
 
     @IsString()
-    @IsNotEmpty()
+    @IsOptional()
     afbeelding?: string;
+
+    @IsString()
+    @IsOptional()
+    powermove?: IPowermove;
 }
