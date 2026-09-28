@@ -28,20 +28,15 @@ Het project is opgezet volgens een moderne full stack architectuur:
 
 ## Datamodel
 
-Het datamodel bevat drie entiteiten van enige omvang, plus een User-entiteit voor authenticatie en persoonsgegevens. De entiteiten zijn via schemareferenties onderling gerelateerd.
+Het datamodel bestaat uit de entiteiten Pokémon, type, powermoves en trainers, aangevuld met een User-entiteit voor authenticatie en persoonsgegevens. De entiteiten zijn onderling gerelateerd via schemareferenties.
 
 ## Technologieën
 
-- TypeScript
-- JavaScript
-- NestJS
-- Nx monorepo
-- NoSQL document database
-- NoSQL graph database
-- RESTful API
-- SPA frontend
-- CI/CD
-- [Join the community](https://nx.dev/community)
-- [Subscribe to the Nx Youtube Channel](https://www.youtube.com/@nxdevtools)
-- [Follow us on Twitter](https://twitter.com/nxdevtools)
-"# pokemon" 
+-TypeScript
+-NestJS
+-Nx monorepo
+-MongoDB
+-RESTful API
+-SPA frontend
+-CI/CD
+-Geautomatiseerde tests
