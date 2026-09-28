@@ -1,6 +1,6 @@
 # Pokemon
 
-Een full stack single page webapplicatie (SPA) rondom het domein Pokémon. Gebruikers kunnen Pokémon, types en trainers bekijken, aanmaken, wijzigen en verwijderen. De applicatie is gebouwd als individueel project voor de opleiding Informatica aan Avans Hogeschool.
+Een full stack single page webapplicatie (SPA) rondom het domein Pokémon. Gebruikers kunnen Pokémon, types en trainers bekijken, aanmaken, wijzigen en verwijderen. De applicatie is gebouwd als individueel project.
 
 ## Doel
 
