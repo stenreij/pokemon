@@ -32,11 +32,11 @@ Het datamodel bestaat uit de entiteiten Pokémon, type, powermoves en trainers, 
 
 ## Technologieën
 
--TypeScript
--NestJS
--Nx monorepo
--MongoDB
--RESTful API
--SPA frontend
--CI/CD
--Geautomatiseerde tests
+- TypeScript
+- NestJS
+- Nx monorepo
+- MongoDB
+- RESTful API
+- SPA frontend
+- CI/CD
+- Geautomatiseerde tests
